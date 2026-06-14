@@ -1,0 +1,2308 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Desk — your job-search co-pilot</title>
+<!-- Vendored locally so the app runs fully offline. The dc-runtime skips its
+     unpkg CDN fetch whenever window.React / window.ReactDOM already exist. -->
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/ffc64b61-1fda-40d8-94df-67b8493ff9fb.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/dd630e71-fa06-40fd-941d-bb067851d7be.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/9459d3b9-fd1a-438d-a1f3-101b8ec40092.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/6dbae0ca-ef14-4c2e-a366-5ad3f1d1c578.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/ffc64b61-1fda-40d8-94df-67b8493ff9fb.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/dd630e71-fa06-40fd-941d-bb067851d7be.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/9459d3b9-fd1a-438d-a1f3-101b8ec40092.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/6dbae0ca-ef14-4c2e-a366-5ad3f1d1c578.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/ffc64b61-1fda-40d8-94df-67b8493ff9fb.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/dd630e71-fa06-40fd-941d-bb067851d7be.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/9459d3b9-fd1a-438d-a1f3-101b8ec40092.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/6dbae0ca-ef14-4c2e-a366-5ad3f1d1c578.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/ffc64b61-1fda-40d8-94df-67b8493ff9fb.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/dd630e71-fa06-40fd-941d-bb067851d7be.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/9459d3b9-fd1a-438d-a1f3-101b8ec40092.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/6dbae0ca-ef14-4c2e-a366-5ad3f1d1c578.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("assets/fonts/ffc64b61-1fda-40d8-94df-67b8493ff9fb.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("assets/fonts/dd630e71-fa06-40fd-941d-bb067851d7be.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("assets/fonts/9459d3b9-fd1a-438d-a1f3-101b8ec40092.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("assets/fonts/6dbae0ca-ef14-4c2e-a366-5ad3f1d1c578.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/41244c7d-0665-41e0-9675-e7bce8e59db5.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/e27f9c92-de75-4938-bb44-3a27589d3400.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/4228d2a3-a181-4162-90ce-e786503dd294.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/5eb116ba-72b1-4a1e-a929-cf1f6fef7122.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/86573e38-435c-41cb-98ab-8f6964c27cda.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/988a2f35-373a-495c-8232-1c1d044d5ce8.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/41244c7d-0665-41e0-9675-e7bce8e59db5.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/e27f9c92-de75-4938-bb44-3a27589d3400.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/4228d2a3-a181-4162-90ce-e786503dd294.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/5eb116ba-72b1-4a1e-a929-cf1f6fef7122.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/86573e38-435c-41cb-98ab-8f6964c27cda.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/988a2f35-373a-495c-8232-1c1d044d5ce8.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/41244c7d-0665-41e0-9675-e7bce8e59db5.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/e27f9c92-de75-4938-bb44-3a27589d3400.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/4228d2a3-a181-4162-90ce-e786503dd294.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/5eb116ba-72b1-4a1e-a929-cf1f6fef7122.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/86573e38-435c-41cb-98ab-8f6964c27cda.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("assets/fonts/988a2f35-373a-495c-8232-1c1d044d5ce8.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/41244c7d-0665-41e0-9675-e7bce8e59db5.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/e27f9c92-de75-4938-bb44-3a27589d3400.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/4228d2a3-a181-4162-90ce-e786503dd294.woff2") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/5eb116ba-72b1-4a1e-a929-cf1f6fef7122.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/86573e38-435c-41cb-98ab-8f6964c27cda.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("assets/fonts/988a2f35-373a-495c-8232-1c1d044d5ce8.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/8bd22c80-5b88-4f69-9ef5-63677fff266e.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/14330355-7486-48ef-80c8-54048f7fca46.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/5b847779-e89c-407a-ad69-8013ffdeb1a9.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/8bd22c80-5b88-4f69-9ef5-63677fff266e.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/14330355-7486-48ef-80c8-54048f7fca46.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/5b847779-e89c-407a-ad69-8013ffdeb1a9.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/004a25e1-2194-432d-a96b-2446b236dad8.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/cedea44a-9836-44ba-b1a6-f5d2f3e53f9d.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/d55565ff-13b1-499c-b952-e83bd5b06839.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/004a25e1-2194-432d-a96b-2446b236dad8.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/cedea44a-9836-44ba-b1a6-f5d2f3e53f9d.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("assets/fonts/d55565ff-13b1-499c-b952-e83bd5b06839.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font-family: 'Hanken Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #E0D8CC; border-radius: 10px; border: 3px solid transparent; background-clip: padding-box; }
+  textarea { font-family: inherit; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+  @keyframes popIn { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes blink { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+  @keyframes drawerIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  a:focus-visible, button:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 5px; }
+  ::selection { background: var(--accent); color: var(--on-accent); }
+</style>
+</helmet>
+
+<div style="{{ rootStyle }}">
+  <header style="height: 60px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; border-bottom: 1px solid var(--line); background: var(--panel2);">
+    <div style="display: flex; align-items: center; gap: 11px;">
+      <div style="width: 26px; height: 26px; border-radius: 8px; background: var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(199,91,57,0.35);">
+        <div style="width: 9px; height: 9px; border-radius: 3px; background: var(--bg);"></div>
+      </div>
+      <div style="display: flex; flex-direction: column; line-height: 1;">
+        <span style="font-weight: 700; font-size: 15px; letter-spacing: -0.01em;">Job Desk</span>
+        <span style="font-size: 11px; color: var(--muted); margin-top: 3px;">your job-search co-pilot</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <button onclick="{{ onToggleTheme }}" aria-label="Toggle terminal mode" style="cursor: pointer; display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--ink2); font-size: 12px; font-weight: 600; font-family: inherit;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent);">{{ themeIcon }}</span>{{ themeLabel }}</button>
+      <div style="display: flex; align-items: center; gap: 9px; padding: 5px 6px 5px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel);">
+      <div style="text-align: right; line-height: 1.15; white-space: nowrap;">
+        <div style="font-size: 12.5px; font-weight: 600;">{{ headerName }}</div>
+        <div style="font-size: 10.5px; color: var(--muted);">{{ headerSub }}</div>
+      </div>
+      <div style="width: 30px; height: 30px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-d)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">{{ headerInitials }}</div>
+      </div>
+    </div>
+  </header>
+
+  <div style="flex: 1; display: flex; min-height: 0;">
+    <aside style="width: 416px; flex-shrink: 0; display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--line); background: var(--panel2);">
+      <div style="padding: 14px 20px 10px; display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--faint); text-transform: uppercase;">Conversation</span>
+        <div style="flex: 1; height: 1px; background: var(--line2);"></div>
+        <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--positive); font-weight: 600;"><span style="width: 6px; height: 6px; border-radius: 999px; background: var(--positive); box-shadow: 0 0 0 3px rgba(79,162,119,0.18);"></span>online</span>
+      </div>
+
+      <div style="flex: 1; overflow-y: auto; padding: 8px 20px 16px; display: flex; flex-direction: column; gap: 14px;">
+        <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
+          <sc-if value="{{ m.isAssistant }}">
+            <div style="display: flex; gap: 10px; align-items: flex-start; animation: msgIn .35s ease both;">
+              <div style="width: 26px; height: 26px; border-radius: 8px; background: var(--accent); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 2px;">
+                <div style="width: 8px; height: 8px; border-radius: 3px; background: var(--bg);"></div>
+              </div>
+              <div style="padding-top: 1px;">
+                <sc-if value="{{ m.isAsk }}"><div style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px;">A question · take your time</div></sc-if>
+                <div style="font-family: var(--display); font-size: 16px; line-height: 1.5; color: var(--ink2); white-space: pre-wrap;">{{ m.text }}</div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ m.isUser }}">
+            <div style="align-self: flex-end; max-width: 86%; background: var(--btn); color: var(--on-btn); padding: 10px 14px; border-radius: 16px 16px 4px 16px; font-size: 14px; line-height: 1.45; animation: msgIn .35s ease both; white-space: pre-wrap;">{{ m.text }}</div>
+          </sc-if>
+          <sc-if value="{{ m.isRef }}">
+            <div onclick="{{ m.onClick }}" style="cursor: pointer; margin-left: 36px; display: flex; align-items: center; gap: 11px; padding: 11px 13px; background: var(--panel); border: 1px solid var(--line); border-radius: 13px; box-shadow: 0 1px 2px rgba(33,28,24,0.04); animation: popIn .4s cubic-bezier(.2,.8,.2,1) both;" style-hover="border-color: var(--accent); box-shadow: 0 4px 14px rgba(199,91,57,0.14);">
+              <div style="{{ m.iconStyle }}">{{ m.icon }}</div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint);">Interface ready</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: var(--ink); margin-top: 1px;">{{ m.refTitle }}</div>
+              </div>
+              <span style="font-size: 12px; font-weight: 600; color: var(--accent); white-space: nowrap;">Open →</span>
+            </div>
+          </sc-if>
+        </sc-for>
+
+        <sc-if value="{{ thinking }}">
+          <div style="display: flex; gap: 10px; align-items: center; animation: msgIn .3s ease both;">
+            <div style="width: 26px; height: 26px; border-radius: 8px; background: var(--accent); flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+              <div style="width: 8px; height: 8px; border-radius: 3px; background: var(--bg);"></div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px;">
+              <span style="font-size: 12.5px; color: var(--muted);">{{ thinkingLabel }}</span>
+              <span style="display: inline-flex; gap: 3px;">
+                <span style="width: 5px; height: 5px; border-radius: 999px; background: var(--accent); animation: blink 1.2s infinite;"></span>
+                <span style="width: 5px; height: 5px; border-radius: 999px; background: var(--accent); animation: blink 1.2s infinite .2s;"></span>
+                <span style="width: 5px; height: 5px; border-radius: 999px; background: var(--accent); animation: blink 1.2s infinite .4s;"></span>
+              </span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ focusMove.has }}">
+        <div style="display: flex; align-items: center; gap: 11px; padding: 10px 16px; background: var(--accent-bg); border-top: 1px solid var(--line2);">
+          <span style="font-size: 9px; font-weight: 800; letter-spacing: 0.12em; color: var(--accent); border: 1px solid var(--accent); border-radius: 5px; padding: 3px 5px; flex-shrink: 0;">NOW</span>
+          <button onclick="{{ focusMove.onOpen }}" style="flex: 1; min-width: 0; text-align: left; background: transparent; border: none; padding: 0; cursor: pointer; font-family: inherit;">
+            <span style="display: block; font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.3;">{{ focusMove.claim }}</span>
+            <span style="display: block; font-size: 10.5px; color: var(--accent); margin-top: 2px;">{{ focusMove.countLabel }}</span>
+          </button>
+          <sc-if value="{{ focusMove.hasAct }}">
+            <button onclick="{{ focusMove.onAct }}" style="flex-shrink: 0; cursor: pointer; border: none; background: var(--accent); color: var(--on-accent); font-size: 12px; font-weight: 700; padding: 8px 12px; border-radius: 9px; font-family: inherit;">{{ focusMove.actLabel }}</button>
+          </sc-if>
+          <button onclick="{{ focusMove.onDone }}" title="Mark done" style="flex-shrink: 0; cursor: pointer; width: 32px; height: 32px; border-radius: 9px; border: 1px solid var(--accent); background: transparent; color: var(--accent); font-size: 15px; font-weight: 700; font-family: inherit;">✓</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ focusMove.caughtUp }}">
+        <button onclick="{{ focusMove.onOpen }}" style="width: 100%; display: flex; align-items: center; gap: 9px; padding: 10px 16px; background: var(--positive-bg); border: none; border-top: 1px solid var(--line2); cursor: pointer; font-family: inherit; text-align: left;">
+          <span style="font-size: 14px; color: var(--positive);">✓</span>
+          <span style="font-size: 12.5px; font-weight: 600; color: var(--ink2);">You're caught up on your next moves — nice work.</span>
+        </button>
+      </sc-if>
+
+      <div style="padding: 12px 18px 18px; border-top: 1px solid var(--line2); background: var(--panel2);">
+        <sc-if value="{{ hasChips }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 11px;">
+            <sc-for list="{{ chips }}" as="c" hint-placeholder-count="3">
+              <button onclick="{{ c.onClick }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 12.5px; font-weight: 500; padding: 7px 12px; border-radius: 999px; font-family: inherit;" style-hover="border-color: var(--accent); color: var(--accent); background: var(--accent-bg);">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display: flex; align-items: flex-end; gap: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 7px 7px 7px 8px; box-shadow: 0 1px 2px rgba(33,28,24,0.04);">
+          <button onclick="{{ onUploadClick }}" aria-label="Upload a note to memory" title="Add a note to long-term memory" style="cursor: pointer; flex-shrink: 0; width: 32px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel2); color: var(--muted); font-size: 17px; font-family: inherit;">+</button>
+          <input id="memfile" type="file" accept=".txt,.md,.markdown,.json,.text,text/plain" onchange="{{ onPickFile }}" style="display: none;">
+          <textarea value="{{ inputValue }}" onchange="{{ onInput }}" onkeydown="{{ onKey }}" placeholder="Ask for anything — find roles, track them, draft outreach…" rows="1" style="flex: 1; border: none; outline: none; resize: none; background: transparent; font-size: 14px; line-height: 1.4; color: var(--ink); max-height: 90px; padding: 4px 0;"></textarea>
+          <button onclick="{{ onSendClick }}" aria-label="Send message" style="cursor: pointer; flex-shrink: 0; width: 34px; height: 34px; border-radius: 11px; border: none; background: var(--accent); color: var(--on-accent); display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(199,91,57,0.3);" style-hover="background: var(--accent-d);">↑</button>
+        </div>
+      </div>
+    </aside>
+    <section style="flex: 1; min-width: 0; display: flex; flex-direction: column; position: relative;">
+      <sc-if value="{{ showEmpty }}">
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center;">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.16em; color: var(--faint); text-transform: uppercase; margin-bottom: 18px;">The desk is clear</div>
+          <h1 style="font-family: var(--display); font-weight: 500; font-size: 38px; line-height: 1.12; letter-spacing: -0.01em; color: var(--ink); margin: 0 0 12px; max-width: 16ch;">What are we working on?</h1>
+          <p style="font-size: 15px; color: var(--muted); max-width: 44ch; line-height: 1.55; margin: 0 0 34px;">Tell me what you need and I'll build the right tool for it right here — so it never gets buried in our chat.</p>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; max-width: 720px;">
+            <sc-for list="{{ emptyCards }}" as="e" hint-placeholder-count="3">
+              <button onclick="{{ e.onClick }}" style="cursor: pointer; width: 218px; text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 20px; font-family: inherit; box-shadow: 0 1px 2px rgba(33,28,24,0.04); animation: fadeUp .5s ease both;" style-hover="border-color: var(--accent); box-shadow: 0 12px 30px rgba(199,91,57,0.14);">
+                <div style="{{ e.iconStyle }}">{{ e.icon }}</div>
+                <div style="font-size: 15.5px; font-weight: 700; margin: 14px 0 5px; color: var(--ink);">{{ e.title }}</div>
+                <div style="font-size: 13px; color: var(--muted); line-height: 1.45;">{{ e.desc }}</div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ showWorkspace }}">
+        <div style="height: 52px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 18px; border-bottom: 1px solid var(--line); background: var(--panel2);">
+          <sc-for list="{{ spaces }}" as="s" hint-placeholder-count="1">
+            <button onclick="{{ s.onClick }}" style="{{ s.tabStyle }}">
+              <span style="{{ s.tabIconStyle }}">{{ s.icon }}</span>
+              <span>{{ s.title }}</span>
+              <sc-if value="{{ s.hasBadge }}"><span style="{{ s.badgeStyle }}">{{ s.badge }}</span></sc-if>
+            </button>
+          </sc-for>
+          <div style="flex: 1;"></div>
+          <span style="font-size: 11.5px; color: var(--faint);">Built by your assistant · live</span>
+        </div>
+
+        <div style="flex: 1; overflow-y: auto; min-height: 0;">
+          <sc-if value="{{ showSearch }}">
+            <div style="padding: 28px 30px 40px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 4px;">
+                <div>
+                  <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Roles that fit you</h2>
+                  <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">{{ searchSub }}</p>
+                </div>
+                <div style="display: flex; gap: 7px;">
+                  <button onclick="{{ onAnalyze }}" style="{{ analyzeBtnStyle }}">{{ analyzeLabel }}</button>
+                  <span style="font-size: 12px; font-weight: 600; color: var(--ink2); padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel);">Match ↓</span>
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-top: 20px;">
+                <sc-for list="{{ jobsView }}" as="j" hint-placeholder-count="6">
+                  <div style="{{ j.cardStyle }}">
+                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                      <div style="{{ j.logoStyle }}">{{ j.letter }}</div>
+                      <div style="flex: 1; min-width: 0;">
+                        <div style="font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.25;">{{ j.role }}</div>
+                        <div style="font-size: 13px; color: var(--muted); margin-top: 2px;">{{ j.company }} · {{ j.location }}</div>
+                      </div>
+                      <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
+                        <div><div style="{{ j.matchStyle }}">{{ j.match }}</div>
+                        <div style="font-size: 10px; color: var(--faint); letter-spacing: 0.05em; margin-top: 2px;">MATCH</div></div>
+                        <sc-if value="{{ j.verdict }}"><span style="{{ j.verdictStyle }}">{{ j.verdict }}</span></sc-if>
+                      </div>
+                    </div>
+                    <div style="font-size: 13px; color: var(--ink2); line-height: 1.5;">{{ j.blurb }}</div>
+                    <sc-if value="{{ j.hasFit }}">
+                      <div style="{{ j.fitStyle }}">{{ j.fit }}</div>
+                    </sc-if>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                      <sc-for list="{{ j.tags }}" as="t" hint-placeholder-count="2">
+                        <span style="font-size: 11px; font-weight: 600; color: var(--muted); background: var(--panel2); padding: 4px 9px; border-radius: 7px;">{{ t }}</span>
+                      </sc-for>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px; padding-top: 12px; border-top: 1px solid var(--line2);">
+                      <a href="{{ j.url }}" target="_blank" style="font-size: 12.5px; font-weight: 600; color: var(--muted); text-decoration: none;">View posting ↗</a>
+                      <div style="display: flex; gap: 7px;">
+                        <button onclick="{{ j.onTrack }}" style="{{ j.btnStyle }}">{{ j.btnLabel }}</button>
+                        <sc-if value="{{ j.analyzed }}"><button onclick="{{ j.onApprove }}" style="{{ j.approveStyle }}">Approve →</button></sc-if>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showTracker }}">
+            <div style="padding: 28px 30px 40px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <div style="margin-bottom: 22px;">
+                <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Applications</h2>
+                <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">{{ trackerSub }}</p>
+              </div>
+              <sc-if value="{{ trackerEmpty }}">
+                <div style="border: 1.5px dashed var(--line); border-radius: 16px; padding: 44px; text-align: center; color: #A89D8D; font-size: 14px;">Nothing here yet — save a role from Job Search and it'll land in Saved.</div>
+              </sc-if>
+              <sc-if value="{{ trackerHasItems }}">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; align-items: start;">
+                  <sc-for list="{{ columns }}" as="col" hint-placeholder-count="4">
+                    <div style="background: var(--panel2); border: 1px solid var(--line2); border-radius: 15px; padding: 12px; min-height: 110px;">
+                      <div style="display: flex; align-items: center; gap: 8px; padding: 2px 2px 12px;">
+                        <span style="{{ col.dotStyle }}"></span>
+                        <span style="font-size: 12.5px; font-weight: 700; color: var(--ink2);">{{ col.title }}</span>
+                        <span style="{{ col.countStyle }}">{{ col.count }}</span>
+                      </div>
+                      <div style="display: flex; flex-direction: column; gap: 9px;">
+                        <sc-for list="{{ col.items }}" as="card" hint-placeholder-count="1">
+                          <div onclick="{{ card.onOpen }}" style="{{ card.cardStyle }}">
+                            <div style="display: flex; align-items: center; gap: 9px;">
+                              <div style="{{ card.logoStyle }}">{{ card.letter }}</div>
+                              <div style="flex: 1; min-width: 0;">
+                                <div style="font-size: 12.5px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ card.company }}</div>
+                                <div style="font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ card.role }}</div>
+                              </div>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 9px;">
+                              <span style="{{ card.dueStyle }}">{{ card.due }}</span>
+                              <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted);"><span style="{{ card.progStyle }}"></span>{{ card.progress }}</span>
+                            </div>
+                            <sc-if value="{{ card.hasTheory }}">
+                              <div style="margin-top: 9px;"><span style="{{ card.verdictChipStyle }}">∴ {{ card.verdict }}</span></div>
+                            </sc-if>
+                            <div style="display: flex; gap: 6px; margin-top: 10px;">
+                              <button onclick="{{ card.onBack }}" style="{{ card.backStyle }}">←</button>
+                              <button onclick="{{ card.onNext }}" style="{{ card.nextStyle }}">{{ card.nextLabel }}</button>
+                            </div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showDraft }}">
+            <div style="padding: 28px 30px 40px; max-width: 720px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <div style="margin-bottom: 20px;">
+                <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Outreach to {{ draftCompany }}</h2>
+                <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">A short, specific intro written for this role. Edit anything, then copy it over.</p>
+              </div>
+              <div style="background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(33,28,24,0.05);">
+                <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; gap: 10px; align-items: center;">
+                  <span style="font-size: 12px; color: var(--faint); width: 56px;">To</span>
+                  <span style="font-size: 13px; color: var(--ink2); font-weight: 600;">{{ draftTo }}</span>
+                </div>
+                <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; gap: 10px; align-items: center;">
+                  <span style="font-size: 12px; color: var(--faint); width: 56px;">Subject</span>
+                  <span style="font-size: 13px; color: var(--ink); font-weight: 600;">{{ draftSubject }}</span>
+                </div>
+                <textarea value="{{ draftBody }}" onchange="{{ onDraftChange }}" style="width: 100%; border: none; outline: none; resize: vertical; min-height: 232px; padding: 18px; font-size: 14.5px; line-height: 1.65; color: var(--ink2); font-family: var(--display);"></textarea>
+                <div style="padding: 12px 16px; border-top: 1px solid var(--line2); display: flex; align-items: center; justify-content: space-between; background: var(--panel2);">
+                  <span style="font-size: 12px; color: #A89D8D;">{{ draftWords }} words · drafted for this role</span>
+                  <button onclick="{{ onCopy }}" style="{{ copyStyle }}">{{ copyLabel }}</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showMaterials }}">
+            <div style="padding: 28px 30px 40px; max-width: 760px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <div style="margin-bottom: 20px;">
+                <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Application kit — {{ materialsView.company }}</h2>
+                <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">{{ materialsView.role }} · {{ materialsView.byLabel }}</p>
+              </div>
+
+              <div style="background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(33,28,24,0.05);">
+                <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; align-items: center; justify-content: space-between;">
+                  <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Cover letter</span>
+                  <button onclick="{{ materialsView.onCopyCover }}" style="{{ materialsView.copyCoverStyle }}">{{ materialsView.copyCoverLabel }}</button>
+                </div>
+                <textarea value="{{ materialsView.cover }}" onchange="{{ materialsView.onCoverChange }}" style="width: 100%; border: none; outline: none; resize: vertical; min-height: 250px; padding: 18px; font-size: 14.5px; line-height: 1.65; color: var(--ink2); font-family: var(--display);"></textarea>
+              </div>
+
+              <sc-if value="{{ materialsView.hasPoints }}">
+                <div style="background: var(--panel); border: 1px solid var(--line); border-radius: 16px; margin-top: 14px; overflow: hidden;">
+                  <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Talking points</span>
+                    <button onclick="{{ materialsView.onCopyPoints }}" style="{{ materialsView.copyPointsStyle }}">{{ materialsView.copyPointsLabel }}</button>
+                  </div>
+                  <div style="padding: 14px 18px; display: flex; flex-direction: column; gap: 9px;">
+                    <sc-for list="{{ materialsView.points }}" as="p" hint-placeholder-count="4">
+                      <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <span style="width: 6px; height: 6px; border-radius: 999px; background: var(--accent); flex-shrink: 0; margin-top: 7px;"></span>
+                        <span style="font-size: 13.5px; color: var(--ink); line-height: 1.5;">{{ p.text }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ materialsView.hasOutreach }}">
+                <div style="background: var(--panel); border: 1px solid var(--line); border-radius: 16px; margin-top: 14px; overflow: hidden;">
+                  <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Outreach note</span>
+                    <button onclick="{{ materialsView.onCopyOutreach }}" style="{{ materialsView.copyOutreachStyle }}">{{ materialsView.copyOutreachLabel }}</button>
+                  </div>
+                  <div style="padding: 16px 18px; font-size: 14px; line-height: 1.6; color: var(--ink2); font-family: var(--display);">{{ materialsView.outreach }}</div>
+                </div>
+              </sc-if>
+
+              <p style="margin: 14px 2px 0; font-size: 11.5px; color: var(--faint); line-height: 1.5;">Preliminary draft — review and make it yours before sending. Saved to your board and synced to Matrix.</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showFrame }}">
+            <div style="padding: 28px 30px 40px; max-width: 780px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 4px;">
+                <div>
+                  <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Frame</h2>
+                  <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">The gate before the search. No outreach runs honestly without a target and a bar.</p>
+                </div>
+                <span style="{{ frameView.statusStyle }}">{{ frameView.statusLabel }}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 20px;">
+                <div style="background: var(--panel); border: 1px solid var(--line2); border-radius: 16px; padding: 20px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Target roles</span>
+                    <button onclick="{{ frameView.onSetTarget }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel2); color: var(--ink2); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; font-family: inherit;">{{ frameView.targetBtn }}</button>
+                  </div>
+                  <p style="{{ frameView.targetStyle }}">{{ frameView.target }}</p>
+                  <p style="font-size: 12px; color: var(--muted); margin: 8px 0 0;">A bounded set of role types you are genuinely aiming at — not one dream job. It gives the search a stopping rule.</p>
+                </div>
+                <div style="background: var(--panel); border: 1px solid var(--line2); border-radius: 16px; padding: 20px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Reservation bar</span>
+                    <button onclick="{{ frameView.onSetBar }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel2); color: var(--ink2); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; font-family: inherit;">{{ frameView.barBtn }}</button>
+                  </div>
+                  <p style="{{ frameView.barStyle }}">{{ frameView.bar }}</p>
+                  <p style="font-size: 12px; color: var(--muted); margin: 8px 0 0;">The concrete minimum you'll accept — comp, mission, autonomy, dealbreakers. I'll defend it against the tired version of you later.</p>
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px;">
+                <div style="background: var(--panel2); border: 1px solid var(--line2); border-radius: 13px; padding: 15px;"><div style="font-size: 12.5px; font-weight: 700; color: var(--ink);">Model of you</div><div style="font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.45;">Capabilities, what's provable, your throughline and constraints.</div></div>
+                <div style="background: var(--panel2); border: 1px solid var(--line2); border-radius: 13px; padding: 15px;"><div style="font-size: 12.5px; font-weight: 700; color: var(--ink);">Model of each role</div><div style="font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.45;">Stated vs. revealed requirements, who decides, the path to them.</div></div>
+                <div style="background: var(--panel2); border: 1px solid var(--line2); border-radius: 13px; padding: 15px;"><div style="font-size: 12.5px; font-weight: 700; color: var(--ink);">Model of the market</div><div style="font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.45;">Base rates and channel yields — they shift under your feet.</div></div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showReflect }}">
+            <div style="padding: 28px 30px 40px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <div style="margin-bottom: 18px;">
+                <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Reflect</h2>
+                <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">Where the leverage is — and the discipline that keeps a bad week from rewriting your strategy</p>
+              </div>
+              <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 240px; display: flex; align-items: flex-start; gap: 11px; padding: 14px 16px; border: 1px solid var(--line2); border-radius: 13px; background: var(--panel);">
+                  <span style="width: 9px; height: 9px; border-radius: 999px; background: var(--positive); margin-top: 4px; flex-shrink: 0;"></span>
+                  <div><div style="font-size: 13px; font-weight: 700; color: var(--ink);">Fast clock · daily</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45; margin-top: 2px;">Source, score, build, route, decide. Single outcomes get absorbed — they don't touch strategy.</div></div>
+                </div>
+                <div style="flex: 1; min-width: 240px; display: flex; align-items: flex-start; gap: 11px; padding: 14px 16px; border: 1px solid var(--line2); border-radius: 13px; background: var(--panel);">
+                  <span style="width: 9px; height: 9px; border-radius: 999px; background: var(--accent); margin-top: 4px; flex-shrink: 0;"></span>
+                  <div><div style="font-size: 13px; font-weight: 700; color: var(--ink);">Slow clock · weeks</div><div style="font-size: 12px; color: var(--muted); line-height: 1.45; margin-top: 2px;">The only place strategy may change — and only on aggregate, never one rejection.</div></div>
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px;">
+                <div style="background: var(--panel); border: 1px solid var(--line2); border-radius: 16px; padding: 18px;">
+                  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint); margin-bottom: 14px;">Pipeline</div>
+                  <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <sc-for list="{{ reflectView.stages }}" as="ps" hint-placeholder-count="4">
+                      <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12.5px; color: var(--ink2); margin-bottom: 5px;"><span>{{ ps.label }}</span><span style="font-weight: 700; color: var(--ink);">{{ ps.n }}</span></div>
+                        <div style="height: 8px; border-radius: 999px; background: var(--panel2); overflow: hidden;"><div style="{{ ps.barStyle }}"></div></div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="background: var(--panel); border: 1px solid var(--line2); border-radius: 16px; padding: 18px;">
+                  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint); margin-bottom: 14px;">Effort vs. yield</div>
+                  <div style="display: flex; gap: 18px; margin-bottom: 12px;">
+                    <div><div style="font-size: 26px; font-weight: 800; color: var(--accent);">{{ reflectView.coldPct }}</div><div style="font-size: 11.5px; color: var(--muted);">cold path</div></div>
+                    <div><div style="font-size: 26px; font-weight: 800; color: var(--positive);">{{ reflectView.warmPct }}</div><div style="font-size: 11.5px; color: var(--muted);">warm path</div></div>
+                  </div>
+                  <div style="display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: var(--panel2);"><div style="{{ reflectView.coldBar }}"></div><div style="{{ reflectView.warmBar }}"></div></div>
+                  <p style="font-size: 12.5px; color: var(--ink2); line-height: 1.5; margin: 12px 0 0;">{{ reflectView.nudge }}</p>
+                </div>
+                <div style="background: var(--panel); border: 1px solid var(--line2); border-radius: 16px; padding: 18px;">
+                  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint); margin-bottom: 14px;">Channel base rates</div>
+                  <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <sc-for list="{{ reflectView.channels }}" as="ch" hint-placeholder-count="4">
+                      <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 12.5px; color: var(--ink2); margin-bottom: 5px;"><span>{{ ch.label }}</span><span style="font-weight: 700; color: var(--ink);">{{ ch.rate }}</span></div>
+                        <div style="height: 8px; border-radius: 999px; background: var(--panel2); overflow: hidden;"><div style="{{ ch.barStyle }}"></div></div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="background: var(--panel); border: 1px solid var(--line2); border-radius: 16px; padding: 18px;">
+                  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px;">Reservation bar</div>
+                  <p style="font-size: 14px; color: var(--ink); line-height: 1.5; margin: 0 0 6px;">{{ reflectView.reservation }}</p>
+                  <p style="font-size: 12px; color: var(--muted); margin: 0;">We take the first offer that clears this — and don't drop below it out of fatigue.</p>
+                </div>
+              </div>
+              <div style="margin-top: 22px;">
+                <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px;">Next best actions</div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  <sc-for list="{{ reflectView.actions }}" as="ra" hint-placeholder-count="3">
+                    <button onclick="{{ ra.onClick }}" style="cursor: pointer; text-align: left; display: flex; align-items: center; gap: 14px; background: var(--panel); border: 1px solid var(--line2); border-radius: 13px; padding: 15px 16px; font-family: inherit;">
+                      <span style="width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0; background: var(--accent-bg); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 14px;">→</span>
+                      <span style="flex: 1;"><span style="display: block; font-size: 14px; font-weight: 700; color: var(--ink);">{{ ra.title }}</span><span style="display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px;">{{ ra.sub }}</span></span>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="margin-top: 22px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                  <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Strategy questions · slow clock</span>
+                  <span style="font-size: 11px; font-weight: 700; color: var(--muted);">{{ reflectView.trialsLabel }}</span>
+                </div>
+                <sc-if value="{{ reflectView.locked }}">
+                  <div style="border: 1.5px dashed var(--line); border-radius: 13px; padding: 20px; color: var(--faint); font-size: 13px; line-height: 1.55;">Locked. Reflect updates on aggregate, not single outcomes — log a few more moves before we touch strategy. The delay is the overfitting guard, on purpose.</div>
+                </sc-if>
+                <sc-if value="{{ reflectView.unlocked }}">
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <sc-for list="{{ reflectView.questions }}" as="q" hint-placeholder-count="3">
+                      <button onclick="{{ q.onClick }}" style="cursor: pointer; text-align: left; display: flex; align-items: center; gap: 12px; background: var(--panel); border: 1px solid var(--line2); border-radius: 12px; padding: 14px 16px; font-family: inherit;">
+                        <span style="width: 7px; height: 7px; border-radius: 999px; flex-shrink: 0; background: var(--accent);"></span>
+                        <span style="font-size: 13.5px; color: var(--ink); line-height: 1.4;">{{ q.label }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ reflectView.hasSignals }}">
+                <div style="margin-top: 22px;">
+                  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px;">Signals from your moves</div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <sc-for list="{{ reflectView.signals }}" as="sg" hint-placeholder-count="3">
+                      <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--ink2); background: var(--panel); border: 1px solid var(--line2); border-radius: 999px; padding: 7px 12px;"><span style="width: 6px; height: 6px; border-radius: 999px; background: #7C3AED;"></span>{{ sg.label }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showTheories }}">
+            <div style="padding: 28px 30px 40px; max-width: 880px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <div style="margin-bottom: 20px;">
+                <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Next moves</h2>
+                <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">DEF → EVA → REC · written for you in the background — define the step, weigh what's for and against, commit to the call. A working log that evolves as your search does.</p>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 13px;">
+                <sc-for list="{{ theoriesView }}" as="th" hint-placeholder-count="3">
+                  <div style="{{ th.cardStyle }}">
+                    <button onclick="{{ th.onToggle }}" style="cursor: pointer; width: 100%; text-align: left; background: transparent; border: none; padding: 18px 20px; font-family: inherit; display: flex; align-items: flex-start; gap: 14px;">
+                      <span style="{{ th.verdictStyle }}">{{ th.verdict }}</span>
+                      <span style="flex: 1; min-width: 0;">
+                        <span style="display: block; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35;">{{ th.claim }}</span>
+                        <span style="display: flex; align-items: center; gap: 10px; margin-top: 6px;">
+                          <span style="font-size: 11.5px; font-weight: 600; color: var(--accent);">{{ th.caseName }}</span>
+                          <span style="font-size: 11.5px; color: var(--faint);">{{ th.tally }}</span>
+                        </span>
+                      </span>
+                      <span style="font-size: 18px; color: var(--faint); line-height: 1; flex-shrink: 0;">{{ th.chevron }}</span>
+                    </button>
+
+                    <sc-if value="{{ th.expanded }}">
+                      <div style="padding: 4px 20px 20px; display: flex; flex-direction: column; gap: 20px;">
+
+                        <div style="border-top: 1px solid var(--line2); padding-top: 18px;">
+                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 11px;">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-bg); padding: 2px 7px; border-radius: 5px;">DEF</span>
+                            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint);">Define the move</span>
+                          </div>
+                          <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div style="display: flex; gap: 10px;"><span style="font-size: 12px; color: var(--faint); width: 64px; flex-shrink: 0;">Context</span><span style="font-size: 13px; color: var(--ink2); line-height: 1.45;">{{ th.scope }}</span></div>
+                            <div style="display: flex; gap: 10px;"><span style="font-size: 12px; color: var(--faint); width: 64px; flex-shrink: 0;">Done when</span><span style="font-size: 13px; color: var(--ink2); line-height: 1.45;">{{ th.falsifier }}</span></div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 11px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-bg); padding: 2px 7px; border-radius: 5px;">EVA</span>
+                              <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint);">What's for &amp; against</span>
+                            </div>
+                            <button onclick="{{ th.onTest }}" style="cursor: pointer; display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--panel2); color: var(--ink); font-size: 12px; font-weight: 700; padding: 7px 12px; border-radius: 9px; font-family: inherit;">∴ Re-assess</button>
+                          </div>
+                          <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <sc-for list="{{ th.evidence }}" as="ev" hint-placeholder-count="2">
+                              <div style="display: flex; align-items: flex-start; gap: 10px; padding: 11px 13px; background: var(--panel2); border: 1px solid var(--line2); border-radius: 11px;">
+                                <span style="{{ ev.dotStyle }}"></span>
+                                <span style="flex: 1; min-width: 0;">
+                                  <span style="display: block; font-size: 13px; color: var(--ink); line-height: 1.45;">{{ ev.text }}</span>
+                                  <span style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                                    <span style="{{ ev.stanceStyle }}">{{ ev.stance }}</span>
+                                    <span style="font-size: 11px; color: var(--faint);">{{ ev.src }}</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </sc-for>
+                          </div>
+                          <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                            <input value="{{ evDraft }}" onchange="{{ onEvDraft }}" placeholder="Add a reason for or against…" style="flex: 1; border: 1px solid var(--line); outline: none; background: var(--panel); border-radius: 9px; padding: 9px 12px; font-size: 13px; font-family: inherit; color: var(--ink);">
+                            <button onclick="{{ th.onAddFor }}" style="cursor: pointer; border: 1px solid var(--line2); background: var(--positive-bg); color: var(--positive); font-size: 12px; font-weight: 700; padding: 9px 12px; border-radius: 9px; font-family: inherit; white-space: nowrap;">+ Supports</button>
+                            <button onclick="{{ th.onAddAgainst }}" style="cursor: pointer; border: 1px solid var(--line2); background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 700; padding: 9px 12px; border-radius: 9px; font-family: inherit; white-space: nowrap;">+ Cuts against</button>
+                          </div>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--line2); padding-top: 18px;">
+                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 11px;">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-bg); padding: 2px 7px; border-radius: 5px;">REC</span>
+                            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint);">The call · do it now or hold</span>
+                          </div>
+                          <div style="display: flex; gap: 6px; margin-bottom: 11px;">
+                            <sc-for list="{{ th.verdictBtns }}" as="vb" hint-placeholder-count="3">
+                              <button onclick="{{ vb.onClick }}" style="{{ vb.style }}">{{ vb.label }}</button>
+                            </sc-for>
+                          </div>
+                          <p style="font-size: 13px; color: var(--ink2); line-height: 1.55; margin: 0; font-family: var(--display);">{{ th.rationale }}</p>
+                          <sc-if value="{{ th.hasAct }}">
+                            <div style="display: flex; gap: 8px; margin-top: 13px;">
+                              <button onclick="{{ th.onAct }}" style="cursor: pointer; border: none; background: var(--accent); color: var(--on-accent); font-size: 12.5px; font-weight: 700; padding: 9px 15px; border-radius: 9px; font-family: inherit;">{{ th.actLabel }} →</button>
+                              <button onclick="{{ th.onMarkDone }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 12.5px; font-weight: 700; padding: 9px 15px; border-radius: 9px; font-family: inherit;">Mark done</button>
+                            </div>
+                          </sc-if>
+                        </div>
+
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showMemory }}">
+            <div style="padding: 28px 30px 40px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 4px;">
+                <div>
+                  <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Long-term memory</h2>
+                  <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">Retained beyond the chat window · recalled by relevance, not just by what fits in context</p>
+                </div>
+                <button onclick="{{ onUploadClick }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font-size: 12.5px; font-weight: 700; padding: 9px 14px; border-radius: 10px; font-family: inherit;">+ Upload analysis</button>
+              </div>
+              <sc-if value="{{ memEmpty }}">
+                <div style="border: 1.5px dashed var(--line); border-radius: 16px; padding: 44px; text-align: center; color: var(--faint); font-size: 14px; margin-top: 18px;">No memory yet. Upload your résumé or a job analysis, or paste it into the chat — I'll index it and recall it where it matters.</div>
+              </sc-if>
+              <div style="display: flex; flex-direction: column; gap: 22px; margin-top: 22px;">
+                <sc-for list="{{ memGroups }}" as="g" hint-placeholder-count="3">
+                  <div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 11px;">
+                      <span style="{{ g.dotStyle }}"></span>
+                      <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: var(--ink2); text-transform: uppercase;">{{ g.category }}</span>
+                      <span style="font-size: 11px; color: var(--faint);">{{ g.countLabel }}</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                      <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 12px 14px; background: var(--panel); border: 1px solid var(--line2); border-radius: 11px;">
+                          <span style="font-size: 13.5px; color: var(--ink); line-height: 1.45;">{{ it.label }}</span>
+                          <span style="font-size: 10.5px; color: var(--faint); white-space: nowrap; flex-shrink: 0; margin-top: 2px;">{{ it.source }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ detailView.open }}">
+        <div onclick="{{ detailView.onClose }}" style="position: absolute; inset: 0; background: rgba(0,0,0,0.32); z-index: 5; animation: fadeUp .2s ease both;"></div>
+        <div style="position: absolute; top: 0; right: 0; bottom: 0; width: 392px; z-index: 6; background: var(--panel); border-left: 1px solid var(--line); box-shadow: -16px 0 44px var(--shadow); display: flex; flex-direction: column; animation: drawerIn .32s cubic-bezier(.2,.7,.2,1) both;">
+          <div style="padding: 20px; border-bottom: 1px solid var(--line2); display: flex; align-items: center; gap: 12px;">
+            <div style="{{ detailView.logoStyle }}">{{ detailView.letter }}</div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 16px; font-weight: 700; color: var(--ink);">{{ detailView.company }}</div>
+              <div style="font-size: 13px; color: var(--muted);">{{ detailView.role }}</div>
+            </div>
+            <button onclick="{{ detailView.onClose }}" style="cursor: pointer; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line2); background: var(--panel); color: var(--muted); font-size: 15px; font-family: inherit;">✕</button>
+          </div>
+          <div style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 22px;">
+            <div>
+              <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 11px;">Stage</div>
+              <div style="display: flex; gap: 6px;">
+                <sc-for list="{{ detailView.stageSteps }}" as="ss" hint-placeholder-count="4">
+                  <button onclick="{{ ss.onClick }}" style="{{ ss.style }}">{{ ss.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 11px;">Reminder</div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px; border: 1px solid var(--line2); border-radius: 12px; background: var(--panel2);">
+                <div>
+                  <div style="{{ detailView.deadlineStyle }}">{{ detailView.deadlineLabel }}</div>
+                  <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">{{ detailView.deadlineDate }}</div>
+                </div>
+                <button onclick="{{ detailView.onProton }}" style="cursor: pointer; display: inline-flex; align-items: center; gap: 7px; border: none; background: #6D4AFF; color: #fff; font-size: 12.5px; font-weight: 700; padding: 10px 13px; border-radius: 9px; font-family: inherit; white-space: nowrap;">◷ Add to Proton</button>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 11px;">
+                <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint);">Checklist</span>
+                <span style="font-size: 11px; font-weight: 700; color: var(--positive);">{{ detailView.progressLabel }}</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <sc-for list="{{ detailView.reqs }}" as="r" hint-placeholder-count="5">
+                  <button onclick="{{ r.onToggle }}" style="{{ r.rowStyle }}">
+                    <span style="{{ r.boxStyle }}">{{ r.mark }}</span>
+                    <span style="{{ r.textStyle }}">{{ r.label }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+            <sc-if value="{{ detailView.hasTheory }}">
+              <div>
+                <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 11px;">Next move</div>
+                <button onclick="{{ detailView.onOpenTheory }}" style="cursor: pointer; width: 100%; text-align: left; display: flex; align-items: flex-start; gap: 10px; padding: 13px; border: 1px solid var(--line2); border-radius: 12px; background: var(--panel2); font-family: inherit;">
+                  <span style="{{ detailView.theoryChipStyle }}">∴ {{ detailView.theoryVerdict }}</span>
+                  <span style="flex: 1; font-size: 12.5px; color: var(--ink); line-height: 1.4;">{{ detailView.theoryClaim }}</span>
+                  <span style="font-size: 12px; color: var(--accent); white-space: nowrap; font-weight: 600;">Open →</span>
+                </button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ detailView.hasMem }}">
+              <div>
+                <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 11px; display: flex; align-items: center; justify-content: space-between; gap: 8px;"><span>From your memory</span><span style="font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--faint);">{{ detailView.recallMeta }}</span></div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <sc-for list="{{ detailView.memInject }}" as="mi" hint-placeholder-count="2">
+                    <div style="display: flex; align-items: flex-start; gap: 9px; padding: 11px 12px; background: var(--accent-bg); border: 1px solid var(--line2); border-radius: 10px;">
+                      <span style="{{ mi.dotStyle }}"></span>
+                      <span style="font-size: 12.5px; color: var(--ink); line-height: 1.4;">{{ mi.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <button onclick="{{ detailView.onDraft }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font-size: 13.5px; font-weight: 700; padding: 12px; border-radius: 11px; font-family: inherit;">✎ Draft outreach</button>
+          </div>
+          <div style="padding: 12px 20px; border-top: 1px solid var(--line2); background: var(--panel2); font-size: 11px; color: var(--faint);">Synced to Matrix</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ toast }}">
+        <div style="position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); background: var(--btn); color: var(--on-btn); padding: 11px 18px; border-radius: 12px; font-size: 13px; font-weight: 500; box-shadow: 0 10px 30px rgba(33,28,24,0.25); animation: fadeUp .3s ease both; display: flex; align-items: center; gap: 9px; white-space: nowrap;">
+          <span style="color: var(--positive);">✓</span>{{ toast }}
+        </div>
+      </sc-if>
+    </section>
+  </div>
+
+  <footer style="height: 32px; flex-shrink: 0; display: flex; align-items: center; gap: 16px; padding: 0 22px; border-top: 1px solid var(--line); background: var(--panel2);">
+    <button onclick="{{ onConnClick }}" style="cursor: pointer; border: none; background: transparent; padding: 0; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted);"><span style="{{ anthDotStyle }}"></span>{{ anthLabel }}</button>
+    <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted);"><span style="width: 6px; height: 6px; border-radius: 999px; background: var(--positive);"></span>Feed proxy · n8n</span>
+    <button onclick="{{ onMatrixPill }}" style="cursor: pointer; border: none; background: transparent; padding: 0; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted);"><span style="{{ mxDotStyle }}"></span>{{ mxLabel }}</button>
+    <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted);"><span style="width: 6px; height: 6px; border-radius: 999px; background: var(--positive);"></span>Memory · on</span>
+    <button onclick="{{ onConnClick }}" style="margin-left: auto; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 11px; font-weight: 600; font-family: inherit; padding: 4px 11px; border-radius: 999px;">Connections</button>
+  </footer>
+
+  <sc-if value="{{ showConn }}">
+    <div onclick="{{ onCloseConn }}" style="position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 60; display: flex; align-items: center; justify-content: center; padding: 24px; animation: fadeUp .2s ease both;">
+      <div onclick="{{ onCardClick }}" style="width: 460px; max-width: 100%; max-height: 90vh; overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 24px 60px rgba(0,0,0,0.3); animation: panelIn .3s cubic-bezier(.2,.7,.2,1) both;">
+        <div style="padding: 22px 24px 16px; border-bottom: 1px solid var(--line2); display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+          <div>
+            <div style="font-family: var(--display); font-size: 21px; font-weight: 500; color: var(--ink);">Connections</div>
+            <div style="font-size: 12.5px; color: var(--muted); margin-top: 3px;">Plug in your own services. Keys live in this browser only.</div>
+          </div>
+          <button onclick="{{ onCloseConn }}" style="cursor: pointer; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line2); background: var(--panel); color: var(--muted); font-size: 15px; font-family: inherit; flex-shrink: 0;">✕</button>
+        </div>
+
+        <div style="padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--line2);">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="{{ anthDotStyle }}"></span>
+            <span style="font-size: 13px; font-weight: 700; color: var(--ink);">Anthropic API</span>
+            <span style="font-size: 11.5px; color: var(--muted);">{{ anthLabel }}</span>
+          </div>
+          <p style="margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.5;">Paste your Anthropic API key to power drafting, recall extraction, and chat. It calls the API directly from your browser.</p>
+          <input value="{{ anthropicKey }}" onchange="{{ onAnthropicKey }}" type="password" placeholder="sk-ant-…" style="border: 1px solid var(--line); outline: none; background: var(--panel2); border-radius: 10px; padding: 11px 13px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--ink);">
+        </div>
+
+        <div style="padding: 22px 24px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <span style="{{ mxDotStyle }}"></span>
+            <span style="font-size: 13px; font-weight: 700; color: var(--ink);">Matrix</span>
+            <span style="font-size: 11.5px; color: var(--muted);">{{ mxLabel }}</span>
+          </div>
+
+          <sc-if value="{{ mxConnected }}">
+            <div style="display: flex; flex-direction: column; gap: 12px; padding: 14px; border: 1px solid var(--line2); border-radius: 12px; background: var(--panel2);">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                <div>
+                  <div style="font-size: 13px; font-weight: 700; color: var(--ink);">{{ mxUserId }}</div>
+                  <div style="font-size: 11.5px; color: var(--muted); margin-top: 2px;">Frame, applications, memory &amp; next moves live in your room</div>
+                </div>
+                <button onclick="{{ onDisconnect }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 12.5px; font-weight: 700; padding: 9px 14px; border-radius: 9px; font-family: inherit;">Disconnect</button>
+              </div>
+              <sc-if value="{{ hasRoom }}">
+                <a href="{{ mxRoomLink }}" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; text-decoration: none; padding: 11px 13px; border: 1px solid var(--line2); border-radius: 10px; background: var(--panel);">
+                  <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+                    <span style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint);">Your dedicated room</span>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--ink2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ mxRoomId }}</span>
+                  </span>
+                  <span style="font-size: 12px; font-weight: 700; color: var(--accent); white-space: nowrap;">Open in Element →</span>
+                </a>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ mxConnected }}"></sc-if>
+          <sc-if value="{{ connecting }}">
+            <div style="font-size: 13px; color: var(--muted); padding: 8px 0;">Connecting…</div>
+          </sc-if>
+
+          <sc-if value="{{ mxDisconnected }}">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <input value="{{ loginHs }}" onchange="{{ onLoginHs }}" placeholder="Homeserver (https://matrix.org)" style="border: 1px solid var(--line); outline: none; background: var(--panel2); border-radius: 10px; padding: 11px 13px; font-size: 13px; font-family: inherit; color: var(--ink);">
+            <input value="{{ loginUser }}" onchange="{{ onLoginUser }}" placeholder="Username (@you:matrix.org or you)" style="border: 1px solid var(--line); outline: none; background: var(--panel2); border-radius: 10px; padding: 11px 13px; font-size: 13px; font-family: inherit; color: var(--ink);">
+            <input value="{{ loginPass }}" onchange="{{ onLoginPass }}" type="password" placeholder="Password" style="border: 1px solid var(--line); outline: none; background: var(--panel2); border-radius: 10px; padding: 11px 13px; font-size: 13px; font-family: inherit; color: var(--ink);">
+            <sc-if value="{{ mxHasError }}"><div style="font-size: 12px; color: #C0492B; line-height: 1.4;">{{ mxError }}</div></sc-if>
+            <button onclick="{{ onConnect }}" style="cursor: pointer; border: none; background: var(--accent); color: var(--on-accent); font-size: 13.5px; font-weight: 700; padding: 12px; border-radius: 11px; font-family: inherit;">Connect to Matrix</button>
+            <p style="margin: 2px 0 0; font-size: 11px; color: var(--faint); line-height: 1.5;">Password is sent only to your homeserver; only the access token is stored, in this browser. A private room is created on your homeserver the first time you connect.</p>
+          </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script="">
+class Component extends DCLogic {
+  PROXY = 'https://n8n.intelechia.com/webhook/feed';
+  FEED = 'https://weworkremotely.com/remote-jobs.rss';
+  STAGES = ['Saved', 'Applied', 'Interview', 'Offer'];
+  STAGE_COLORS = ['var(--accent)', 'var(--positive)', '#2563EB', '#7C3AED'];
+  PALETTE = ['#5E6AD2', '#1F1F1F', '#F24E1E', 'var(--positive)', 'var(--accent)', '#3D5AFE', '#5266EB', '#7C3AED'];
+  THEORY_VERDICTS = ['Do now', 'Hold', 'Done'];
+  shortClaim(c) { return c.length > 46 ? c.slice(0, 44) + '\u2026' : c; }
+  BASE_JOBS = [
+    { id: 's1', company: 'Linear', role: 'Senior Product Designer', location: 'Remote', match: 95, url: '#', blurb: 'Own end-to-end design for core workflows on a small, high-craft team.', tags: ['Remote', 'Senior'] },
+    { id: 's2', company: 'Vercel', role: 'Frontend Engineer', location: 'Remote', match: 91, url: '#', blurb: 'Build the dashboard and design system used by millions of developers.', tags: ['Remote', 'Frontend'] },
+    { id: 's3', company: 'Notion', role: 'Product Manager, Growth', location: 'Remote · US', match: 88, url: '#', blurb: 'Drive activation and onboarding experiments across the product.', tags: ['Remote', 'PM'] },
+    { id: 's4', company: 'Figma', role: 'Design Engineer', location: 'Remote', match: 86, url: '#', blurb: 'Bridge design and code on prototyping and design-systems tooling.', tags: ['Remote', 'Hybrid'] },
+    { id: 's5', company: 'Stripe', role: 'Content Designer', location: 'Remote · EU', match: 84, url: '#', blurb: 'Shape product copy and information design across payments flows.', tags: ['Remote', 'Content'] },
+    { id: 's6', company: 'GitLab', role: 'Developer Advocate', location: 'Remote', match: 82, url: '#', blurb: 'Create technical content and represent practitioners to the product team.', tags: ['Remote', 'DevRel'] },
+  ];
+
+  THEME = {
+    paper: { '--bg': '#F6F3EE', '--panel': '#FFFFFF', '--panel2': '#FBF9F5', '--ink': '#211C18', '--ink2': '#4A4239', '--muted': '#8A8073', '--faint': '#B0A697', '--line': '#E9E2D7', '--line2': '#ECE5DA', '--accent': '#C75B39', '--accent-d': '#A6452B', '--accent-bg': 'rgba(199,91,57,0.10)', '--on-accent': '#FFFFFF', '--btn': '#211C18', '--on-btn': '#F4EFE8', '--positive': '#2F6E4F', '--positive-bg': '#EAF4ED', '--shadow': 'rgba(33,28,24,0.06)', '--display': "'Newsreader', Georgia, serif", '--ui': "'Hanken Grotesk', system-ui, sans-serif" },
+    terminal: { '--bg': '#060A07', '--panel': '#0C140D', '--panel2': '#0A100B', '--ink': '#54E883', '--ink2': '#8BF6AC', '--muted': '#74C495', '--faint': '#5AA177', '--line': '#173324', '--line2': '#122A1B', '--accent': '#38FF84', '--accent-d': '#27E06A', '--accent-bg': 'rgba(56,255,132,0.13)', '--on-accent': '#04140A', '--btn': '#0F2014', '--on-btn': '#9CFBBC', '--positive': '#38FF84', '--positive-bg': 'rgba(56,255,132,0.12)', '--shadow': 'rgba(0,0,0,0.5)', '--display': "'JetBrains Mono', ui-monospace, monospace", '--ui': "'JetBrains Mono', ui-monospace, monospace" },
+  };
+  toggleTheme() { this.set({ theme: this.state.theme === 'paper' ? 'terminal' : 'paper' }); }
+
+  REQS = ['Résumé tailored', 'Cover letter', 'Portfolio / links', 'Referral ask', 'Application submitted'];
+
+  state = {
+    messages: [{ id: 1, role: 'assistant', text: "Hi there \u2014 think of me as a job-search desk, not a chatbot. You tell me what you need in plain words and I build a tool for it on the right. Try \"find remote product roles\", tap a card below, or hit + to upload your r\u00e9sum\u00e9. What do you want to do first?" }],
+    spaces: [], activeId: null,
+    allJobs: [], shown: 6, apps: [], selectedAppId: null, theories: [], selectedTheoryId: null, evDraft: '', theme: 'paper', memory: [], frame: { target: '', bar: '' }, awaiting: null, reflectAsked: false,
+    anthropicKey: '', matrix: { hs: 'https://matrix.org', userId: '', token: '', device: '', roomId: '', status: 'disconnected', error: '' }, showConn: false, loginForm: { hs: 'https://matrix.org', user: '', pass: '' }, syncing: false, thinking: false,
+    thinkingLabel: 'Thinking…', input: '', searchSource: '', draftCompany: null, draftRole: '',
+    draftBody: '', draftBy: '', copied: false, toast: null, nextId: 2,
+    convoSummary: '', turnsSinceSummary: 0, analyzing: false,
+    materials: { company: '', role: '', cover: '', points: [], outreach: '', by: '' }, matBusy: false, matCopied: '',
+  };
+
+  componentDidMount() {
+    this._mounted = true; this.loadMem(); this.loadFrame(); this.loadTheories(); this.loadAnthropic(); this.loadMatrix(); this.scheduleBgScan();
+  }
+  componentWillUnmount() { this._mounted = false; clearTimeout(this._t); clearTimeout(this._toast); clearTimeout(this._t2); clearTimeout(this._tq); clearTimeout(this._tc); clearTimeout(this._tr); clearTimeout(this._mxT); clearTimeout(this._ta); clearTimeout(this._bg); }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState && (prevState.apps !== this.state.apps || prevState.allJobs !== this.state.allJobs || prevState.frame !== this.state.frame || prevState.memory !== this.state.memory)) this.scheduleBgScan();
+    if (!prevState || this.state.matrix.status !== 'connected') return;
+    const t = this.state;
+    if (prevState.apps !== t.apps || prevState.theories !== t.theories || prevState.memory !== t.memory || prevState.frame !== t.frame) {
+      clearTimeout(this._mxT);
+      this._mxT = setTimeout(() => {
+        if (prevState.apps !== t.apps) this.mxPut(this.MX_TYPES.casebook, { apps: this.state.apps });
+        if (prevState.memory !== t.memory) this.mxPut(this.MX_TYPES.memory, { memory: this.state.memory });
+        if (prevState.frame !== t.frame) this.mxPut(this.MX_TYPES.frame, this.state.frame);
+        if (prevState.theories !== t.theories) this.mxPut(this.MX_TYPES.nextmoves, { moves: this.state.theories });
+      }, 700);
+    }
+  }
+  set(patch) { if (this._mounted !== false) this.setState(patch); }
+
+  pushMsg(msg) { this.setState(s => ({ messages: [...s.messages, { id: s.nextId, ...msg }], nextId: s.nextId + 1 })); }
+
+  showToast(text) {
+    this.set({ toast: text });
+    clearTimeout(this._toast);
+    this._toast = setTimeout(() => this.set({ toast: null }), 2400);
+  }
+
+  meta(type) {
+    if (type === 'search') return { title: 'Job Search', icon: '⌕' };
+    if (type === 'tracker') return { title: 'Applications', icon: '▦' };
+    if (type === 'theories') return { title: 'Next moves', icon: '∴' };
+    if (type === 'frame') return { title: 'Frame', icon: '◱' };
+    if (type === 'reflect') return { title: 'Reflect', icon: '◎' };
+    if (type === 'materials') return { title: 'Materials', icon: '✦' };
+    if (type === 'memory') return { title: 'Memory', icon: '❖' };
+    return { title: 'Outreach', icon: '✎' };
+  }
+  hasSpace(type) { return this.state.spaces.some(s => s.type === type); }
+  ensureSpace(type) {
+    if (!this.hasSpace(type)) { const m = this.meta(type); this.setState(s => ({ spaces: [...s.spaces, { type, ...m }] })); }
+  }
+  setActive(type) { this.set({ activeId: type }); }
+
+  async fetchText(url, ms) {
+    const c = new AbortController();
+    const t = setTimeout(() => c.abort(), ms);
+    try { const r = await fetch(url, { signal: c.signal }); clearTimeout(t); if (!r.ok) throw 0; return await r.text(); }
+    catch (e) { clearTimeout(t); return null; }
+  }
+
+  score(title) {
+    const s = title.toLowerCase(); let n = 80;
+    if (/journalis|report|editor|newsroom|investigat/.test(s)) n += 9;
+    if (/data|civic|gov|public interest|research|policy/.test(s)) n += 7;
+    if (/engineer|developer|product|tools|platform/.test(s)) n += 5;
+    if (/remote|senior|lead|staff/.test(s)) n += 2;
+    return Math.min(99, n + (title.length % 4));
+  }
+
+  parseFeed(xml) {
+    const doc = new DOMParser().parseFromString(xml, 'text/xml');
+    let items = [...doc.querySelectorAll('item')];
+    if (!items.length) items = [...doc.querySelectorAll('entry')];
+    const out = [];
+    for (const it of items.slice(0, 18)) {
+      const tx = (sel) => { const e = it.querySelector(sel); return e ? e.textContent.trim() : ''; };
+      let title = tx('title'); if (!title) continue;
+      let link = tx('link');
+      const la = it.querySelector('link'); if ((!link || link.length < 5) && la) link = la.getAttribute('href') || link;
+      const region = tx('region');
+      let company = title, role = title;
+      const ci = title.indexOf(':');
+      if (ci > 0) { company = title.slice(0, ci).trim(); role = title.slice(ci + 1).trim(); }
+      let blurb = (tx('description') || tx('summary') || tx('content')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      const tags = ['Remote']; if (/senior|lead|staff/i.test(role)) tags.push('Senior'); if (region && region.length < 22) tags.push(region.split(',')[0]);
+      out.push({ id: 'f' + out.length + '-' + (link || title).length, company, role, location: region || 'Remote', url: link || '#', match: this.score(title), blurb: blurb.slice(0, 140) || 'Open role pulled from a live feed.', tags: tags.slice(0, 3) });
+    }
+    return out;
+  }
+
+  async doSearch(focus, opts) {
+    opts = opts || {};
+    this.set({ thinking: true, thinkingLabel: 'Searching the web for recent roles…' });
+    const url = this.PROXY + '?url=' + encodeURIComponent(this.FEED);
+    const xml = await this.fetchText(url, 9000);
+    let jobs = xml ? this.parseFeed(xml) : [];
+    const live = jobs.length >= 3;
+    if (!live) jobs = this.BASE_JOBS.slice();
+    if (focus) {
+      const fl = String(focus).toLowerCase().split(/[^a-z]+/).filter(w => w.length > 3);
+      if (fl.length) jobs = jobs.map(j => { const hay = (j.role + ' ' + j.company + ' ' + j.blurb).toLowerCase(); const hits = fl.filter(w => hay.includes(w)).length; return { ...j, match: Math.min(99, j.match + hits * 3) }; }).sort((a, b) => b.match - a.match);
+    }
+    this.ensureSpace('search');
+    this.set({ allJobs: jobs, shown: 6, activeId: 'search', thinking: false, searchSource: (live ? 'live · weworkremotely.com via proxy' : 'sample roles — feed unreachable') + (focus ? ' · focus: ' + focus : '') });
+    if (opts.lead !== false) this.pushMsg({ role: 'assistant', text: live ? "Pulled these live off the web and ranked them against your profile. They're on a board so they won't get lost." : "The live feed didn't answer just now — here's a sample to work with. Tell me the role and I'll refine it." });
+    this.pushMsg({ role: 'ref', refType: 'search' });
+    if (opts.analyze) { clearTimeout(this._ta); this._ta = setTimeout(() => this.analyzeRoles({ lead: opts.lead }), 350); return; }
+    if (!this.frameComplete() && opts.lead !== false) this.pushMsg({ role: 'assistant', text: 'One caution \u2014 your Frame isn\u2019t set, so this is searching without a stopping rule. Want to set your target roles and reservation bar first? It makes the whole pipeline decidable.' });
+  }
+
+  showMore() {
+    const n = Math.min(this.state.shown + 6, this.state.allJobs.length);
+    if (n === this.state.shown) { this.showToast('That\'s everything on the board'); return; }
+    this.set({ shown: n });
+  }
+
+  trackJob(id) {
+    const job = this.findJob(j => j.id === id); if (!job) return;
+    this.ensureSpace('tracker');
+    this.setState(s => s.apps.some(a => a.id === id) ? {} : { apps: [...s.apps, this.mkApp(job)] });
+    this.showToast('Saved to your tracker');
+  }
+  trackAll(opts) {
+    opts = opts || {};
+    this.ensureSpace('tracker');
+    this.setState(s => {
+      const shownJobs = s.allJobs.slice(0, s.shown);
+      const have = new Set(s.apps.map(a => a.id));
+      const add = shownJobs.filter(j => !have.has(j.id)).map(j => this.mkApp(j));
+      return { apps: [...s.apps, ...add], activeId: 'tracker' };
+    });
+    if (opts.lead !== false) this.pushMsg({ role: 'assistant', text: "Saved them to your tracker \u2014 each with a fresh checklist. Tap any card to work through it." });
+    this.pushMsg({ role: 'ref', refType: 'tracker' });
+  }
+  advance(id, dir) {
+    const a = this.state.apps.find(x => x.id === id); if (!a) return;
+    const ns = Math.max(0, Math.min(this.STAGES.length - 1, a.stage + dir));
+    if (ns === a.stage) return;
+    this.setState(s => ({ apps: s.apps.map(x => x.id === id ? { ...x, stage: ns } : x) }));
+    this.recordSignal('Moved ' + a.company + ' \u2192 ' + this.STAGES[ns]);
+    if (ns === 2) { clearTimeout(this._tc); this._tc = setTimeout(() => this.coach('convert', { company: a.company }), 1000); }
+  }
+
+  findJob(pred) { return this.state.allJobs.find(pred) || this.BASE_JOBS.find(pred); }
+  async makeDraft(company) {
+    let job = company ? this.findJob(j => j.company.toLowerCase() === company.toLowerCase()) : null;
+    if (!job) job = this.state.allJobs[0] || this.BASE_JOBS[0];
+    this.ensureSpace('draft');
+    this.set({ activeId: 'draft', draftCompany: job.company, draftRole: job.role, draftBody: 'Drafting the request…', draftBy: '', thinking: true, thinkingLabel: 'Drafting with Claude…' });
+    this.pushMsg({ role: 'assistant', text: 'Drafting a short intro to ' + job.company + '. Tweak anything and copy it when it reads like you.' });
+    this.pushMsg({ role: 'ref', refType: 'draft' });
+    const memx = this.recall(job.company + ' ' + job.role, 6).map(m => m.label).join('; ');
+    const prompt = 'Write a short, specific outreach note (70-100 words) from the job seeker to the hiring team at ' + job.company + ' about their "' + job.role + '" role.' + (memx ? ' Weave in, where natural, these facts about the candidate: ' + memx + '.' : '') + ' Plain and declarative, no buzzwords or hedging, show genuine fit, end with a soft ask for a short call. Return ONLY the note body, no subject line.';
+    let body = null;
+    try { body = await this.llm(prompt, 600); } catch (e) { body = null; }
+    if (!body) { body = 'Hi ' + job.company + ' team,\n\nI came across your ' + job.role + ' role and think it looks like a strong fit for my background. I\'d love to learn more about what you\'re looking for and share where I could help.\n\nWould you be open to a short call next week?\n\nBest'; this.set({ draftBy: 'template' }); }
+    else { this.set({ draftBy: 'Claude' }); }
+    this.set({ draftBody: body.trim(), thinking: false });
+  }
+  onDraftChange(e) { this.set({ draftBody: e.target.value }); }
+  async onCopy() {
+    try { await navigator.clipboard.writeText(this.state.draftBody); } catch (e) {}
+    this.set({ copied: true }); this.showToast('Copied to clipboard');
+    setTimeout(() => this.set({ copied: false }), 1600);
+  }
+
+  // ---- context manager: bounded prompt, unbounded conversation ----
+  recentWindow(n) {
+    return this.state.messages.filter(m => m.role === 'user' || m.role === 'assistant')
+      .slice(-n).map(m => (m.role === 'user' ? 'User' : 'You') + ': ' + String(m.text || '').replace(/\s+/g, ' ').trim()).join('\n');
+  }
+  async bumpSummary() {
+    const turns = this.state.messages.filter(m => m.role === 'user' || m.role === 'assistant');
+    this.set({ turnsSinceSummary: (this.state.turnsSinceSummary || 0) + 1 });
+    if (turns.length < 14 || this.state.turnsSinceSummary < 6) return;
+    const older = turns.slice(0, -6).map(m => (m.role === 'user' ? 'User' : 'You') + ': ' + String(m.text || '').replace(/\s+/g, ' ').trim()).join('\n');
+    const prompt = 'Maintain a compact running summary of an ongoing job-search conversation, so older turns can be dropped from context without losing the thread. Prior summary: "' + (this.state.convoSummary || 'none') + '". Newer exchanges:\n' + older + '\n\nReturn ONLY the updated summary (<=110 words): goals, decisions made, roles in play, and open threads.';
+    let sum = null; try { sum = await this.llm(prompt, 300); } catch (e) { sum = null; }
+    if (sum) this.set({ convoSummary: sum.trim(), turnsSinceSummary: 0 });
+  }
+
+  buildSystem() {
+    const f = this.state.frame;
+    const onBoard = this.state.allJobs.slice(0, this.state.shown).map(j => j.company + ' (' + j.role + ')').join(', ') || 'none yet';
+    return [
+      'You are the orchestrator inside "Job Desk", a job-search workspace for the person using it. Everything you know about them comes from their uploaded résumé and long-term memory below — never assume a profession or invent background facts.',
+      'You do not bury answers in a long chat; you cue ACTIVITIES that build and operate tools in the workspace on the right, while holding a natural conversation.',
+      'TONE: you are a warm, steady friend in their corner, not a cold tool. Job hunting is draining and discouraging \u2014 name that honestly when it shows, and remind them this is hard and they are doing the work anyway. Celebrate small wins out loud. But always keep the train moving: time matters, so follow every bit of encouragement with one concrete next move. Support first, momentum second, never one without the other.',
+      'Activities (choose exactly ONE per turn):',
+      '- search: pull fresh, recently-posted live job listings. params {focus: short phrase of role types}',
+      '- analyze: assess the roles currently on the board for fit vs their frame and profile, and recommend which to pursue. This is the review-before-action step.',
+      '- materials: write PRELIMINARY application materials (tailored cover letter + talking points + short outreach) for ONE approved role. params {company}',
+      '- track: save role(s) to the application board. params {company OR "all"}',
+      '- frame: open the search-frame setup (target roles + reservation bar)',
+      '- reflect: open the strategy / reflection view',
+      '- remind: export application deadlines to the calendar (.ics)',
+      '- memory: show what you remember about them',
+      '- answer: just reply conversationally; no tool',
+      'Rules: use "answer" for questions, advice, or chit-chat. After a "search", suggest analyzing. Only use "materials" once they have APPROVED a specific role (they say go/approve/yes/draft for X, or click Approve). Never invent facts about them; if you need their resume and lack it, tell them to tap the + to upload it.',
+      'Workspace state \u2014 frame target: ' + (f.target || 'unset') + '; reservation bar: ' + (f.bar || 'unset') + '; roles on board: ' + onBoard + '; tracked applications: ' + this.state.apps.length + '; resume on file: ' + (this.state.memory.length ? 'yes' : 'no') + '.',
+      'Return ONLY JSON: {"reply":"1-2 sentences, genuinely warm and encouraging \u2014 a little human reassurance, then point at the next move so we keep momentum; plain, no hedging","action":"<one activity>","params":{...}}'
+    ].join('\n');
+  }
+
+  async planAndAct(text) {
+    if (!this.llmReady()) { this.route(text); return; }
+    if (text.length > 480) { this.ingestMemory(text, 'pasted note'); this.bumpSummary(); return; }
+    this.set({ thinking: true, thinkingLabel: 'Thinking…' });
+    const recalled = this.recall(text, 8).map(m => m.label).join('; ');
+    const ctx = this.buildSystem()
+      + (this.state.convoSummary ? '\n\nConversation so far (summary): ' + this.state.convoSummary : '')
+      + '\n\nRelevant memory (recall): ' + (recalled || 'nothing yet')
+      + '\n\nRecent messages:\n' + this.recentWindow(6)
+      + '\n\nThe user just said: "' + text + '"\n\nJSON:';
+    let plan = null;
+    try { const raw = await this.llm({ messages: [{ role: 'user', content: ctx }] }, 500); plan = this.parseJsonObj(raw); } catch (e) { plan = null; }
+    this.set({ thinking: false });
+    if (!plan || !plan.action) { this.route(text); return; }
+    const reply = String(plan.reply || '').trim();
+    const action = String(plan.action).toLowerCase();
+    const p = plan.params || {};
+    if (reply) this.pushMsg({ role: 'assistant', text: reply });
+    this.dispatch(action, p);
+    this.bumpSummary();
+  }
+
+  dispatch(action, p) {
+    if (action === 'search') return this.doSearch(p.focus || '', { lead: false, analyze: true });
+    if (action === 'analyze') return this.analyzeRoles({ lead: false });
+    if (action === 'materials') return this.prepMaterials(p.company || null, { lead: false });
+    if (action === 'track') {
+      if (p.company && !/^all$/i.test(String(p.company))) { const j = this.state.allJobs.find(x => x.company.toLowerCase() === String(p.company).toLowerCase()); if (j) { this.trackJob(j.id); this.set({ activeId: 'tracker' }); return; } }
+      return this.trackAll({ lead: false });
+    }
+    if (action === 'frame') return this.spawnFrame();
+    if (action === 'reflect') return this.spawnReflect();
+    if (action === 'remind') return this.remindAll();
+    if (action === 'memory') { this.ensureSpace('memory'); return this.set({ activeId: 'memory' }); }
+    // 'answer' or unknown: the reply already stands
+  }
+
+  // ---- analyze: screen roles on the board for fit (the approval step) ----
+  async analyzeRoles(opts) {
+    opts = opts || {};
+    const jobs = this.state.allJobs.slice(0, this.state.shown);
+    if (!jobs.length) { this.pushMsg({ role: 'assistant', text: "There's nothing on the board yet \u2014 want me to pull recent roles first?" }); return; }
+    this.ensureSpace('search'); this.set({ activeId: 'search', analyzing: true });
+    const f = this.state.frame;
+    const memx = this.recall('fit skills experience preferences strengths', 10).map(m => m.label).join('; ');
+    const list = jobs.map((j, i) => (i + 1) + '. ' + j.company + ' \u2014 ' + j.role + ' (' + j.location + '). ' + j.blurb).join('\n');
+    const prompt = 'Screen these job listings for the person using this workspace. Target roles: ' + (f.target || 'not set') + '. Reservation bar: ' + (f.bar || 'not set') + '. Known facts about them (from their résumé/memory): ' + (memx || 'none on file') + '.\nJudge fit for EACH listing. Return ONLY a JSON array, one object per listing in order: {"i":<number>,"verdict":"Strong"|"Possible"|"Weak","why":"<=15 words, concrete"}.\nListings:\n' + list;
+    let arr = null; try { const raw = await this.llm(prompt, 800); arr = this.parseJsonArray(raw); } catch (e) { arr = null; }
+    const byI = {}; if (arr) arr.forEach(o => { if (o && o.i) byI[o.i] = o; });
+    const annotated = this.state.allJobs.map(j => {
+      const idx = jobs.indexOf(j); if (idx < 0) return j;
+      const o = byI[idx + 1];
+      if (o) return { ...j, verdict: o.verdict, fit: String(o.why || '').slice(0, 90), analyzed: true };
+      const v = j.match >= 92 ? 'Strong' : j.match >= 86 ? 'Possible' : 'Weak';
+      return { ...j, verdict: v, fit: 'Ranked by profile match.', analyzed: true };
+    });
+    const strong = annotated.slice(0, jobs.length).filter(j => j.verdict === 'Strong');
+    this.set({ allJobs: annotated, analyzing: false });
+    const names = strong.slice(0, 3).map(j => j.company).join(', ');
+    this.pushMsg({ role: 'assistant', text: strong.length
+      ? ('Screened all ' + jobs.length + ' against your frame. Strongest fits: ' + names + '. Approve any role \u2014 say "draft materials for ' + (strong[0] ? strong[0].company : 'it') + '" or hit Approve on the card \u2014 and I\u2019ll prep your application kit.')
+      : ('Screened all ' + jobs.length + '. None clear your bar cleanly \u2014 want me to widen the focus or pull a fresh batch?') });
+  }
+
+  // ---- materials: preliminary application kit for an approved role ----
+  approveRole(id) { const j = this.findJob(x => x.id === id); if (j) this.prepMaterials(j.company, { lead: true }); }
+  async prepMaterials(company, opts) {
+    opts = opts || {};
+    let job = company ? this.findJob(j => j.company.toLowerCase() === String(company).toLowerCase()) : null;
+    if (!job) job = this.state.allJobs.find(j => j.verdict === 'Strong') || this.state.allJobs[0] || this.BASE_JOBS[0];
+    if (!job) { this.pushMsg({ role: 'assistant', text: "Pull some roles first and I'll prep materials once you approve one." }); return; }
+    this.ensureSpace('materials');
+    this.trackJob(job.id);
+    this.set({ activeId: 'materials', matBusy: true, materials: { company: job.company, role: job.role, cover: 'Drafting your cover letter…', points: [], outreach: '', by: '' } });
+    if (opts.lead !== false) this.pushMsg({ role: 'assistant', text: 'Approved \u2014 prepping preliminary materials for ' + job.company + ': a tailored cover letter, talking points, and a short outreach note. Saved the role to your board too.' });
+    this.pushMsg({ role: 'ref', refType: 'materials' });
+    const memx = this.recall(job.company + ' ' + job.role + ' skills experience strengths', 10).map(m => m.label).join('; ');
+    const prompt = 'Write PRELIMINARY application materials for the person using this workspace applying to "' + job.role + '" at ' + job.company + '. Role context: ' + job.blurb + '. Known facts about them (from their résumé/memory): ' + (memx || 'none on file — stay honest and general, invent no specific employers, schools, numbers, or profession') + '.\nReturn ONLY JSON: {"cover":"<180-240 word cover letter, first person, plain, specific, no buzzwords, real newlines as \\n>","points":["3-5 short tailored talking points"],"outreach":"<45-70 word note to the hiring manager>"}.';
+    let res = null; try { const raw = await this.llm(prompt, 1200); res = this.parseJsonObj(raw); } catch (e) { res = null; }
+    if (!res || !res.cover) {
+      const cover = 'Dear ' + job.company + ' team,\n\nI’m excited to apply for your ' + job.role + ' role. My background lines up well with what you’re looking for, and I’d bring focus, range, and a bias toward shipping.\n\nI’m comfortable owning a problem end to end and working plainly and fast, and I’d welcome the chance to show where I could help most.\n\nI’d be glad to talk on a short call.\n\nBest regards';
+      res = { cover, points: ['Strong fit for the role’s core responsibilities', 'Owns problems end to end', 'Clear, plain communicator', 'Ships quickly and reliably'], outreach: 'Hi ' + job.company + ' team — your ' + job.role + ' role looks like a strong fit for my background. Would you be open to a short call?' };
+      this.set({ materials: { company: job.company, role: job.role, cover: res.cover, points: res.points, outreach: res.outreach, by: 'template' }, matBusy: false });
+    } else {
+      this.set({ materials: { company: job.company, role: job.role, cover: String(res.cover).trim(), points: Array.isArray(res.points) ? res.points.slice(0, 5) : [], outreach: String(res.outreach || '').trim(), by: 'Claude' }, matBusy: false });
+    }
+    this.recordSignal('Approved ' + job.company + ' \u2014 prepped application materials');
+  }
+  onCoverChange(e) { this.set({ materials: { ...this.state.materials, cover: e.target.value } }); }
+  async copyMat(which) {
+    const m = this.state.materials; const txt = which === 'outreach' ? m.outreach : (which === 'points' ? (m.points || []).map(p => '\u2022 ' + p).join('\n') : m.cover);
+    try { await navigator.clipboard.writeText(txt); } catch (e) {}
+    this.set({ matCopied: which }); this.showToast('Copied to clipboard');
+    setTimeout(() => this.set({ matCopied: '' }), 1500);
+  }
+
+  helpMsg() {
+    this.pushMsg({ role: 'assistant', text: "Here's how this works: you tell me what you need in plain words, and I build a tool for it on the right \u2014 it stays there instead of scrolling away. Good ways to start:\n\n\u2022 \"Find remote product design roles\" \u2014 I pull live openings and rank them.\n\u2022 \"Track applications\" \u2014 a board for everything in flight.\n\u2022 \"Draft an intro to Stripe\" \u2014 a short note written for a role.\n\nYou can also tap the + by the message box to upload your r\u00e9sum\u00e9 so I tailor everything. What do you want to do first?" });
+  }
+  resumeHelp() {
+    const has = this.state.memory.length > 0;
+    this.pushMsg({ role: 'assistant', text: has
+      ? "I have notes from what you've shared in memory, and I pull the relevant parts into drafts and answers. To add or replace your r\u00e9sum\u00e9, tap the + next to the message box and upload it (.txt, .md) or paste it into the chat."
+      : "Not yet \u2014 I don't have your r\u00e9sum\u00e9. Tap the + next to the message box to upload it (.txt or .md), or paste it straight into the chat, and I'll index it so it informs every draft and suggestion." });
+  }
+
+  async askClaude(text) {
+    this.set({ thinking: true, thinkingLabel: 'Thinking…' });
+    const hasResume = this.state.memory.length > 0;
+    const memx = this.recall(text, 8).map(m => m.label).join('; ');
+    const ctx = 'You are the assistant inside "Job Desk", a job-search app. The app builds tools on demand: it can find live job listings, track applications on a board, draft outreach notes, and set a search "frame" (target roles + a reservation bar). The user is chatting with you. When they ask what to do or seem confused, explain plainly and suggest one concrete next step (for example: say "find product roles", tap a card, or upload a r\u00e9sum\u00e9 with the + button). ' + (hasResume ? 'You have their notes in memory: ' + memx + '. ' : 'You do NOT have their r\u00e9sum\u00e9 yet; if it is relevant, tell them to upload it with the + button. ') + 'Be warm and genuinely encouraging \u2014 a sentence of human reassurance when the search feels heavy, then point at one concrete next step so momentum holds. Answer in 2-4 short sentences, plain, no hedging, never invent facts about them.';
+    let reply = null;
+    try { reply = await this.llm({ messages: [{ role: 'user', content: ctx + '\n\nUser: ' + text }] }, 400); } catch (e) { reply = null; }
+    this.set({ thinking: false });
+    this.pushMsg({ role: 'assistant', text: reply ? reply.trim() : "Tell me a kind of role and I'll pull live listings \u2014 e.g. \"find remote product design roles\". Or tap + to upload your r\u00e9sum\u00e9 so I can tailor things. The three cards by the message box are quick starts." });
+  }
+
+  route(text) {
+    const s = text.toLowerCase();
+    const isQuestion = /\?\s*$/.test(text.trim()) || /^(what|how|why|who|when|where|do you|did you|are you|can you|could you|would you|should i|you want|i don'?t|i dont|not sure|idk|huh|help|confused|wtf|nvm|ok\b|okay\b)/.test(s);
+    const isCommand = /^(find|search|show|pull|browse|look|get|track|save|draft|write|remind|set|open|upload|reflect|add)\b/.test(s)
+      || /\b(can|could|will|would|please)\s+(you\s+)?(find|search|show|pull|get|draft|write|track|save|set|make|build|add|remind)\b/.test(s)
+      || /\b(find|search for|show me|pull up|get me|look for|browse)\s+(me\s+)?(some\s+|a\s+|new\s+|more\s+)?(jobs?|roles?|positions?|openings?|listings?|gigs?)/.test(s);
+    if (this.state.awaiting) {
+      if (isQuestion || text.length < 3) { this.set({ awaiting: null }); this.askClaude(text); return; }
+      if (text.length <= 480 && !/^(find|search|track|draft|outreach|proton|remind|reflect|memory|upload|frame|show)\b/.test(s)) { if (this.answer(text)) return; }
+      this.set({ awaiting: null });
+    }
+    if (/(r\u00e9sum\u00e9|resume|\bcv\b)/.test(s) && /(have|got|see|my|where|upload|read|do you)/.test(s)) { this.resumeHelp(); return; }
+    if (/^(help|what can you do|what do you do|how does this|what now|what should i do|i don'?t|i dont|confused|wtf|huh|what am i)/.test(s)) { this.helpMsg(); return; }
+    if (/\bframe\b|target role|reservation|stopping rule|the bar\b/.test(s)) { this.spawnFrame(); return; }
+    if (text.length > 480) { this.ingestMemory(text, 'pasted note'); return; }
+    if (/recall|remember|what do you know|my memory|my notes/.test(s)) { this.ensureSpace('memory'); this.set({ activeId: 'memory' }); return; }
+    if (isQuestion && !isCommand) { this.askClaude(text); return; }
+    if (/remind|calendar|proton|deadline|\.ics/.test(s)) { this.remindAll(); return; }
+    if (/next move|next step|next-?move|what(?:'?s| is)? next|^next\b|\bplan\b|playbook|to-?do/.test(s)) { this.spawnTheories(); return; }
+    if (/reflect|how am i|focus|strateg|on track|what should i do|next best|base rate|coach/.test(s)) { this.spawnReflect(); return; }
+    if (/draft|intro|note|outreach|email|reach|write|message/.test(s)) {
+      const named = (this.state.allJobs.concat(this.BASE_JOBS)).find(j => s.includes(j.company.toLowerCase()));
+      this.makeDraft(named ? named.company : null); return;
+    }
+    if (/open all|all as case|track all|track these|save all|open my case|open the case/.test(s)) { this.trackAll(); return; }
+    if (/\btrack\b|\bsave\b|\bkeep\b|watch/.test(s)) {
+      const named = this.state.allJobs.find(j => s.includes(j.company.toLowerCase()));
+      if (named) { this.trackJob(named.id); this.set({ activeId: 'tracker' }); } else this.trackAll();
+      return;
+    }
+    if (/more|other|else|additional/.test(s) && this.hasSpace('search')) { this.showMore(); return; }
+    if (/\b(find|search|browse|hiring|job|jobs|role|roles|position|opening|listing|gig|remote work)\b/.test(s) || /look (for|up)/.test(s)) { this.doSearch(); return; }
+    this.askClaude(text);
+  }
+
+  send(raw) {
+    const text = (raw == null ? this.state.input : raw).trim();
+    if (!text || this.state.thinking) return;
+    this.pushMsg({ role: 'user', text });
+    this.set({ input: '' });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.planAndAct(text), 200);
+  }
+  onInput(e) { this.set({ input: e.target.value }); }
+  onKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.send(null); } }
+
+  daysFromNow(n) { const x = new Date(); x.setDate(x.getDate() + n); return x.toISOString().slice(0, 10); }
+  seedApps() { return []; }
+  mkApp(job) { return { id: job.id, company: job.company, role: job.role, location: job.location, stage: 0, deadline: this.daysFromNow(10), reqs: this.REQS.map(label => ({ label, done: false })) }; }
+
+  selectApp(id) { this.set({ selectedAppId: id, activeId: 'tracker' }); }
+  closeDetail() { this.set({ selectedAppId: null }); }
+  setStage(id, idx) {
+    const a = this.state.apps.find(x => x.id === id); if (!a || a.stage === idx) return;
+    this.setState(s => ({ apps: s.apps.map(x => x.id === id ? { ...x, stage: idx } : x) }));
+    this.recordSignal('Set ' + a.company + ' \u2192 ' + this.STAGES[idx]);
+    if (idx === 2) { clearTimeout(this._tc); this._tc = setTimeout(() => this.coach('convert', { company: a.company }), 1000); }
+  }
+  toggleReq(id, i) { this.setState(s => ({ apps: s.apps.map(a => a.id === id ? { ...a, reqs: a.reqs.map((r, ri) => ri === i ? { ...r, done: !r.done } : r) } : a) })); }
+
+  fmtDeadline(iso) {
+    const t = new Date(); t.setHours(0, 0, 0, 0);
+    const diff = Math.round((new Date(iso + 'T00:00:00') - t) / 86400000);
+    if (diff < 0) return Math.abs(diff) + 'd overdue';
+    if (diff === 0) return 'Due today';
+    if (diff === 1) return 'Due tomorrow';
+    return 'Due in ' + diff + 'd';
+  }
+  dueColor(iso) {
+    const t = new Date(); t.setHours(0, 0, 0, 0);
+    const diff = Math.round((new Date(iso + 'T00:00:00') - t) / 86400000);
+    const term = this.state.theme === 'terminal';
+    if (diff <= 1) return term ? '#FF8473' : '#C0492B';
+    if (diff <= 5) return term ? '#FFC24D' : '#B26A2E';
+    return 'var(--muted)';
+  }
+
+  pad(n) { return String(n).padStart(2, '0'); }
+  buildIcs(apps) {
+    const n = new Date();
+    const stamp = n.getUTCFullYear() + this.pad(n.getUTCMonth() + 1) + this.pad(n.getUTCDate()) + 'T' + this.pad(n.getUTCHours()) + this.pad(n.getUTCMinutes()) + this.pad(n.getUTCSeconds()) + 'Z';
+    let out = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Investigation Desk//Reminders//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+    for (const a of apps) {
+      const dt = a.deadline.replace(/-/g, '');
+      out.push('BEGIN:VEVENT', 'UID:' + a.id + '-' + Date.now() + '@jobdesk', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + dt, 'DTEND;VALUE=DATE:' + dt, 'SUMMARY:' + a.company + ' \u2014 ' + a.role + ' follow-up', 'DESCRIPTION:Job Desk reminder \u00b7 ' + this.STAGES[a.stage] + ' stage. Synced from your Matrix space.', 'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:' + a.company + ' follow-up', 'END:VALARM', 'END:VEVENT');
+    }
+    out.push('END:VCALENDAR');
+    return out.join('\r\n');
+  }
+  download(apps, name) {
+    const blob = new Blob([this.buildIcs(apps)], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+  addToProton(id) {
+    const app = this.state.apps.find(a => a.id === id); if (!app) return;
+    this.download([app], 'reminder-' + app.company.toLowerCase() + '.ics');
+    this.showToast('Reminder for ' + app.company + ' \u2192 opening in Proton Calendar');
+  }
+  remindAll() {
+    const apps = this.state.apps.slice().sort((a, b) => a.deadline.localeCompare(b.deadline));
+    if (!apps.length) { this.showToast('No applications to remind you about yet'); return; }
+    this.download(apps, 'investigation-deadlines.ics');
+    this.set({ activeId: 'tracker' });
+    this.pushMsg({ role: 'assistant', text: 'Exported all ' + apps.length + ' deadlines as a calendar file \u2014 open it and Proton will add each follow-up with a day-before reminder. Soonest up: ' + apps[0].company + ', ' + this.fmtDeadline(apps[0].deadline).toLowerCase() + '.' });
+  }
+
+  loadMem() { try { const r = localStorage.getItem('investdesk.mem.v3'); if (r) { const m = JSON.parse(r); if (Array.isArray(m)) { this.set({ memory: m }); if (m.length) this.ensureSpace('memory'); } } } catch (e) {} }
+  saveMem(mem) { try { localStorage.setItem('investdesk.mem.v3', JSON.stringify(mem)); } catch (e) {} }
+  normCat(c) { const ok = ['Capability', 'Signal', 'Preference', 'Constraint', 'Market', 'Operator']; c = (c || '').trim(); return ok.find(x => x.toLowerCase() === c.toLowerCase()) || 'Note'; }
+  parseJsonArray(raw) { if (!raw) return null; try { return JSON.parse(raw); } catch (e) {} const m = raw.match(/\[[\s\S]*\]/); if (m) { try { return JSON.parse(m[0]); } catch (e) {} } return null; }
+  recordSignal(label) {
+    this.ensureSpace('memory');
+    const sigCount = this.state.memory.filter(m => m.category === 'Signal').length + 1;
+    this.setState(s => { const mem = [{ id: 'sig' + Date.now() + Math.random().toString(36).slice(2, 5), category: 'Signal', label, source: 'your moves' }, ...s.memory].slice(0, 80); this.saveMem(mem); return { memory: mem }; });
+    if (sigCount >= 5 && !this.state.reflectAsked) { this.set({ reflectAsked: true }); clearTimeout(this._tr); this._tr = setTimeout(() => { this.ensureSpace('reflect'); this.pushMsg({ role: 'assistant', text: "You've logged a few moves now. Whenever you want, open Reflect and I'll show where your effort is actually paying off \u2014 no rush." }); }, 1300); }
+  }
+  onUploadClick() { const el = document.getElementById('memfile'); if (el) el.click(); }
+  onPickFile(e) { const f = e.target.files && e.target.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => this.ingestMemory(String(rd.result || ''), f.name); rd.readAsText(f); e.target.value = ''; }
+  async ingestMemory(text, source) {
+    this.ensureSpace('memory');
+    this.set({ activeId: 'memory', thinking: true, thinkingLabel: 'Reading into memory…' });
+    const prompt = 'From this résumé or job-search note, extract durable facts worth remembering about the CANDIDATE and their strategy \u2014 skills, evidence, preferences, constraints, and target market. Return ONLY a JSON array (max 9) of {"category","label"} objects, where category is exactly one of: Capability, Signal, Preference, Constraint, Market, Operator. Each label is one concise phrase (max 12 words). Note:\n\n' + text.slice(0, 3800);
+    let items = null;
+    try { const raw = await this.llm(prompt, 700); items = this.parseJsonArray(raw); } catch (e) { items = null; }
+    if (!items || !items.length) items = [{ category: 'Note', label: 'Imported note (' + text.length + ' chars) — indexed.' }];
+    const stamp = Date.now();
+    const add = items.slice(0, 9).filter(it => it && it.label).map((it, i) => ({ id: 'm' + stamp + i, category: this.normCat(it.category), label: String(it.label).slice(0, 150), source: source || 'note' }));
+    this.setState(s => { const mem = [...add, ...s.memory]; this.saveMem(mem); return { memory: mem, thinking: false }; });
+    this.pushMsg({ role: 'assistant', text: 'Filed ' + add.length + ' notes into long-term memory — I’ll surface the relevant ones inside each phase. Stored to your Matrix space.' });
+    this.pushMsg({ role: 'ref', refType: 'memory' });
+  }
+
+  spawnReflect() {
+    this.ensureSpace('reflect'); this.set({ activeId: 'reflect' });
+    this.pushMsg({ role: 'assistant', text: 'Pulled your pipeline into a strategy view \u2014 base rates, where your effort is going, and the moves with the best expected value. The honest read: push toward warm intros.' });
+    this.pushMsg({ role: 'ref', refType: 'reflect' });
+  }
+
+  loadTheories() {
+    try { const r = localStorage.getItem('investdesk.nextmoves.v1'); if (r) { const a = JSON.parse(r); if (Array.isArray(a) && a.length) { this.set({ theories: a }); this.ensureSpace('theories'); return; } } } catch (e) {}
+    const seed = this.seedNextMoves(); this.set({ theories: seed }); this.saveTheories(seed); this.ensureSpace('theories');
+  }
+  saveTheories(t) { try { localStorage.setItem('investdesk.nextmoves.v1', JSON.stringify(t)); } catch (e) {} }
+
+  loadAnthropic() { try { const k = localStorage.getItem('investdesk.anthropic.v1'); if (k) this.set({ anthropicKey: k }); } catch (e) {} }
+  saveAnthropicKey(k) { this.set({ anthropicKey: k }); try { if (k) localStorage.setItem('investdesk.anthropic.v1', k); else localStorage.removeItem('investdesk.anthropic.v1'); } catch (e) {} }
+  onAnthropicKey(e) { this.saveAnthropicKey(e.target.value.trim()); }
+  llmReady() { return !!(this.state.anthropicKey || (typeof window !== 'undefined' && window.claude && window.claude.complete)); }
+  async llm(input, maxTokens) {
+    const messages = typeof input === 'string' ? [{ role: 'user', content: input }] : (input.messages || []);
+    if (typeof window !== 'undefined' && window.claude && window.claude.complete) {
+      try { const out = await Promise.race([window.claude.complete(typeof input === 'string' ? input : { messages }), new Promise(r => setTimeout(() => r(null), 16000))]); if (out) return out; } catch (e) {}
+    }
+    const key = this.state.anthropicKey;
+    if (key) {
+      try {
+        const ctrl = new AbortController(); const tm = setTimeout(() => ctrl.abort(), 22000);
+        const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', signal: ctrl.signal, headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }, body: JSON.stringify({ model: 'claude-3-5-sonnet-latest', max_tokens: maxTokens || 800, messages }) });
+        clearTimeout(tm);
+        const j = await r.json();
+        if (j && j.content && j.content[0] && j.content[0].text) return j.content[0].text;
+      } catch (e) {}
+    }
+    return null;
+  }
+
+  MX_TYPES = { casebook: 'com.investdesk.casebook', memory: 'com.investdesk.memory', frame: 'com.investdesk.frame', nextmoves: 'com.investdesk.nextmoves' };
+  mxNormHs(h) { h = (h || '').trim().replace(/\/+$/, ''); if (!/^https?:\/\//.test(h)) h = 'https://' + h; return h; }
+  openConn() { this.set({ showConn: true, loginForm: { hs: this.state.matrix.hs || 'https://matrix.org', user: '', pass: '' } }); }
+  closeConn() { this.set({ showConn: false }); }
+  onLoginField(k, e) { const v = e.target.value; this.setState(s => ({ loginForm: { ...s.loginForm, [k]: v } })); }
+  loadMatrix() { try { const r = localStorage.getItem('investdesk.matrix.v1'); if (r) { const m = JSON.parse(r); if (m && m.token) { this.set({ matrix: { ...this.state.matrix, hs: m.hs, userId: m.userId, token: m.token, device: m.device || '', roomId: m.roomId || '', status: 'connecting' } }); this.mxWhoami(); } } } catch (e) {} }
+  saveMatrix(m) { try { localStorage.setItem('investdesk.matrix.v1', JSON.stringify({ hs: m.hs, userId: m.userId, token: m.token, device: m.device, roomId: m.roomId || '' })); } catch (e) {} }
+  async mxFetch(path, opts) {
+    const m = this.state.matrix; const o = opts || {};
+    o.headers = Object.assign({ 'Authorization': 'Bearer ' + m.token, 'Content-Type': 'application/json' }, o.headers || {});
+    const r = await fetch(m.hs + path, o);
+    if (!r.ok) { const tx = await r.text().catch(() => ''); throw new Error('HTTP ' + r.status + ' ' + tx.slice(0, 120)); }
+    return r.json();
+  }
+  async discoverHs(domain) {
+    domain = (domain || '').replace(/^https?:\/\//, '').replace(/\/.*$/, '').trim();
+    if (!domain) return 'https://matrix.org';
+    try { const r = await fetch('https://' + domain + '/.well-known/matrix/client', { method: 'GET' }); if (r.ok) { const j = await r.json(); const b = j && j['m.homeserver'] && j['m.homeserver'].base_url; if (b) return String(b).replace(/\/+$/, ''); } } catch (e) {}
+    return 'https://' + domain;
+  }
+  async mxWhoami() {
+    try { const j = await this.mxFetch('/_matrix/client/v3/account/whoami', { method: 'GET' }); this.set({ matrix: { ...this.state.matrix, userId: j.user_id || this.state.matrix.userId, status: 'connected' } }); await this.mxEnsureRoom(); await this.mxHydrate(); }
+    catch (e) { this.set({ matrix: { ...this.state.matrix, status: 'error', error: 'session expired \u2014 reconnect' } }); }
+  }
+  async matrixLogin() {
+    const f = this.state.loginForm;
+    if (!f.user || !f.pass) { this.set({ matrix: { ...this.state.matrix, status: 'error', error: 'Enter your username and password' } }); return; }
+    this.set({ matrix: { ...this.state.matrix, status: 'connecting', error: '' } });
+    let raw = f.user.trim(); if (raw[0] === '@') raw = raw.slice(1);
+    let local = raw, domain = '';
+    if (raw.indexOf(':') >= 0) { const p = raw.split(':'); local = p[0]; domain = p.slice(1).join(':'); }
+    if (!domain) domain = this.mxNormHs(f.hs).replace(/^https?:\/\//, '');
+    let hs; try { hs = await this.discoverHs(domain); } catch (e) { hs = this.mxNormHs(f.hs); }
+    this.set({ matrix: { ...this.state.matrix, hs } });
+    try {
+      let flows = null; try { const fr = await fetch(hs + '/_matrix/client/v3/login', { method: 'GET' }); flows = await fr.json().catch(() => null); } catch (e) {}
+      if (flows && Array.isArray(flows.flows) && flows.flows.length && !flows.flows.some(x => x && x.type === 'm.login.password')) throw new Error('This homeserver uses single sign-on; password login isn\u2019t available here.');
+      const r = await fetch(hs + '/_matrix/client/v3/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'm.login.password', identifier: { type: 'm.id.user', user: local }, password: f.pass, initial_device_display_name: 'Job Desk' }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.access_token) throw new Error((j && (j.error || j.errcode)) || ('Login failed (' + r.status + ')'));
+      const m = { hs, userId: j.user_id, token: j.access_token, device: j.device_id || '', roomId: '', status: 'connected', error: '' };
+      this.set({ matrix: m, showConn: false }); this.saveMatrix(m);
+      this.showToast('Matrix connected \u00b7 ' + j.user_id);
+      await this.mxEnsureRoom();
+      this.pushMsg({ role: 'assistant', text: 'You\u2019re in \u2014 connected as ' + j.user_id + ', with a private Job Desk room spun up just for you. Your frame, applications, memory, and next-moves log now live on your homeserver, not just this browser.' });
+      await this.mxHydrate();
+    } catch (e) { this.set({ matrix: { ...this.state.matrix, status: 'error', error: String(e.message || e).slice(0, 180) } }); }
+  }
+  matrixLogout() { const m = { hs: this.state.matrix.hs, userId: '', token: '', device: '', roomId: '', status: 'disconnected', error: '' }; this.set({ matrix: m }); try { localStorage.removeItem('investdesk.matrix.v1'); } catch (e) {} this.showToast('Disconnected from Matrix'); }
+  async mxPutAccount(type, content) { const m = this.state.matrix; if (m.status !== 'connected' || !m.userId) return false; try { await this.mxFetch('/_matrix/client/v3/user/' + encodeURIComponent(m.userId) + '/account_data/' + type, { method: 'PUT', body: JSON.stringify(content) }); return true; } catch (e) { return false; } }
+  async mxGetAccount(type) { const m = this.state.matrix; if (m.status !== 'connected' || !m.userId) return null; try { return await this.mxFetch('/_matrix/client/v3/user/' + encodeURIComponent(m.userId) + '/account_data/' + type, { method: 'GET' }); } catch (e) { return null; } }
+  async mxEnsureRoom() {
+    const m = this.state.matrix; if (m.status !== 'connected') return null;
+    let roomId = m.roomId;
+    if (!roomId) { const ptr = await this.mxGetAccount('com.investdesk.room'); if (ptr && ptr.room_id) roomId = ptr.room_id; }
+    if (roomId) { try { await this.mxFetch('/_matrix/client/v3/rooms/' + encodeURIComponent(roomId) + '/state/m.room.create', { method: 'GET' }); } catch (e) { roomId = ''; } }
+    if (!roomId) {
+      const local = (m.userId || '').replace(/^@/, '').split(':')[0];
+      try {
+        const j = await this.mxFetch('/_matrix/client/v3/createRoom', { method: 'POST', body: JSON.stringify({ name: 'Job Desk \u2014 ' + local, topic: 'Your private Job Desk workspace: frame, applications, long-term memory, and the evolving next-moves log.', preset: 'private_chat', visibility: 'private' }) });
+        roomId = j.room_id;
+        await this.mxPutAccount('com.investdesk.room', { room_id: roomId });
+        const nm0 = { ...this.state.matrix, roomId }; this.set({ matrix: nm0 }); this.saveMatrix(nm0);
+        await this.mxSay('Job Desk workspace created. I\u2019ll keep your job-search state and your next-moves log right here.');
+      } catch (e) { return null; }
+    }
+    const nm = { ...this.state.matrix, roomId: roomId || '' }; this.set({ matrix: nm }); this.saveMatrix(nm);
+    return roomId || null;
+  }
+  async mxSay(text) {
+    const m = this.state.matrix; if (m.status !== 'connected' || !m.roomId) return false;
+    try { const txn = 'jd' + Date.now() + Math.random().toString(36).slice(2, 7); await this.mxFetch('/_matrix/client/v3/rooms/' + encodeURIComponent(m.roomId) + '/send/m.room.message/' + txn, { method: 'PUT', body: JSON.stringify({ msgtype: 'm.text', body: text }) }); return true; } catch (e) { return false; }
+  }
+  async mxPut(type, content) {
+    const m = this.state.matrix; if (m.status !== 'connected') return false;
+    if (!m.roomId) return this.mxPutAccount(type, content);
+    try { await this.mxFetch('/_matrix/client/v3/rooms/' + encodeURIComponent(m.roomId) + '/state/' + type, { method: 'PUT', body: JSON.stringify(content) }); return true; } catch (e) { return this.mxPutAccount(type, content); }
+  }
+  async mxGet(type) {
+    const m = this.state.matrix; if (m.status !== 'connected') return null;
+    if (m.roomId) { try { return await this.mxFetch('/_matrix/client/v3/rooms/' + encodeURIComponent(m.roomId) + '/state/' + type, { method: 'GET' }); } catch (e) {} }
+    return this.mxGetAccount(type);
+  }
+  async mxHydrate() {
+    this.set({ syncing: true });
+    const cb = await this.mxGet(this.MX_TYPES.casebook); if (cb && Array.isArray(cb.apps)) { this.set({ apps: cb.apps }); if (cb.apps.length) this.ensureSpace('tracker'); }
+    const mm = await this.mxGet(this.MX_TYPES.memory); if (mm && Array.isArray(mm.memory)) { this.set({ memory: mm.memory }); if (mm.memory.length) this.ensureSpace('memory'); }
+    const fr = await this.mxGet(this.MX_TYPES.frame); if (fr && (fr.target || fr.bar)) { const ff = { target: fr.target || '', bar: fr.bar || '' }; this.set({ frame: ff }); this.ensureSpace('frame'); this.saveFrame(ff); }
+    const nm = await this.mxGet(this.MX_TYPES.nextmoves); if (nm && Array.isArray(nm.moves) && nm.moves.length) { this.set({ theories: nm.moves }); this.saveTheories(nm.moves); this.ensureSpace('theories'); }
+    this.set({ syncing: false });
+    this.scheduleBgScan();
+  }
+  verdictColor(v) {
+    if (v === 'Do now') return { c: 'var(--accent)', bg: 'var(--accent-bg)' };
+    if (v === 'Done') return { c: 'var(--positive)', bg: 'var(--positive-bg)' };
+    return { c: 'var(--muted)', bg: 'var(--panel2)' };
+  }
+  // ---- Next-moves log: written by a BACKGROUND process, not the talker. ----
+  // The conversational assistant never reads or authors these; it just talks.
+  // This observer watches workspace state and keeps a DEF->EVA->REC log current.
+  mkMove(key, claim, scope, falsifier, why, verdict, fors) {
+    return {
+      id: 'nm-' + key, key, caseId: null, ts: Date.now(),
+      claim, scope, falsifier, verdict, rationale: why,
+      evidence: (fors || []).map((t, i) => ({ id: 'e' + i, stance: 'for', text: t, source: 'observed in your workspace', date: 'background' })),
+    };
+  }
+  seedNextMoves() {
+    return [
+      this.mkMove('frame', 'Set your search Frame.', 'Your two or three target roles plus a reservation bar \u2014 the floor you won\u2019t drop below.', 'Done when both your target roles and your reservation bar are written down.', 'Start here \u2014 a little structure now saves weeks of scattered applying. You\u2019ve got this.', 'Do now', ['A frame gives every search a stopping rule, so fatigue never lowers your bar.', 'It takes about 20 minutes and makes every later decision faster.']),
+      this.mkMove('resume', 'Add your r\u00e9sum\u00e9 to memory.', 'Upload it with the + by the message box so every draft sounds like you.', 'Done when your r\u00e9sum\u00e9 is indexed in memory.', 'Right after the Frame \u2014 then everything I draft is tailored to your real experience.', 'Do now', ['Tailored cover letters and outreach need your real experience to pull from.']),
+    ];
+  }
+  scheduleBgScan() { clearTimeout(this._bg); this._bg = setTimeout(() => { try { this.bgScanNextMoves(); } catch (e) {} }, 900); }
+  bgScanNextMoves() {
+    const st = this.state;
+    const moves = st.theories.map(m => ({ ...m, evidence: [...m.evidence] }));
+    const byKey = {}; moves.forEach(m => { if (m.key) byKey[m.key] = m; });
+    let changed = false;
+    const setV = (key, v) => { const m = byKey[key]; if (m && m.verdict !== v) { m.verdict = v; changed = true; } };
+    const newClaims = [];
+    const ensure = (key, build) => { if (byKey[key]) return byKey[key]; const e = build(); e.key = key; byKey[key] = e; moves.unshift(e); changed = true; newClaims.push(e.claim); return e; };
+    // résumé in memory
+    if (st.memory.length === 0) ensure('resume', () => this.mkMove('resume', 'Add your r\u00e9sum\u00e9 to memory.', 'Upload it with the + by the message box so every draft sounds like you.', 'Done when your r\u00e9sum\u00e9 is indexed in memory.', 'Right at the start \u2014 then everything I draft is tailored to your real experience.', 'Do now', ['Tailored cover letters and outreach need your real experience to pull from.']));
+    else setV('resume', 'Done');
+    // the Frame
+    if (!this.frameComplete()) ensure('frame', () => this.mkMove('frame', 'Set your search Frame.', 'Target roles + a reservation bar \u2014 the floor you won\u2019t drop below.', 'Done when both your target roles and your reservation bar are written down.', 'A little structure now saves weeks of scattered applying. You\u2019ve got this.', 'Do now', ['A frame gives every search a stopping rule, so fatigue never lowers your bar.']));
+    else setV('frame', 'Done');
+    // roles on the board, not yet screened
+    const onBoard = st.allJobs.slice(0, st.shown);
+    const analyzed = onBoard.filter(j => j.analyzed).length;
+    if (onBoard.length && analyzed === 0) ensure('screen', () => this.mkMove('screen', 'Screen the roles on your board for fit.', onBoard.length + ' roles are waiting to be checked against your frame.', 'Done when each role on the board has a fit verdict.', 'One pass tells you where to spend your energy \u2014 you don\u2019t have to apply blind.', 'Do now', ['Screening before applying protects your time for the strong fits.']));
+    else if (onBoard.length && analyzed > 0) setV('screen', 'Done');
+    // a strong fit with no kit prepped
+    const strong = st.allJobs.find(j => j.verdict === 'Strong');
+    const matCompany = st.materials && st.materials.company;
+    if (strong && matCompany !== strong.company) ensure('materials:' + strong.company, () => this.mkMove('materials:' + strong.company, 'Prep your application kit for ' + strong.company + '.', strong.role + ' at ' + strong.company + ' \u2014 your strongest fit on the board.', 'Done when the cover letter, talking points, and outreach are drafted.', 'It cleared your bar \u2014 strike while it\u2019s warm. I\u2019ll draft the first pass with you.', 'Do now', [strong.company + ' screened as a Strong fit against your frame.']));
+    if (matCompany) setV('materials:' + matCompany, 'Done');
+    // early-stage application with no referral yet
+    const needRef = st.apps.find(a => a.stage <= 1 && !a.reqs.some(r => /referral/i.test(r.label) && r.done));
+    if (needRef) ensure('ref:' + needRef.company, () => this.mkMove('ref:' + needRef.company, 'Find a warm intro at ' + needRef.company + '.', 'No referral is logged yet on the ' + needRef.company + ' application.', 'Done when a referral is logged on that application.', 'Warm intros convert far better than cold applications \u2014 the ask is worth it.', 'Do now', ['The warm path beats the cold one on yield, even when it feels like more work.']));
+    // nearest deadline in the pipeline
+    const byDue = st.apps.filter(a => a.stage < 3).slice().sort((a, b) => String(a.deadline).localeCompare(String(b.deadline)));
+    const due0 = byDue[0];
+    if (due0) ensure('advance:' + due0.company, () => this.mkMove('advance:' + due0.company, 'Push ' + due0.company + ' forward.', 'It has the soonest deadline in your pipeline \u2014 currently at stage \u201c' + this.STAGES[due0.stage] + '\u201d.', 'Done when its stage advances or the application is submitted.', 'Protect your highest-value threads \u2014 momentum here matters most right now.', 'Do now', ['This is the nearest deadline in your pipeline.']));
+    if (changed) { const capped = moves.slice(0, 16); this.setState({ theories: capped }); this.saveTheories(capped); if (newClaims.length && this.state.matrix.status === 'connected') newClaims.slice(0, 3).forEach(c => this.mxSay('Next move logged \u00b7 ' + c)); }
+  }
+  spawnTheories() { this.ensureSpace('theories'); this.set({ activeId: 'theories' }); }
+  moveAction(th) {
+    const k = (th && th.key) || '';
+    if (!th || th.verdict === 'Done') return null;
+    if (k === 'frame') return { label: 'Set the Frame', run: () => this.spawnFrame() };
+    if (k === 'resume') return { label: 'Upload r\u00e9sum\u00e9', run: () => this.onUploadClick() };
+    if (k === 'screen') return { label: 'Screen roles', run: () => this.analyzeRoles({ lead: true }) };
+    if (k.indexOf('materials:') === 0) { const c = k.slice(10); return { label: 'Prep kit', run: () => this.prepMaterials(c, { lead: true }) }; }
+    if (k.indexOf('ref:') === 0) { const c = k.slice(4); const a = this.state.apps.find(x => x.company === c); return { label: 'Open ' + c, run: () => a ? this.selectApp(a.id) : this.set({ activeId: 'tracker' }) }; }
+    if (k.indexOf('advance:') === 0) { const c = k.slice(8); const a = this.state.apps.find(x => x.company === c); return { label: 'Open ' + c, run: () => a ? this.selectApp(a.id) : this.set({ activeId: 'tracker' }) }; }
+    if (k === 'search') return { label: 'Find roles', run: () => this.doSearch() };
+    return null;
+  }
+  markMoveDone(key) {
+    const th = this.state.theories.find(t => t.key === key || t.id === key); if (!th || th.verdict === 'Done') return;
+    const next = this.state.theories.map(t => (t.key === key || t.id === key) ? { ...t, verdict: 'Done' } : t);
+    this.setState({ theories: next }); this.saveTheories(next);
+    this.showToast('Nice \u2014 one down');
+    if (this.state.matrix.status === 'connected') this.mxSay('Marked done \u00b7 ' + th.claim);
+  }
+  selectTheory(id) { this.ensureSpace('theories'); this.set({ activeId: 'theories', selectedTheoryId: this.state.selectedTheoryId === id ? null : id, evDraft: '' }); }
+  setVerdict(id, v) {
+    const th = this.state.theories.find(t => t.id === id); if (!th || th.verdict === v) return;
+    const next = this.state.theories.map(t => t.id === id ? { ...t, verdict: v } : t);
+    this.setState({ theories: next }); this.saveTheories(next);
+    this.recordSignal('Call on \u201c' + this.shortClaim(th.claim) + '\u201d \u2192 ' + v);
+  }
+  onEvDraft(e) { this.set({ evDraft: e.target.value }); }
+  addEvidence(id, stance) {
+    const text = (this.state.evDraft || '').trim(); if (!text) return;
+    const ev = { id: 'e' + Date.now(), stance, text: text.slice(0, 160), source: 'manual entry', date: 'today' };
+    const next = this.state.theories.map(t => t.id === id ? { ...t, evidence: [...t.evidence, ev] } : t);
+    this.setState({ theories: next, evDraft: '' }); this.saveTheories(next);
+    this.showToast('Evidence filed \u00b7 logged to Matrix');
+  }
+  parseJsonObj(raw) { if (!raw) return null; try { return JSON.parse(raw); } catch (e) {} const m = raw.match(/\{[\s\S]*\}/); if (m) { try { return JSON.parse(m[0]); } catch (e) {} } return null; }
+  async testTheory(id) {
+    const th = this.state.theories.find(t => t.id === id); if (!th) return;
+    this.set({ activeId: 'theories', selectedTheoryId: id, thinking: true, thinkingLabel: 'Re-assessing this move\u2026' });
+    const evTxt = th.evidence.map(e => '[' + e.stance + '] ' + e.text).join('\n');
+    const prompt = 'You are helping the user decide on a next step in their job search. Step: "' + th.claim + '". Context: ' + th.scope + ' Done when: ' + th.falsifier + '\nReasons for and against:\n' + evTxt + '\n\nReturn ONLY JSON {"verdict","rationale"} where verdict is exactly one of "Do now", "Hold", "Done". Choose "Do now" if it is the right move to take now, "Hold" if it should wait on a blocker first, "Done" if it is already handled. Rationale is one warm, plain, encouraging sentence that keeps them moving.';
+    let res = null;
+    try { const raw = await this.llm(prompt, 400); res = this.parseJsonObj(raw); } catch (e) { res = null; }
+    if (!res || !res.verdict) {
+      const f = th.evidence.filter(e => e.stance === 'for').length, a = th.evidence.filter(e => e.stance === 'against').length;
+      let v = 'Do now', why = 'This is a solid next step \u2014 take it now and log what happens.';
+      if (a > f) { v = 'Hold'; why = 'There\u2019s enough pushing against this to park it until the blocker clears \u2014 that\u2019s fine, not a failure.'; }
+      res = { verdict: v, rationale: why };
+    }
+    const verdict = ['Do now', 'Hold', 'Done'].includes(res.verdict) ? res.verdict : 'Do now';
+    const next = this.state.theories.map(t => t.id === id ? { ...t, verdict, rationale: String(res.rationale || '').slice(0, 200) || t.rationale } : t);
+    this.setState({ theories: next, thinking: false }); this.saveTheories(next);
+    this.recordSignal('Re-assessed \u201c' + this.shortClaim(th.claim) + '\u201d \u2192 ' + verdict);
+    this.pushMsg({ role: 'assistant', text: 'Re-assessed that move \u2014 ' + verdict + '. ' + (res.rationale || '') + ' We keep the log honest and keep moving.' });
+  }
+
+  COACH = {
+    'frame.target': "Before we chase listings \u2014 what are your target roles? Give me the two or three role types you're genuinely aiming at, not a single dream job.",
+    'frame.bar': "Now the reservation bar: the concrete minimum you'll accept \u2014 comp, mission, autonomy, dealbreakers. Below this, we don't say yes.",
+    'reflect': "You've logged a handful of moves now. Stepping back \u2014 are your warm intros converting better than cold applications? Should Source reallocate?",
+  };
+  loadFrame() { try { const r = localStorage.getItem('investdesk.frame.v3'); if (r) { const f = JSON.parse(r); if (f && typeof f === 'object') { this.set({ frame: { target: f.target || '', bar: f.bar || '' } }); if (f.target || f.bar) this.ensureSpace('frame'); } } } catch (e) {} }
+  saveFrame(frame) { try { localStorage.setItem('investdesk.frame.v3', JSON.stringify(frame)); } catch (e) {} }
+  frameComplete() { const f = this.state.frame; return !!(f.target && f.bar); }
+  addMem(category, label) { this.ensureSpace('memory'); this.setState(s => { const mem = [{ id: 'a' + Date.now() + Math.random().toString(36).slice(2, 5), category, label, source: 'from chat' }, ...s.memory]; this.saveMem(mem); return { memory: mem }; }); }
+  recall(contextText, k) {
+    const toks = (contextText || '').toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 3);
+    const pri = { Preference: 5, Constraint: 5, Capability: 4, Market: 3, Operator: 3, Signal: 2, Note: 1 };
+    return this.state.memory.map((m, i) => { const lab = (m.label || '').toLowerCase(); let ov = 0; for (const t of toks) { if (lab.indexOf(t) >= 0) ov++; } return { m, score: (pri[m.category] || 1) + ov * 3 - i * 0.02 }; }).sort((a, b) => b.score - a.score).slice(0, k || 3).map(x => x.m);
+  }
+  coach(key, meta) {
+    if (this.state.thinking) { clearTimeout(this._tq); this._tq = setTimeout(() => this.coach(key, meta), 1200); return; }
+    let q = this.COACH[key];
+    if (key === 'convert') q = 'You moved ' + ((meta && meta.company) || 'that role') + ' to Interview \u2014 treat it as a sensor, not a test. What did that conversation reveal that the posting didn\u2019t?';
+    if (!q) return;
+    this.pushMsg({ role: 'assistant', text: q, ask: true });
+    this.set({ awaiting: { key, meta: meta || null } });
+  }
+  answer(text) {
+    const aw = this.state.awaiting; if (!aw) return false;
+    this.set({ awaiting: null });
+    const key = aw.key, short = text.trim().slice(0, 180);
+    if (key === 'frame.target') {
+      const frame = { ...this.state.frame, target: short }; this.set({ frame }); this.saveFrame(frame);
+      this.addMem('Preference', 'Target roles: ' + short); this.ensureSpace('frame');
+      this.pushMsg({ role: 'assistant', text: 'Locked that into your Frame as your target roles \u2014 the boundary every search now runs against.' });
+      if (!this.state.frame.bar) { clearTimeout(this._tq); this._tq = setTimeout(() => this.coach('frame.bar'), 1100); }
+      else { this.set({ activeId: 'frame' }); this.pushMsg({ role: 'ref', refType: 'frame' }); }
+      return true;
+    }
+    if (key === 'frame.bar') {
+      const frame = { ...this.state.frame, bar: short }; this.set({ frame, activeId: 'frame' }); this.saveFrame(frame);
+      this.addMem('Constraint', 'Reservation bar: ' + short); this.ensureSpace('frame');
+      this.pushMsg({ role: 'assistant', text: 'Reservation bar set \u2014 the decision is decidable now: we take the first offer that clears it, and we don\u2019t drop below it out of fatigue.' });
+      this.pushMsg({ role: 'ref', refType: 'frame' });
+      return true;
+    }
+    if (key === 'convert') { this.addMem('Signal', ((aw.meta && aw.meta.company) || 'Case') + ': ' + short); this.pushMsg({ role: 'assistant', text: 'Wrote that back as evidence on the case \u2014 it\u2019ll feed the next draft instead of vanishing.' }); return true; }
+    if (key === 'reflect') { this.addMem('Market', short); this.set({ activeId: 'reflect' }); this.pushMsg({ role: 'assistant', text: 'Noted for the slow loop. I won\u2019t swing strategy on one data point \u2014 we change course only when the aggregate says so.' }); return true; }
+    return false;
+  }
+  spawnFrame() {
+    this.ensureSpace('frame'); this.set({ activeId: 'frame' });
+    if (!this.frameComplete()) { clearTimeout(this._tq); this._tq = setTimeout(() => this.coach(this.state.frame.target ? 'frame.bar' : 'frame.target'), 500); }
+  }
+
+  logo(company) { let h = 0; for (let i = 0; i < company.length; i++) h = (h * 31 + company.charCodeAt(i)) >>> 0; return this.PALETTE[h % this.PALETTE.length]; }
+  matchColor(m) { return m >= 92 ? 'var(--positive)' : m >= 86 ? 'var(--accent)' : 'var(--muted)'; }
+
+  renderVals() {
+    const st = this.state;
+    const memCatColor = { Preference: 'var(--accent)', Capability: '#2563EB', Signal: '#7C3AED', Constraint: '#C0492B', Market: 'var(--positive)', Operator: '#B26A2E', Note: 'var(--muted)' };
+    const memOrder = ['Preference', 'Capability', 'Signal', 'Constraint', 'Market', 'Operator', 'Note'];
+    const memGroups = memOrder.map(cat => { const items = st.memory.filter(m => m.category === cat); return { category: cat, countLabel: items.length + (items.length === 1 ? ' note' : ' notes'), dotStyle: { width: 8, height: 8, borderRadius: 999, flexShrink: 0, background: memCatColor[cat] || 'var(--muted)' }, items: items.map(m => ({ label: m.label, source: m.source || 'note' })) }; }).filter(g => g.items.length);
+    const tabIcon = (active) => ({ width: 20, height: 20, borderRadius: 6, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, background: active ? 'var(--accent-bg)' : 'var(--line2)', color: active ? 'var(--accent)' : 'var(--muted)' });
+
+    const messages = st.messages.map(m => {
+      const meta = m.refType ? this.meta(m.refType) : null;
+      return {
+        id: m.id, isAssistant: m.role === 'assistant', isUser: m.role === 'user', isRef: m.role === 'ref', isAsk: m.ask === true,
+        text: m.text || '', icon: meta ? meta.icon : '', refTitle: meta ? meta.title : '',
+        iconStyle: { width: 34, height: 34, borderRadius: 9, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'var(--accent-bg)', color: 'var(--accent)' },
+        onClick: m.refType ? () => this.setActive(m.refType) : null,
+      };
+    });
+
+    const spaces = st.spaces.map(s => {
+      const active = st.activeId === s.type;
+      const badge = s.type === 'tracker' ? st.apps.length : s.type === 'search' ? Math.min(st.shown, st.allJobs.length) : s.type === 'memory' ? st.memory.length : s.type === 'theories' ? st.theories.length : 0;
+      return {
+        type: s.type, title: s.title, icon: s.icon, onClick: () => this.setActive(s.type),
+        tabStyle: { cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, padding: '7px 13px 7px 9px', borderRadius: 10, border: '1px solid ' + (active ? 'var(--line)' : 'transparent'), background: active ? '#fff' : 'transparent', color: active ? 'var(--ink)' : 'var(--muted)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit', boxShadow: active ? '0 1px 3px rgba(33,28,24,0.06)' : 'none' },
+        tabIconStyle: tabIcon(active),
+        hasBadge: badge > 0,
+        badge: badge,
+        badgeStyle: { fontSize: 11, fontWeight: 700, minWidth: 18, textAlign: 'center', padding: '1px 6px', borderRadius: 999, background: active ? 'var(--accent)' : 'var(--line2)', color: active ? 'var(--on-accent)' : 'var(--muted)' },
+      };
+    });
+
+    const mkBtn = (tracked) => tracked
+      ? { cursor: 'default', border: '1px solid var(--positive)', background: '#EAF4ED', color: 'var(--positive)', fontSize: 12.5, fontWeight: 700, padding: '7px 13px', borderRadius: 9, fontFamily: 'inherit' }
+      : { cursor: 'pointer', border: 'none', background: 'var(--btn)', color: 'var(--on-btn)', fontSize: 12.5, fontWeight: 700, padding: '7px 14px', borderRadius: 9, fontFamily: 'inherit' };
+
+    const verdictColors = { Strong: { c: 'var(--positive)', bg: 'var(--positive-bg)' }, Possible: { c: 'var(--accent)', bg: 'var(--accent-bg)' }, Weak: { c: 'var(--muted)', bg: 'var(--panel2)' } };
+    const shownJobs = st.allJobs.slice(0, st.shown);
+    const jobsView = shownJobs.map((j, i) => {
+      const tracked = st.apps.some(a => a.id === j.id);
+      const vc = j.verdict ? (verdictColors[j.verdict] || verdictColors.Possible) : null;
+      return {
+        id: j.id, company: j.company, role: j.role, location: j.location, blurb: j.blurb, url: j.url,
+        match: j.match + '%', letter: j.company.charAt(0).toUpperCase(), tags: j.tags || [],
+        analyzed: !!j.analyzed, hasFit: !!j.fit, fit: j.fit || '', verdict: j.verdict || '',
+        verdictStyle: vc ? { display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10.5, fontWeight: 800, letterSpacing: '0.03em', textTransform: 'uppercase', padding: '3px 9px', borderRadius: 999, background: vc.bg, color: vc.c, flexShrink: 0 } : {},
+        cardStyle: { background: 'var(--panel)', border: '1px solid ' + (j.verdict === 'Strong' ? 'var(--positive)' : 'var(--line2)'), borderRadius: 16, padding: '17px 17px 14px', display: 'flex', flexDirection: 'column', gap: 11, boxShadow: '0 1px 2px rgba(33,28,24,0.04)', animation: 'fadeUp .5s cubic-bezier(.2,.7,.2,1) both', animationDelay: (i % 6 * 60) + 'ms' },
+        logoStyle: { width: 38, height: 38, borderRadius: 10, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 16, color: '#fff', background: this.logo(j.company) },
+        matchStyle: { fontSize: 15, fontWeight: 800, color: this.matchColor(j.match), lineHeight: 1 },
+        fitStyle: { fontSize: 12, color: 'var(--muted)', lineHeight: 1.45, fontStyle: 'italic', paddingLeft: 9, borderLeft: '2px solid ' + (vc ? vc.c : 'var(--line2)') },
+        btnStyle: mkBtn(tracked), btnLabel: tracked ? '✓ Saved' : 'Save',
+        onTrack: tracked ? () => {} : () => this.trackJob(j.id),
+        approveStyle: { cursor: 'pointer', border: 'none', background: 'var(--accent)', color: 'var(--on-accent)', fontSize: 12.5, fontWeight: 700, padding: '7px 13px', borderRadius: 9, fontFamily: 'inherit' },
+        onApprove: () => this.approveRole(j.id),
+      };
+    });
+
+    const columns = this.STAGES.map((title, idx) => {
+      const items = st.apps.filter(a => a.stage === idx).map(a => {
+        const atStart = idx === 0, atEnd = idx === this.STAGES.length - 1;
+        const ctl = (on) => ({ cursor: on ? 'pointer' : 'default', flex: 1, border: '1px solid var(--line2)', background: on ? 'var(--panel)' : 'var(--bg)', color: on ? 'var(--muted)' : 'var(--faint)', fontSize: 12, fontWeight: 700, padding: '5px 0', borderRadius: 7, fontFamily: 'inherit' });
+        const doneN = a.reqs.filter(r => r.done).length, allDone = doneN === a.reqs.length, sel = a.id === st.selectedAppId;
+        const lt = st.theories.find(t => t.caseId === a.id); const lvc = lt ? this.verdictColor(lt.verdict) : null;
+        return {
+          jobId: a.id, company: a.company, role: a.role, letter: a.company.charAt(0).toUpperCase(),
+          hasTheory: !!lt, verdict: lt ? lt.verdict : '',
+          verdictChipStyle: lt ? { display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10.5, fontWeight: 700, padding: '2px 8px', borderRadius: 999, background: lvc.bg, color: lvc.c } : {},
+          cardStyle: { cursor: 'pointer', background: 'var(--panel)', border: '1px solid ' + (sel ? 'var(--accent)' : 'var(--line2)'), borderRadius: 11, padding: 11, boxShadow: sel ? '0 6px 18px var(--accent-bg)' : '0 1px 2px var(--shadow)', animation: 'popIn .35s ease both' },
+          logoStyle: { width: 28, height: 28, borderRadius: 8, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 12, color: '#fff', background: this.logo(a.company) },
+          onOpen: () => this.selectApp(a.id),
+          due: this.fmtDeadline(a.deadline), dueStyle: { fontSize: 11, fontWeight: 700, color: this.dueColor(a.deadline) },
+          progress: doneN + '/' + a.reqs.length,
+          progStyle: { width: 7, height: 7, borderRadius: 999, flexShrink: 0, background: allDone ? 'var(--positive)' : 'var(--accent)' },
+          onBack: atStart ? (e) => { if (e) e.stopPropagation(); } : (e) => { if (e) e.stopPropagation(); this.advance(a.id, -1); },
+          onNext: atEnd ? (e) => { if (e) e.stopPropagation(); } : (e) => { if (e) e.stopPropagation(); this.advance(a.id, 1); },
+          backStyle: ctl(!atStart), nextStyle: ctl(!atEnd), nextLabel: atEnd ? '\u2713' : '\u2192',
+        };
+      });
+      return {
+        title, count: items.length, items,
+        dotStyle: { width: 8, height: 8, borderRadius: 999, background: this.STAGE_COLORS[idx] },
+        countStyle: { marginLeft: 'auto', fontSize: 11, fontWeight: 700, color: 'var(--muted)', background: 'var(--panel)', border: '1px solid var(--line2)', borderRadius: 999, padding: '1px 7px' },
+      };
+    });
+
+    const sapp = st.apps.find(a => a.id === st.selectedAppId);
+    let detailView = { open: false, stageSteps: [], reqs: [] };
+    if (sapp) {
+      const doneN = sapp.reqs.filter(r => r.done).length;
+      const dd = new Date(sapp.deadline + 'T00:00:00');
+      detailView = {
+        open: true, id: sapp.id, company: sapp.company, role: sapp.role, letter: sapp.company.charAt(0).toUpperCase(),
+        logoStyle: { width: 44, height: 44, borderRadius: 11, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 18, color: '#fff', background: this.logo(sapp.company) },
+        deadlineLabel: this.fmtDeadline(sapp.deadline), deadlineStyle: { fontSize: 14, fontWeight: 700, color: this.dueColor(sapp.deadline) },
+        deadlineDate: dd.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+        progressLabel: doneN + '/' + sapp.reqs.length + ' ready',
+        onClose: () => this.closeDetail(), onProton: () => this.addToProton(sapp.id), onDraft: () => this.makeDraft(sapp.company),
+        stageSteps: this.STAGES.map((label, i) => ({ label, onClick: () => this.setStage(sapp.id, i), style: { flex: 1, cursor: 'pointer', fontFamily: 'inherit', fontSize: 11.5, fontWeight: 700, padding: '8px 4px', borderRadius: 8, border: '1px solid ' + (i === sapp.stage ? 'transparent' : 'var(--line2)'), background: i === sapp.stage ? this.STAGE_COLORS[i] : (i < sapp.stage ? 'var(--positive-bg)' : 'var(--panel)'), color: i === sapp.stage ? '#fff' : (i < sapp.stage ? 'var(--positive)' : 'var(--muted)') } })),
+        reqs: sapp.reqs.map((r, i) => ({
+          label: r.label, mark: r.done ? '\u2713' : '', onToggle: () => this.toggleReq(sapp.id, i),
+          rowStyle: { display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', border: '1px solid var(--line2)', borderRadius: 10, background: r.done ? 'var(--positive-bg)' : 'var(--panel)', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left', width: '100%' },
+          boxStyle: { width: 20, height: 20, borderRadius: 6, flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, border: r.done ? 'none' : '1.5px solid var(--line)', background: r.done ? 'var(--positive)' : 'transparent', color: '#fff' },
+          textStyle: { fontSize: 13.5, fontWeight: 500, color: r.done ? 'var(--faint)' : 'var(--ink)', textDecoration: r.done ? 'line-through' : 'none' },
+        })),
+      };
+    }
+
+    if (detailView.open) {
+      const lt2 = st.theories.find(t => t.caseId === sapp.id); const lvc2 = lt2 ? this.verdictColor(lt2.verdict) : null;
+      detailView.hasTheory = !!lt2;
+      detailView.theoryVerdict = lt2 ? lt2.verdict : '';
+      detailView.theoryClaim = lt2 ? lt2.claim : '';
+      detailView.theoryChipStyle = lt2 ? { display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10.5, fontWeight: 700, padding: '3px 9px', borderRadius: 999, background: lvc2.bg, color: lvc2.c, flexShrink: 0 } : {};
+      detailView.onOpenTheory = lt2 ? () => this.selectTheory(lt2.id) : () => {};
+      const inj = this.recall(sapp ? (sapp.company + ' ' + sapp.role + ' ' + sapp.location + ' ' + this.STAGES[sapp.stage]) : '', 3);
+      detailView.hasMem = inj.length > 0;
+      detailView.recallMeta = 'graph-walked from ' + st.memory.length + ' node' + (st.memory.length === 1 ? '' : 's');
+      detailView.memInject = inj.map(m => ({ label: m.label, dotStyle: { width: 7, height: 7, borderRadius: 999, flexShrink: 0, marginTop: 6, background: memCatColor[m.category] || 'var(--muted)' } }));
+    } else { detailView.hasMem = false; detailView.recallMeta = ''; detailView.memInject = []; detailView.hasTheory = false; }
+
+    const firstCompany = shownJobs[0] ? shownJobs[0].company : 'Linear';
+    let chips;
+    if (!this.hasSpace('search')) chips = [{ label: 'See my next moves', action: () => this.spawnTheories() }, { label: 'Find roles' }, { label: 'Upload my résumé', action: () => this.onUploadClick() }, { label: 'Set my search frame' }];
+    else chips = [{ label: 'Track all of these' }, { label: 'Draft an outreach note' }, { label: 'Add deadlines to Proton' }];
+    chips = chips.map(c => ({ label: c.label, onClick: c.action || (() => this.send(c.label)) }));
+
+    const emptyMeta = [
+      { icon: '∴', title: 'Next moves', desc: 'A running DEF→EVA→REC log of what to do next — kept current in the background.', open: true },
+      { icon: '⌕', title: 'Find roles', desc: 'I\'ll search the live web and rank openings against your profile.', msg: 'Find roles' },
+      { icon: '▦', title: 'Track applications', desc: 'A board synced to your Matrix space — never lose a thread.', msg: 'Track my applications' },
+      { icon: '✎', title: 'Draft outreach', desc: 'A short, specific intro written for a role.', msg: 'Draft an outreach note' },
+    ];
+    const emptyCards = emptyMeta.map(e => ({ icon: e.icon, title: e.title, desc: e.desc, onClick: e.open ? () => this.spawnTheories() : () => this.send(e.msg), iconStyle: { width: 40, height: 40, borderRadius: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, background: 'var(--accent-bg)', color: 'var(--accent)' } }));
+
+    const rApps = st.apps;
+    const rTotal = rApps.length || 1;
+    const stageMax = Math.max(1, ...this.STAGES.map((_, i) => rApps.filter(a => a.stage === i).length));
+    const reflectStages = this.STAGES.map((label, i) => { const n = rApps.filter(a => a.stage === i).length; return { label, n, barStyle: { height: 8, borderRadius: 999, background: this.STAGE_COLORS[i], width: Math.round(n / stageMax * 100) + '%' } }; });
+    const rWarm = rApps.filter(a => a.reqs.some(r => /referral/i.test(r.label) && r.done)).length;
+    const rCold = rApps.length - rWarm;
+    const warmPct = Math.round(rWarm / rTotal * 100);
+    const coldPct = 100 - warmPct;
+    const channels = [{ label: 'Cold application', rate: 3 }, { label: 'Recruiter / inbound', rate: 12 }, { label: 'Direct to hiring manager', rate: 18 }, { label: 'Warm referral', rate: 28 }];
+    const channelView = channels.map((c, i) => ({ label: c.label, rate: c.rate + '%', barStyle: { height: 8, borderRadius: 999, width: Math.round(c.rate / 28 * 100) + '%', background: i === 3 ? 'var(--positive)' : (i === 0 ? 'var(--accent)' : 'var(--ink2)') } }));
+    const prefMem = st.memory.find(m => m.category === 'Preference');
+    const reservation = st.frame.bar || (prefMem ? prefMem.label : 'Roles that use both reporting and building \u00b7 mission you believe in \u00b7 comp at or above your floor');
+    const byDue = rApps.slice().sort((a, b) => a.deadline.localeCompare(b.deadline));
+    const needRef = rApps.find(a => a.stage <= 1 && !a.reqs.some(r => /referral/i.test(r.label) && r.done));
+    const racts = [];
+    if (needRef) racts.push({ title: 'Get a warm intro at ' + needRef.company, sub: 'No referral logged yet \u2014 the warm path converts far better than a cold application.', onClick: () => this.selectApp(needRef.id) });
+    if (byDue[0]) racts.push({ title: 'Advance ' + byDue[0].company + ' \u2014 ' + this.fmtDeadline(byDue[0].deadline).toLowerCase(), sub: 'Closest deadline in your pipeline; protect the high-value ones.', onClick: () => this.selectApp(byDue[0].id) });
+    racts.push({ title: 'Find more roles', sub: 'Scan the web for new openings before you lower the reservation bar.', onClick: () => this.doSearch() });
+    const reflectSignals = st.memory.filter(m => m.category === 'Signal').slice(0, 6).map(m => ({ label: m.label, source: m.source || 'your moves' }));
+    const reflectView = { total: rApps.length, stages: reflectStages, warmPct: warmPct + '%', coldPct: coldPct + '%', warmBar: { width: warmPct + '%', height: 10, background: 'var(--positive)' }, coldBar: { width: coldPct + '%', height: 10, background: 'var(--accent)' }, channels: channelView, reservation, actions: racts.slice(0, 3), signals: reflectSignals, hasSignals: reflectSignals.length > 0, locked: st.memory.filter(m => m.category === 'Signal').length < 5, unlocked: st.memory.filter(m => m.category === 'Signal').length >= 5, trialsLabel: Math.min(5, st.memory.filter(m => m.category === 'Signal').length) + '/5 trials before strategy can move', barSet: !!st.frame.bar, questions: ['Are warm intros converting better than cold applications \u2014 should Source reallocate?', 'Are interviews revealing the Frame missed the real fit \u2014 should target roles move?', 'Are offers stalling below the reservation bar, or not landing at all?'].map(q => ({ label: q, onClick: () => this.coach('reflect') })), nudge: rCold > rWarm ? 'Most of your pipeline is cold applications. Shift effort toward warm intros \u2014 they dominate on yield even when they feel like more work.' : 'Good balance \u2014 keep feeding the warm channel, it carries the funnel.' };
+
+    const fr = st.frame;
+    const frameView = {
+      hasTarget: !!fr.target, hasBar: !!fr.bar, complete: this.frameComplete(),
+      target: fr.target || 'Not set yet \u2014 I\u2019ll ask, or set it here.',
+      bar: fr.bar || 'Not set yet \u2014 the standard we\u2019ll defend later.',
+      targetBtn: fr.target ? 'Revise' : 'Set with me', barBtn: fr.bar ? 'Revise' : 'Set with me',
+      targetStyle: { fontSize: 15, color: fr.target ? 'var(--ink)' : 'var(--faint)', lineHeight: 1.5, margin: 0, fontStyle: fr.target ? 'normal' : 'italic' },
+      barStyle: { fontSize: 15, color: fr.bar ? 'var(--ink)' : 'var(--faint)', lineHeight: 1.5, margin: 0, fontStyle: fr.bar ? 'normal' : 'italic' },
+      statusLabel: this.frameComplete() ? 'Gate clear' : 'Gate open',
+      statusStyle: { fontSize: 12, fontWeight: 700, padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap', background: this.frameComplete() ? 'var(--positive-bg)' : 'var(--accent-bg)', color: this.frameComplete() ? 'var(--positive)' : 'var(--accent)' },
+      onSetTarget: () => { this.ensureSpace('frame'); this.coach('frame.target'); },
+      onSetBar: () => { this.ensureSpace('frame'); this.coach('frame.bar'); },
+    };
+
+    const termT = st.theme === 'terminal';
+    const refutedColor = termT ? '#FF8473' : '#C0492B';
+    const vMeta = { 'Do now': { c: 'var(--accent)', bg: 'var(--accent-bg)' }, 'Hold': { c: 'var(--muted)', bg: 'var(--panel2)' }, 'Done': { c: 'var(--positive)', bg: 'var(--positive-bg)' } };
+    const prioOf = (t) => { const k = t.key || ''; if (k.indexOf('advance:') === 0) return 1; if (k === 'frame') return 2; if (k.indexOf('ref:') === 0) return 3; if (k.indexOf('materials:') === 0) return 4; if (k === 'resume') return 5; if (k === 'screen') return 6; return 8; };
+    const vOrder = { 'Do now': 0, 'Hold': 1, 'Done': 2 };
+    const sortedTheories = st.theories.slice().sort((a, b) => (vOrder[a.verdict] - vOrder[b.verdict]) || (prioOf(a) - prioOf(b)));
+    const doNowMoves = sortedTheories.filter(t => t.verdict === 'Do now');
+    const fm = doNowMoves[0];
+    const fmAct = fm ? this.moveAction(fm) : null;
+    const focusMove = fm ? {
+      has: true, claim: fm.claim,
+      countLabel: doNowMoves.length > 1 ? ('+' + (doNowMoves.length - 1) + ' more queued \u00b7 planned in the background') : 'Your next move \u00b7 planned in the background',
+      hasAct: !!fmAct, actLabel: fmAct ? fmAct.label : '', onAct: fmAct ? fmAct.run : () => this.spawnTheories(),
+      onDone: () => this.markMoveDone(fm.key || fm.id), onOpen: () => this.spawnTheories(),
+    } : { has: false, caughtUp: sortedTheories.length > 0, onOpen: () => this.spawnTheories() };
+    const theoriesView = sortedTheories.map(th => {
+      const caseObj = st.apps.find(a => a.id === th.caseId);
+      const forN = th.evidence.filter(e => e.stance === 'for').length;
+      const againstN = th.evidence.filter(e => e.stance === 'against').length;
+      const sel = th.id === st.selectedTheoryId;
+      const vm = vMeta[th.verdict] || vMeta['Hold'];
+      const act = this.moveAction(th);
+      return {
+        id: th.id, claim: th.claim, scope: th.scope, falsifier: th.falsifier, rationale: th.rationale,
+        caseName: caseObj ? caseObj.company : 'Job search', verdict: th.verdict, expanded: sel,
+        verdictStyle: { fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 999, whiteSpace: 'nowrap', background: vm.bg, color: vm.c },
+        tally: forN + ' for \u00b7 ' + againstN + ' against',
+        cardStyle: { background: 'var(--panel)', border: '1px solid ' + (sel ? 'var(--accent)' : 'var(--line2)'), borderRadius: 16, boxShadow: sel ? '0 6px 20px var(--accent-bg)' : '0 1px 2px var(--shadow)', overflow: 'hidden', transition: 'border-color .15s' },
+        chevron: sel ? '\u2212' : '+', onToggle: () => this.selectTheory(th.id), onTest: () => this.testTheory(th.id),
+        verdictBtns: this.THEORY_VERDICTS.map(v => { const m = vMeta[v]; const on = v === th.verdict; return { label: v, onClick: () => this.setVerdict(th.id, v), style: { flex: 1, cursor: 'pointer', fontFamily: 'inherit', fontSize: 11.5, fontWeight: 700, padding: '8px 4px', borderRadius: 8, border: '1px solid ' + (on ? 'transparent' : 'var(--line2)'), background: on ? m.c : 'var(--panel)', color: on ? '#fff' : 'var(--muted)' } }; }),
+        evidence: th.evidence.map(e => ({ text: e.text, src: e.source + ' \u00b7 ' + e.date, stance: e.stance === 'for' ? 'SUPPORTS' : 'CUTS AGAINST', dotStyle: { width: 8, height: 8, borderRadius: 999, flexShrink: 0, marginTop: 5, background: e.stance === 'for' ? 'var(--positive)' : refutedColor }, stanceStyle: { fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', color: e.stance === 'for' ? 'var(--positive)' : refutedColor } })),
+        onAddFor: () => this.addEvidence(th.id, 'for'), onAddAgainst: () => this.addEvidence(th.id, 'against'),
+        hasAct: !!act, actLabel: act ? act.label : '', onAct: act ? act.run : () => {}, onMarkDone: () => this.markMoveDone(th.key || th.id), isDoNow: th.verdict === 'Do now', isDone: th.verdict === 'Done',
+      };
+    });
+
+    const mx = st.matrix;
+    const mxConnected = mx.status === 'connected';
+    const mxLocalpart = mx.userId ? mx.userId.replace(/^@/, '').split(':')[0] : '';
+    const headerName = mxLocalpart || 'Job seeker';
+    const headerSub = mxConnected ? ('@' + mxLocalpart) : 'Not signed in';
+    const headerInitials = (mxLocalpart ? mxLocalpart.slice(0, 2) : 'JS').toUpperCase();
+    const llmOn = !!st.anthropicKey || (typeof window !== 'undefined' && window.claude && window.claude.complete);
+    const mxDot = mxConnected ? 'var(--positive)' : (mx.status === 'connecting' ? '#B26A2E' : (mx.status === 'error' ? (termT ? '#FF8473' : '#C0492B') : 'var(--faint)'));
+    const connVals = {
+      showConn: st.showConn, onConnClick: () => this.openConn(), onCloseConn: () => this.closeConn(), onCardClick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      anthropicKey: st.anthropicKey, onAnthropicKey: (e) => this.onAnthropicKey(e), llmOn,
+      loginHs: st.loginForm.hs, loginUser: st.loginForm.user, loginPass: st.loginForm.pass,
+      onLoginHs: (e) => this.onLoginField('hs', e), onLoginUser: (e) => this.onLoginField('user', e), onLoginPass: (e) => this.onLoginField('pass', e),
+      onConnect: () => this.matrixLogin(), onDisconnect: () => this.matrixLogout(),
+      mxConnected, mxDisconnected: !mxConnected, mxUserId: mx.userId, mxStatus: mx.status, mxError: mx.error, mxHasError: mx.status === 'error', connecting: mx.status === 'connecting',
+      hasRoom: !!mx.roomId, mxRoomId: mx.roomId || '', mxRoomLink: mx.roomId ? ('https://matrix.to/#/' + encodeURIComponent(mx.roomId)) : '',
+      anthDotStyle: { width: 6, height: 6, borderRadius: 999, background: llmOn ? 'var(--positive)' : 'var(--faint)' },
+      anthLabel: llmOn ? 'Anthropic \u00b7 connected' : 'Anthropic \u00b7 add key',
+      mxDotStyle: { width: 6, height: 6, borderRadius: 999, background: mxDot },
+      mxLabel: mxConnected ? ('Matrix \u00b7 ' + (mx.userId || 'synced')) : (mx.status === 'connecting' ? 'Matrix \u00b7 connecting\u2026' : (mx.status === 'error' ? 'Matrix \u00b7 reconnect' : 'Matrix \u00b7 connect')),
+      onMatrixPill: () => this.openConn(),
+    };
+
+    const copyStyle = { cursor: 'pointer', border: 'none', background: st.copied ? 'var(--positive)' : 'var(--accent)', color: 'var(--on-accent)', fontSize: 13, fontWeight: 700, padding: '9px 18px', borderRadius: 10, fontFamily: 'inherit' };
+
+    const mat = st.materials;
+    const matCopyStyle = (which) => ({ cursor: 'pointer', border: '1px solid var(--line)', background: st.matCopied === which ? 'var(--positive-bg)' : 'var(--panel)', color: st.matCopied === which ? 'var(--positive)' : 'var(--ink2)', fontSize: 12, fontWeight: 700, padding: '7px 13px', borderRadius: 9, fontFamily: 'inherit' });
+    const materialsView = {
+      has: !!mat.company, company: mat.company, role: mat.role, busy: st.matBusy,
+      byLabel: mat.by === 'Claude' ? 'Drafted by Claude · editable' : (mat.by === 'template' ? 'Starter draft · add your Anthropic key for tailored copy' : ''),
+      cover: mat.cover, onCoverChange: (e) => this.onCoverChange(e),
+      points: (mat.points || []).map(p => ({ text: p })), hasPoints: (mat.points || []).length > 0,
+      outreach: mat.outreach, hasOutreach: !!mat.outreach,
+      onCopyCover: () => this.copyMat('cover'), onCopyPoints: () => this.copyMat('points'), onCopyOutreach: () => this.copyMat('outreach'),
+      copyCoverStyle: matCopyStyle('cover'), copyPointsStyle: matCopyStyle('points'), copyOutreachStyle: matCopyStyle('outreach'),
+      copyCoverLabel: st.matCopied === 'cover' ? '✓ Copied' : 'Copy', copyPointsLabel: st.matCopied === 'points' ? '✓ Copied' : 'Copy', copyOutreachLabel: st.matCopied === 'outreach' ? '✓ Copied' : 'Copy',
+    };
+
+    const rootStyle = { height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--bg)', color: 'var(--ink)', fontFamily: 'var(--ui)', ...this.THEME[st.theme] };
+    return {
+      rootStyle, headerName, headerSub, headerInitials, onToggleTheme: () => this.toggleTheme(), themeLabel: st.theme === 'paper' ? 'Terminal' : 'Paper', themeIcon: st.theme === 'paper' ? '>_' : 'Aa',
+      messages, thinking: st.thinking, thinkingLabel: st.thinkingLabel,
+      hasChips: chips.length > 0 && !st.thinking, chips,
+      inputValue: st.input, onInput: (e) => this.onInput(e), onKey: (e) => this.onKey(e), onSendClick: () => this.send(null),
+      showEmpty: st.activeId === null, hasSpaces: st.spaces.length > 0, showWorkspace: st.activeId !== null, spaces, emptyCards,
+      showSearch: st.activeId === 'search', searchSub: shownJobs.length + ' roles · ' + (st.searchSource || 'ranked for you'), jobsView, analyzing: st.analyzing,
+      onAnalyze: () => this.analyzeRoles({ lead: true }), analyzeLabel: st.analyzing ? 'Analyzing…' : 'Analyze fit', analyzeBtnStyle: { cursor: st.analyzing ? 'default' : 'pointer', border: 'none', background: st.analyzing ? 'var(--panel2)' : 'var(--btn)', color: st.analyzing ? 'var(--muted)' : 'var(--on-btn)', fontSize: 12, fontWeight: 700, padding: '7px 14px', borderRadius: 999, fontFamily: 'inherit' },
+      showTracker: st.activeId === 'tracker', trackerSub: st.apps.length + ' applications \u00b7 synced to Matrix \u00b7 tap a card for its checklist', trackerEmpty: st.apps.length === 0, trackerHasItems: st.apps.length > 0, columns, detailView,
+      showDraft: st.activeId === 'draft', draftCompany: st.draftCompany || '', draftTo: 'Hiring team · ' + (st.draftCompany || ''), draftSubject: 'A quick hello', draftBody: st.draftBody, onDraftChange: (e) => this.onDraftChange(e), draftWords: (st.draftBody.trim().split(/\s+/).filter(Boolean).length), onCopy: () => this.onCopy(), copyStyle, copyLabel: st.copied ? '✓ Copied' : 'Copy note',
+      showMemory: st.activeId === 'memory', memGroups, memEmpty: st.memory.length === 0, onUploadClick: () => this.onUploadClick(), onPickFile: (e) => this.onPickFile(e),
+      showReflect: st.activeId === 'reflect', reflectView,
+      showTheories: st.activeId === 'theories', theoriesView, focusMove, evDraft: st.evDraft, onEvDraft: (e) => this.onEvDraft(e),
+      showFrame: st.activeId === 'frame', frameView,
+      showMaterials: st.activeId === 'materials', materialsView,
+      toast: st.toast,
+      ...connVals,
+    };
+  }
+}
+</script>
+
+
+</body></html>
