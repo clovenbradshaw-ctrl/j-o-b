@@ -873,6 +873,15 @@
                   <p style="{{ frameView.barStyle }}">{{ frameView.bar }}</p>
                   <p style="font-size: 12px; color: var(--muted); margin: 8px 0 0;">The concrete minimum you'll accept — comp, mission, autonomy, dealbreakers. I'll defend it against the tired version of you later.</p>
                 </div>
+                <sc-if value="{{ frameView.hasPlaybook }}">
+                  <div style="background: var(--panel); border: 1px solid var(--line2); border-radius: 16px; padding: 20px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 12px;">
+                      <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Playbook</span>
+                      <span style="font-size: 12px; font-weight: 600; padding: 4px 11px; border-radius: 999px; white-space: nowrap; background: var(--accent-bg); color: var(--accent);">{{ frameView.playbook }}</span>
+                    </div>
+                    <p style="font-size: 13px; color: var(--ink2); margin: 0; line-height: 1.5;">Best practices for this kind of hunt are folded into every search, screen, and draft — so the advice fits your field, not jobs in general.</p>
+                  </div>
+                </sc-if>
               </div>
               <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px;">
                 <div style="background: var(--panel2); border: 1px solid var(--line2); border-radius: 13px; padding: 15px;"><div style="font-size: 12.5px; font-weight: 700; color: var(--ink);">Model of you</div><div style="font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.45;">Capabilities, what's provable, your throughline and constraints.</div></div>
@@ -1292,6 +1301,85 @@ class Component extends DCLogic {
 
   REQS = ['Résumé tailored', 'Cover letter', 'Portfolio / links', 'Referral ask', 'Application submitted'];
 
+  // Curated, field-specific best-practice playbooks. The orchestrator already knows
+  // general job-search norms; these key off the Frame (and résumé/board as a fallback
+  // signal) so the advice fits THIS kind of hunt instead of jobs in general. Each `re`
+  // is matched (case-insensitive, lowercased input) to score relevance; see matchPlaybooks().
+  PLAYBOOKS = [
+    { id: 'academic', label: 'Academic search', re: /(?:academ\w*|facult\w*|professor|tenure[- ]?track|tenure|post-?doc\w*|postdoctoral|phd|ph\.d|dissertation|lecturer|adjunct|provost|\bdean\b|research scientist|principal investigator)/g, principles: [
+      'Hiring runs on annual cycles with hard, clustered deadlines (tenure-track in the fall; postdocs rolling) — track every closing date.',
+      'You submit a packet, not a résumé: cover letter, CV, research statement, teaching statement, often a diversity statement, plus letters of reference.',
+      'Fit means research program, funding, and departmental need — tailor explicitly to that department’s strengths and gaps, not just your credentials.',
+      'Publications, grants, and the job talk are the real currency, and your reference-writers’ networks carry weight — line them up early.',
+    ] },
+    { id: 'healthcare', label: 'Healthcare / clinical', re: /(?:nurs\w*|\brn\b|\blpn\b|\bcna\b|clinician|clinical|physician|\bmd\b|medical|health[- ]?care|hospital|patient care|therapist|caregiver|pharmacist|paramedic|\bemt\b)/g, principles: [
+      'Licenses, board certifications (e.g. BLS/ACLS), and state or compact eligibility are hard gates — surface them first, up top.',
+      'Specialty, unit/setting experience, and shift availability drive fit more than résumé polish.',
+      'Credentialing, background, and reference checks are slow — start them early and stay responsive to recruiters.',
+      'Quantify clinically: patient loads/ratios handled, outcomes, procedures, and the EMR systems you know.',
+    ] },
+    { id: 'trades', label: 'Skilled trades', re: /(?:electric\w*|plumb\w*|\bhvac\b|weld\w*|carpent\w*|construction|machinist|\bcnc\b|mechanic\w*|technician|\bcdl\b|truck driver|trucker|foreman|apprentice\w*|journeyman|pipefitter|lineman|millwright)/g, principles: [
+      'Licenses, certifications, and hours/journeyman status are the gatekeepers — lead with them, not a narrative.',
+      'Hiring is fast and often phone-first; availability, a clean license, and a solid safety record beat polished prose.',
+      'Union halls, local shops, and word-of-mouth fill more jobs than online portals — work those channels.',
+      'A short, plain résumé plus a direct call or walk-in usually outperforms a long cover letter.',
+    ] },
+    { id: 'government', label: 'Government / public sector', re: /(?:government|federal|public sector|civil service|usajobs|gs-?\d|municipal|state agency|\bcounty\b|public service|policy analyst|foreign service)/g, principles: [
+      'Applications are process-driven and keyword-matched — mirror the announcement’s exact language and required qualifications.',
+      'Résumés run longer and more detailed (often federal-style with dates, hours, and salaries) — follow the format the posting demands.',
+      'Address every “specialized experience” / KSA requirement explicitly; vague claims get screened out by the rubric.',
+      'Timelines are long and rigid; confirm eligibility (series, grade, veterans’ preference) before investing, and track each hard close date.',
+    ] },
+    { id: 'executive', label: 'Executive / leadership', re: /(?:\bceo\b|\bcfo\b|\bcoo\b|\bcto\b|\bcmo\b|\bcio\b|chief \w+ officer|chief executive|c-suite|c-level|executive director|executive leadership|senior executive|vice president|\bvp\b|\bsvp\b|\bevp\b|\bpresident\b|managing director|general manager|head of|board member|board seat)/g, principles: [
+      'These roles fill through networks, retained search, and board referrals — applications rarely work; engage recruiters and your network.',
+      'Lead with outcomes at scale: revenue, P&L, headcount, and transformations — not duties.',
+      'The narrative is a thesis about the value you create, calibrated to the company’s stage and specific challenges.',
+      'Comp is a negotiated package (base, bonus, equity, severance) — reflect total comp in the reservation bar, and stay discreet if you’re employed.',
+    ] },
+    { id: 'sales', label: 'Sales / revenue', re: /(?:\bsales\b|account executive|\bae\b|\bsdr\b|\bbdr\b|business development|account manager|\bquota\b|enterprise sales|inside sales)/g, principles: [
+      'Your pitch IS the interview — sell yourself the way you’d sell the product, and treat outreach like prospecting.',
+      'Lead with numbers: quota attainment, deal size, ramp time, President’s Club.',
+      'Responsiveness, persistence, and follow-up are themselves the audition — never let a thread go cold.',
+      'Comp is OTE (base + commission); weigh base, plan, and territory in the reservation bar.',
+    ] },
+    { id: 'data', label: 'Data / ML', re: /(?:data scien\w*|data analy\w*|machine learning|\bml\b|\bai engineer\w*|deep learning|analytics|statistician|data engineer|\bnlp\b|computer vision|\bmlops\b)/g, principles: [
+      'A portfolio (notebooks, projects, Kaggle) and a quantified impact story — metrics moved, models shipped — are the real screen.',
+      'Expect technical rounds: SQL, statistics, a take-home, and ML or system design depending on level.',
+      'Distinguish analyst vs. scientist vs. ML-engineer scope and target the one that matches your strengths.',
+      'The business problem matters as much as the algorithm — tailor to the company’s domain and stack.',
+    ] },
+    { id: 'software', label: 'Software engineering', re: /(?:software|engineer\w*|developer|programmer|\bswe\b|back-?end|front-?end|full[- ]?stack|\bdevops\b|\bsre\b|web develop\w*|mobile develop\w*|platform engineer)/g, principles: [
+      'Referrals and a strong GitHub/portfolio beat cold applications — warm intros sharply raise callback rates.',
+      'Expect multi-stage loops: recruiter screen, technical screen, then onsite — prep data structures/algorithms and system design to your level.',
+      'Tailor the résumé to the stack and quantify impact (scale, latency, users), not just a list of technologies.',
+      'Apply within the first days of a posting; reqs fill fast, and comp is negotiable and multi-component (base, equity, bonus).',
+    ] },
+    { id: 'product', label: 'Product / design', re: /(?:product manager|product management|product owner|\bpm\b|product design\w*|\bux\b|\bui\b|user experience|user research|\buxr\b|interaction design|product marketing|\bpmm\b|design lead|\bdesigner\b)/g, principles: [
+      'A portfolio or set of case studies showing process and outcomes is the real screen — lead with it.',
+      'Frame the work as problems solved and metrics moved, not features shipped.',
+      'Tailor to the company’s product stage (0→1 vs. scale) and craft bar — show judgment, not just taste.',
+      'Expect portfolio reviews, app critiques, or take-homes; be ready to talk through tradeoffs out loud.',
+    ] },
+    { id: 'creative', label: 'Writing / marketing', re: /(?:\bwrit\w*|\beditor\w*|copywrit\w*|\bcontent\b|marketing|communications|journalis\w*|public relations|social media|\bbrand\b|creative director|graphic design\w*)/g, principles: [
+      'A portfolio, clips, or samples are the screen — lead with your strongest, most relevant published work.',
+      'Tailor samples and voice to the specific outlet or brand; a sharp cover note doubles as a writing sample.',
+      'Clarify whether you’re targeting freelance/contract or full-time — they hunt very differently.',
+      'Mastheads, editor relationships, and networking drive a large share of hiring.',
+    ] },
+    { id: 'newgrad', label: 'Early-career', re: /(?:new[- ]?grad\w*|entry[- ]?level|recent grad\w*|\bintern\b|internship|\bstudent\b|\bjunior\b|early[- ]?career|first job|campus recruit\w*)/g, principles: [
+      'Recruiting runs on campus cycles and early-career pipelines — apply early and in volume.',
+      'You’re hired on potential: lead with projects, coursework, internships, and a strong GPA where you have it.',
+      'Referrals, career services, and alumni dramatically raise callback odds — use them.',
+      'Keep the résumé to one page, quantify even school/club work, and practice behavioral + skills screens deliberately.',
+    ] },
+    { id: 'careerchange', label: 'Career change', re: /(?:career[- ]?chang\w*|career[- ]?transition|career[- ]?pivot|chang\w* careers?|switch\w* careers?|switch\w* fields?|changing fields?|new field|career[- ]?switch|re-?entry|returnship)/g, principles: [
+      'Lead with transferable skills and a clear story of WHY the switch — own the pivot, don’t hide it.',
+      'Bridge the gap with evidence: projects, certificates, volunteer work, or a portfolio in the new field.',
+      'Networking and informational interviews beat cold applications when you lack the standard résumé.',
+      'Translate old-field jargon into the new field’s language on every document, and target roles that value adjacent experience.',
+    ] },
+  ];
+
   state = {
     messages: [{ id: 1, role: 'assistant', text: "Hi there \u2014 think of me as a job-search desk, not a chatbot. You tell me what you need in plain words and I build a tool for it on the right. Try \"find remote product roles\", tap a card below, or hit + to upload your r\u00e9sum\u00e9. What do you want to do first?" }],
     spaces: [], activeId: null,
@@ -1476,9 +1564,36 @@ class Component extends DCLogic {
     if (sum) this.set({ convoSummary: sum.trim(), turnsSinceSummary: 0 });
   }
 
+  // ---- field playbooks: pick the best-fitting curated norms for this hunt ----
+  matchPlaybooksFor(targetText) {
+    const target = (targetText || '').toLowerCase();
+    const aux = (this.recall('role title field profession specialty seniority industry', 6).map(m => m.label).join(' ')
+      + ' ' + this.state.allJobs.slice(0, this.state.shown).map(j => j.role).join(' ')).toLowerCase();
+    // Frame target is the primary key (weighted 3x); résumé/board are a weaker fallback signal.
+    return this.PLAYBOOKS
+      .map(p => ({ p, score: (target.match(p.re) || []).length * 3 + (aux.match(p.re) || []).length }))
+      .filter(x => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 2)
+      .map(x => x.p);
+  }
+  matchPlaybooks() { return this.matchPlaybooksFor(this.state.frame && this.state.frame.target); }
+  activePlaybookLabels() { return this.matchPlaybooks().map(p => p.label); }
+  // Formatted block injected into prompts; '' when no playbook matches (advice stays general).
+  playbookBlock() {
+    const ps = this.matchPlaybooks();
+    if (!ps.length) return '';
+    const body = ps.map(p => p.principles.map(x => '• ' + x).join('\n')).join('\n');
+    return 'Field playbook — best practices for this kind of hunt (' + ps.map(p => p.label).join(' + ')
+      + '). Lead with these field norms; prefer them over generic job-search advice when they differ:\n' + body;
+  }
+  // Same block with a leading separator for inline-string prompts; '' when nothing matches.
+  pbPrompt() { const b = this.playbookBlock(); return b ? '\n\n' + b : ''; }
+
   buildSystem() {
     const f = this.state.frame;
     const onBoard = this.state.allJobs.slice(0, this.state.shown).map(j => j.company + ' (' + j.role + ')').join(', ') || 'none yet';
+    const pb = this.playbookBlock();
     return [
       'You are the orchestrator inside "Job Desk", a job-search workspace for the person using it. Everything you know about them comes from their uploaded résumé and long-term memory below — never assume a profession or invent background facts.',
       'You do not bury answers in a long chat; you cue ACTIVITIES that build and operate tools in the workspace on the right, while holding a natural conversation.',
@@ -1495,8 +1610,9 @@ class Component extends DCLogic {
       '- answer: just reply conversationally; no tool',
       'Rules: use "answer" for questions, advice, or chit-chat. After a "search", suggest analyzing. Only use "materials" once they have APPROVED a specific role (they say go/approve/yes/draft for X, or click Approve). Never invent facts about them; if you need their resume and lack it, tell them to tap the + to upload it.',
       'Workspace state \u2014 frame target: ' + (f.target || 'unset') + '; reservation bar: ' + (f.bar || 'unset') + '; roles on board: ' + onBoard + '; tracked applications: ' + this.state.apps.length + '; resume on file: ' + (this.state.memory.length ? 'yes' : 'no') + '.',
+    ].concat(pb ? [pb] : []).concat([
       'Return ONLY JSON: {"reply":"1-2 sentences, genuinely warm and encouraging \u2014 a little human reassurance, then point at the next move so we keep momentum; plain, no hedging","action":"<one activity>","params":{...}}'
-    ].join('\n');
+    ]).join('\n');
   }
 
   async planAndAct(text) {
@@ -1545,7 +1661,7 @@ class Component extends DCLogic {
     const f = this.state.frame;
     const memx = this.recall('fit skills experience preferences strengths', 10).map(m => m.label).join('; ');
     const list = jobs.map((j, i) => (i + 1) + '. ' + j.company + ' \u2014 ' + j.role + ' (' + j.location + '). ' + j.blurb).join('\n');
-    const prompt = 'Screen these job listings for the person using this workspace. Target roles: ' + (f.target || 'not set') + '. Reservation bar: ' + (f.bar || 'not set') + '. Known facts about them (from their résumé/memory): ' + (memx || 'none on file') + '.\nJudge fit for EACH listing. Return ONLY a JSON array, one object per listing in order: {"i":<number>,"verdict":"Strong"|"Possible"|"Weak","why":"<=15 words, concrete"}.\nListings:\n' + list;
+    const prompt = 'Screen these job listings for the person using this workspace. Target roles: ' + (f.target || 'not set') + '. Reservation bar: ' + (f.bar || 'not set') + '. Known facts about them (from their résumé/memory): ' + (memx || 'none on file') + '.' + this.pbPrompt() + '\nJudge fit for EACH listing. Return ONLY a JSON array, one object per listing in order: {"i":<number>,"verdict":"Strong"|"Possible"|"Weak","why":"<=15 words, concrete"}.\nListings:\n' + list;
     let arr = null; try { const raw = await this.llm(prompt, 800); arr = this.parseJsonArray(raw); } catch (e) { arr = null; }
     const byI = {}; if (arr) arr.forEach(o => { if (o && o.i) byI[o.i] = o; });
     const annotated = this.state.allJobs.map(j => {
@@ -1576,7 +1692,7 @@ class Component extends DCLogic {
     if (opts.lead !== false) this.pushMsg({ role: 'assistant', text: 'Approved \u2014 prepping preliminary materials for ' + job.company + ': a tailored cover letter, talking points, and a short outreach note. Saved the role to your board too.' });
     this.pushMsg({ role: 'ref', refType: 'materials' });
     const memx = this.recall(job.company + ' ' + job.role + ' skills experience strengths', 10).map(m => m.label).join('; ');
-    const prompt = 'Write PRELIMINARY application materials for the person using this workspace applying to "' + job.role + '" at ' + job.company + '. Role context: ' + job.blurb + '. Known facts about them (from their résumé/memory): ' + (memx || 'none on file — stay honest and general, invent no specific employers, schools, numbers, or profession') + '.\nReturn ONLY JSON: {"cover":"<180-240 word cover letter, first person, plain, specific, no buzzwords, real newlines as \\n>","points":["3-5 short tailored talking points"],"outreach":"<45-70 word note to the hiring manager>"}.';
+    const prompt = 'Write PRELIMINARY application materials for the person using this workspace applying to "' + job.role + '" at ' + job.company + '. Role context: ' + job.blurb + '. Known facts about them (from their résumé/memory): ' + (memx || 'none on file — stay honest and general, invent no specific employers, schools, numbers, or profession') + '.' + this.pbPrompt() + '\nReturn ONLY JSON: {"cover":"<180-240 word cover letter, first person, plain, specific, no buzzwords, real newlines as \\n>","points":["3-5 short tailored talking points"],"outreach":"<45-70 word note to the hiring manager>"}.';
     let res = null; try { const raw = await this.llm(prompt, 1200); res = this.parseJsonObj(raw); } catch (e) { res = null; }
     if (!res || !res.cover) {
       const cover = 'Dear ' + job.company + ' team,\n\nI’m excited to apply for your ' + job.role + ' role. My background lines up well with what you’re looking for, and I’d bring focus, range, and a bias toward shipping.\n\nI’m comfortable owning a problem end to end and working plainly and fast, and I’d welcome the chance to show where I could help most.\n\nI’d be glad to talk on a short call.\n\nBest regards';
@@ -1609,7 +1725,7 @@ class Component extends DCLogic {
     this.set({ thinking: true, thinkingLabel: 'Thinking…' });
     const hasResume = this.state.memory.length > 0;
     const memx = this.recall(text, 8).map(m => m.label).join('; ');
-    const ctx = 'You are the assistant inside "Job Desk", a job-search app. The app builds tools on demand: it can find live job listings, track applications on a board, draft outreach notes, and set a search "frame" (target roles + a reservation bar). The user is chatting with you. When they ask what to do or seem confused, explain plainly and suggest one concrete next step (for example: say "find product roles", tap a card, or upload a r\u00e9sum\u00e9 with the + button). ' + (hasResume ? 'You have their notes in memory: ' + memx + '. ' : 'You do NOT have their r\u00e9sum\u00e9 yet; if it is relevant, tell them to upload it with the + button. ') + 'Be warm and genuinely encouraging \u2014 a sentence of human reassurance when the search feels heavy, then point at one concrete next step so momentum holds. Answer in 2-4 short sentences, plain, no hedging, never invent facts about them.';
+    const ctx = 'You are the assistant inside "Job Desk", a job-search app. The app builds tools on demand: it can find live job listings, track applications on a board, draft outreach notes, and set a search "frame" (target roles + a reservation bar). The user is chatting with you. When they ask what to do or seem confused, explain plainly and suggest one concrete next step (for example: say "find product roles", tap a card, or upload a r\u00e9sum\u00e9 with the + button). ' + (hasResume ? 'You have their notes in memory: ' + memx + '. ' : 'You do NOT have their r\u00e9sum\u00e9 yet; if it is relevant, tell them to upload it with the + button. ') + 'Be warm and genuinely encouraging \u2014 a sentence of human reassurance when the search feels heavy, then point at one concrete next step so momentum holds. Answer in 2-4 short sentences, plain, no hedging, never invent facts about them.' + this.pbPrompt();
     let reply = null;
     try { reply = await this.llm({ messages: [{ role: 'user', content: ctx + '\n\nUser: ' + text }] }, 400); } catch (e) { reply = null; }
     this.set({ thinking: false });
@@ -2016,7 +2132,8 @@ class Component extends DCLogic {
     if (key === 'frame.target') {
       const frame = { ...this.state.frame, target: short }; this.set({ frame }); this.saveFrame(frame);
       this.addMem('Preference', 'Target roles: ' + short); this.ensureSpace('frame');
-      this.pushMsg({ role: 'assistant', text: 'Locked that into your Frame as your target roles \u2014 the boundary every search now runs against.' });
+      const pbl = this.matchPlaybooksFor(short).map(p => p.label);
+      this.pushMsg({ role: 'assistant', text: 'Locked that into your Frame as your target roles \u2014 the boundary every search now runs against.' + (pbl.length ? ' I\u2019ll fold in ' + pbl.join(' and ') + ' best practices so the advice fits your field, not jobs in general.' : '') });
       if (!this.state.frame.bar) { clearTimeout(this._tq); this._tq = setTimeout(() => this.coach('frame.bar'), 1100); }
       else { this.set({ activeId: 'frame' }); this.pushMsg({ role: 'ref', refType: 'frame' }); }
       return true;
@@ -2194,8 +2311,10 @@ class Component extends DCLogic {
     const reflectView = { total: rApps.length, stages: reflectStages, warmPct: warmPct + '%', coldPct: coldPct + '%', warmBar: { width: warmPct + '%', height: 10, background: 'var(--positive)' }, coldBar: { width: coldPct + '%', height: 10, background: 'var(--accent)' }, channels: channelView, reservation, actions: racts.slice(0, 3), signals: reflectSignals, hasSignals: reflectSignals.length > 0, locked: st.memory.filter(m => m.category === 'Signal').length < 5, unlocked: st.memory.filter(m => m.category === 'Signal').length >= 5, trialsLabel: Math.min(5, st.memory.filter(m => m.category === 'Signal').length) + '/5 trials before strategy can move', barSet: !!st.frame.bar, questions: ['Are warm intros converting better than cold applications \u2014 should Source reallocate?', 'Are interviews revealing the Frame missed the real fit \u2014 should target roles move?', 'Are offers stalling below the reservation bar, or not landing at all?'].map(q => ({ label: q, onClick: () => this.coach('reflect') })), nudge: rCold > rWarm ? 'Most of your pipeline is cold applications. Shift effort toward warm intros \u2014 they dominate on yield even when they feel like more work.' : 'Good balance \u2014 keep feeding the warm channel, it carries the funnel.' };
 
     const fr = st.frame;
+    const pbLabels = this.activePlaybookLabels();
     const frameView = {
       hasTarget: !!fr.target, hasBar: !!fr.bar, complete: this.frameComplete(),
+      hasPlaybook: pbLabels.length > 0, playbook: pbLabels.join(' + '),
       target: fr.target || 'Not set yet \u2014 I\u2019ll ask, or set it here.',
       bar: fr.bar || 'Not set yet \u2014 the standard we\u2019ll defend later.',
       targetBtn: fr.target ? 'Revise' : 'Set with me', barBtn: fr.bar ? 'Revise' : 'Set with me',
