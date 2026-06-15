@@ -803,15 +803,21 @@
 
           <sc-if value="{{ showMaterials }}">
             <div style="padding: 28px 30px 40px; max-width: 760px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
-              <div style="margin-bottom: 20px;">
-                <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Application kit — {{ materialsView.company }}</h2>
-                <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">{{ materialsView.role }} · {{ materialsView.byLabel }}</p>
+              <div style="margin-bottom: 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+                <div>
+                  <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">Application kit — {{ materialsView.company }}</h2>
+                  <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">{{ materialsView.role }} · {{ materialsView.byLabel }}</p>
+                </div>
+                <button onclick="{{ materialsView.onDownloadKit }}" style="cursor: pointer; flex-shrink: 0; border: 1px solid var(--accent); background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 9px; font-family: inherit;">Download kit (.md)</button>
               </div>
 
               <div style="background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(33,28,24,0.05);">
                 <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; align-items: center; justify-content: space-between;">
                   <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Cover letter</span>
-                  <button onclick="{{ materialsView.onCopyCover }}" style="{{ materialsView.copyCoverStyle }}">{{ materialsView.copyCoverLabel }}</button>
+                  <div style="display: flex; gap: 8px;">
+                    <button onclick="{{ materialsView.onCopyCover }}" style="{{ materialsView.copyCoverStyle }}">{{ materialsView.copyCoverLabel }}</button>
+                    <button onclick="{{ materialsView.onDownloadCover }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 12px; font-weight: 700; padding: 7px 13px; border-radius: 9px; font-family: inherit;">Download</button>
+                  </div>
                 </div>
                 <textarea value="{{ materialsView.cover }}" onchange="{{ materialsView.onCoverChange }}" style="width: 100%; border: none; outline: none; resize: vertical; min-height: 250px; padding: 18px; font-size: 14.5px; line-height: 1.65; color: var(--ink2); font-family: var(--display);"></textarea>
               </div>
@@ -820,7 +826,10 @@
                 <div style="background: var(--panel); border: 1px solid var(--line); border-radius: 16px; margin-top: 14px; overflow: hidden;">
                   <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; align-items: center; justify-content: space-between;">
                     <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Talking points</span>
-                    <button onclick="{{ materialsView.onCopyPoints }}" style="{{ materialsView.copyPointsStyle }}">{{ materialsView.copyPointsLabel }}</button>
+                    <div style="display: flex; gap: 8px;">
+                      <button onclick="{{ materialsView.onCopyPoints }}" style="{{ materialsView.copyPointsStyle }}">{{ materialsView.copyPointsLabel }}</button>
+                      <button onclick="{{ materialsView.onDownloadPoints }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 12px; font-weight: 700; padding: 7px 13px; border-radius: 9px; font-family: inherit;">Download</button>
+                    </div>
                   </div>
                   <div style="padding: 14px 18px; display: flex; flex-direction: column; gap: 9px;">
                     <sc-for list="{{ materialsView.points }}" as="p" hint-placeholder-count="4">
@@ -837,13 +846,91 @@
                 <div style="background: var(--panel); border: 1px solid var(--line); border-radius: 16px; margin-top: 14px; overflow: hidden;">
                   <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; align-items: center; justify-content: space-between;">
                     <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">Outreach note</span>
-                    <button onclick="{{ materialsView.onCopyOutreach }}" style="{{ materialsView.copyOutreachStyle }}">{{ materialsView.copyOutreachLabel }}</button>
+                    <div style="display: flex; gap: 8px;">
+                      <button onclick="{{ materialsView.onCopyOutreach }}" style="{{ materialsView.copyOutreachStyle }}">{{ materialsView.copyOutreachLabel }}</button>
+                      <button onclick="{{ materialsView.onDownloadOutreach }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 12px; font-weight: 700; padding: 7px 13px; border-radius: 9px; font-family: inherit;">Download</button>
+                    </div>
                   </div>
                   <div style="padding: 16px 18px; font-size: 14px; line-height: 1.6; color: var(--ink2); font-family: var(--display);">{{ materialsView.outreach }}</div>
                 </div>
               </sc-if>
 
               <p style="margin: 14px 2px 0; font-size: 11.5px; color: var(--faint); line-height: 1.5;">Preliminary draft — review and make it yours before sending. Saved to your board and synced to Matrix.</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showDocs }}">
+            <div style="padding: 28px 30px 40px; max-width: 760px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <sc-if value="{{ docsView.empty }}">
+                <div style="border: 1.5px dashed var(--line); border-radius: 16px; padding: 40px; color: var(--muted); font-size: 14.5px; line-height: 1.6;">Ask me to write a document and it lands here, ready to edit and download — e.g. “draft a cover letter for Stripe”, “write a thank-you note”, or “build a one-page resume”.</div>
+              </sc-if>
+              <sc-if value="{{ docsView.has }}">
+                <div style="margin-bottom: 16px;">
+                  <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">{{ docsView.title }}</h2>
+                  <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">{{ docsView.kindLabel }} · {{ docsView.byLabel }}</p>
+                </div>
+                <sc-if value="{{ docsView.hasMany }}">
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
+                    <sc-for list="{{ docsView.list }}" as="d" hint-placeholder-count="2">
+                      <button onclick="{{ d.onClick }}" style="{{ d.style }}">{{ d.label }}</button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <div style="background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(33,28,24,0.05);">
+                  <div style="padding: 13px 18px; border-bottom: 1px solid var(--line2); display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                    <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--faint);">{{ docsView.kindLabel }}</span>
+                    <div style="display: flex; gap: 8px;">
+                      <button onclick="{{ docsView.onCopy }}" style="{{ docsView.copyStyle }}">{{ docsView.copyLabel }}</button>
+                      <button onclick="{{ docsView.onDownloadMd }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 12px; font-weight: 700; padding: 7px 13px; border-radius: 9px; font-family: inherit;">Download .md</button>
+                      <button onclick="{{ docsView.onDownloadHtml }}" style="cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink2); font-size: 12px; font-weight: 700; padding: 7px 13px; border-radius: 9px; font-family: inherit;">Download .html</button>
+                    </div>
+                  </div>
+                  <sc-if value="{{ docsView.busy }}">
+                    <div style="padding: 44px 18px; color: var(--muted); font-size: 14px;">Drafting your document…</div>
+                  </sc-if>
+                  <sc-if value="{{ docsView.ready }}">
+                    <textarea value="{{ docsView.content }}" onchange="{{ docsView.onDocChange }}" style="width: 100%; border: none; outline: none; resize: vertical; min-height: 360px; padding: 18px; font-size: 14.5px; line-height: 1.7; color: var(--ink2); font-family: var(--display);"></textarea>
+                  </sc-if>
+                </div>
+                <p style="margin: 14px 2px 0; font-size: 11.5px; color: var(--faint); line-height: 1.5;">Yours to edit. Download as Markdown (.md) or a printable web page (.html → open it and print to PDF).</p>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ showPlans }}">
+            <div style="padding: 28px 30px 40px; max-width: 720px; animation: panelIn .45s cubic-bezier(.2,.7,.2,1) both;">
+              <sc-if value="{{ plansView.empty }}">
+                <div style="border: 1.5px dashed var(--line); border-radius: 16px; padding: 40px; color: var(--muted); font-size: 14.5px; line-height: 1.6;">Tell me a goal and I’ll spin up a progress tracker you can check off — e.g. “track my Stripe interview prep”, “make a weekly job-search plan”, or “a networking checklist”.</div>
+              </sc-if>
+              <sc-if value="{{ plansView.has }}">
+                <div style="margin-bottom: 16px;">
+                  <h2 style="font-family: var(--display); font-weight: 500; font-size: 27px; margin: 0; letter-spacing: -0.01em; color: var(--ink);">{{ plansView.title }}</h2>
+                  <p style="margin: 6px 0 0; font-size: 13px; color: var(--muted);">{{ plansView.countLabel }} · {{ plansView.pctLabel }}</p>
+                </div>
+                <sc-if value="{{ plansView.hasMany }}">
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
+                    <sc-for list="{{ plansView.list }}" as="p" hint-placeholder-count="2">
+                      <button onclick="{{ p.onClick }}" style="{{ p.style }}">{{ p.label }}</button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <div style="height: 8px; border-radius: 999px; background: var(--line2); overflow: hidden; margin-bottom: 18px;">
+                  <div style="{{ plansView.barStyle }}"></div>
+                </div>
+                <sc-if value="{{ plansView.busy }}">
+                  <div style="padding: 24px 4px; color: var(--muted); font-size: 14px;">Building your checklist…</div>
+                </sc-if>
+                <sc-if value="{{ plansView.ready }}">
+                  <div style="display: flex; flex-direction: column; gap: 7px;">
+                    <sc-for list="{{ plansView.items }}" as="it" hint-placeholder-count="5">
+                      <div onclick="{{ it.onToggle }}" style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); cursor: pointer;">
+                        <span style="{{ it.boxStyle }}">{{ it.check }}</span>
+                        <span style="{{ it.textStyle }}">{{ it.text }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </sc-if>
             </div>
           </sc-if>
 
@@ -1301,10 +1388,11 @@ class Component extends DCLogic {
     draftBody: '', draftBy: '', copied: false, toast: null, nextId: 2,
     convoSummary: '', turnsSinceSummary: 0, analyzing: false,
     materials: { company: '', role: '', cover: '', points: [], outreach: '', by: '' }, matBusy: false, matCopied: '',
+    documents: [], activeDocId: null, plans: [], activePlanId: null,
   };
 
   componentDidMount() {
-    this._mounted = true; this.loadMem(); this.loadFrame(); this.loadTheories(); this.loadAnthropic(); this.loadMatrix(); this.scheduleBgScan();
+    this._mounted = true; this.loadMem(); this.loadFrame(); this.loadTheories(); this.loadPlans(); this.loadAnthropic(); this.loadMatrix(); this.scheduleBgScan();
   }
   componentWillUnmount() { this._mounted = false; clearTimeout(this._t); clearTimeout(this._toast); clearTimeout(this._t2); clearTimeout(this._tq); clearTimeout(this._tc); clearTimeout(this._tr); clearTimeout(this._mxT); clearTimeout(this._ta); clearTimeout(this._bg); }
 
@@ -1339,6 +1427,8 @@ class Component extends DCLogic {
     if (type === 'frame') return { title: 'Frame', icon: '◱' };
     if (type === 'reflect') return { title: 'Reflect', icon: '◎' };
     if (type === 'materials') return { title: 'Materials', icon: '✦' };
+    if (type === 'docs') return { title: 'Documents', icon: '▤' };
+    if (type === 'plans') return { title: 'Progress', icon: '☑' };
     if (type === 'memory') return { title: 'Memory', icon: '❖' };
     return { title: 'Outreach', icon: '✎' };
   }
@@ -1481,19 +1571,22 @@ class Component extends DCLogic {
     const onBoard = this.state.allJobs.slice(0, this.state.shown).map(j => j.company + ' (' + j.role + ')').join(', ') || 'none yet';
     return [
       'You are the orchestrator inside "Job Desk", a job-search workspace for the person using it. Everything you know about them comes from their uploaded résumé and long-term memory below — never assume a profession or invent background facts.',
-      'You do not bury answers in a long chat; you cue ACTIVITIES that build and operate tools in the workspace on the right, while holding a natural conversation.',
+      'You chat naturally, like a capable assistant, AND you spin up the right artifact for the moment: you cue ACTIVITIES that build and operate tools — live job search, an application board, downloadable documents (cover letters and the like), progress trackers — in the workspace on the right, instead of burying everything in the chat. Conversation first; reach for an activity the instant it would help.',
       'TONE: you are a warm, steady friend in their corner, not a cold tool. Job hunting is draining and discouraging \u2014 name that honestly when it shows, and remind them this is hard and they are doing the work anyway. Celebrate small wins out loud. But always keep the train moving: time matters, so follow every bit of encouragement with one concrete next move. Support first, momentum second, never one without the other.',
       'Activities (choose exactly ONE per turn):',
       '- search: pull fresh, recently-posted live job listings. params {focus: short phrase of role types}',
       '- analyze: assess the roles currently on the board for fit vs their frame and profile, and recommend which to pursue. This is the review-before-action step.',
       '- materials: write PRELIMINARY application materials (tailored cover letter + talking points + short outreach) for ONE approved role. params {company}',
       '- track: save role(s) to the application board. params {company OR "all"}',
-      '- frame: open the search-frame setup (target roles + reservation bar)',
+      '- document: spin up a downloadable job-search document they ask you to write — cover letter, resume, recruiter outreach, follow-up or thank-you email, reference sheet, LinkedIn note, or similar. params {kind: the document type in plain words, company?, role?, notes?: any specifics they gave}. Draw on their resume/memory and frame; never invent employers, dates, or facts. Use this whenever they ask you to write, draft, or make a document/letter/email to send or keep.',
+      '- plan: spin up a progress tracker — a short checklist for a goal like interview prep, a weekly job-search plan, an application sprint, or a networking push. params {title: the goal in plain words, steps?: array of short step strings if they gave them, notes?}. They can then check items off.',
+      '- frame: capture or update the search frame from what they just told you, in their own words. params {target?: the kinds of roles they are aiming at, bar?: their reservation floor — comp/mission/autonomy/dealbreakers}. Include a field ONLY when they have actually expressed it; include neither to simply open the frame panel while you keep drawing it out. Never fabricate a value and never store vague meta-talk (e.g. "let’s figure it out") as the frame.',
       '- reflect: open the strategy / reflection view',
       '- remind: export application deadlines to the calendar (.ics)',
       '- memory: show what you remember about them',
       '- answer: just reply conversationally; no tool',
-      'Rules: use "answer" for questions, advice, or chit-chat. After a "search", suggest analyzing. Only use "materials" once they have APPROVED a specific role (they say go/approve/yes/draft for X, or click Approve). Never invent facts about them; if you need their resume and lack it, tell them to tap the + to upload it.',
+      'Rules: use "answer" for questions, advice, or chit-chat. After a "search", suggest analyzing. For an explicit request to write/draft a specific document, letter, or email, use "document"; reserve "materials" for the full application kit after they APPROVE a role (they say go/approve/yes/draft for X, or click Approve). When they want to organize or track effort toward a goal, use "plan". Never invent facts about them; if you need their resume and lack it, tell them to tap the + to upload it.',
+      'Frame-building is a conversation, never an interrogation: let them describe what they want across as many turns as they like, ask at most one gentle follow-up at a time, and the moment a target-role direction or a reservation floor becomes clear, capture it with the "frame" activity (target and/or bar) and reflect it back warmly. Capture one without the other if that is all they have given. Do not force a fixed two-question script, and never block search or other help on having a complete frame — weave the frame in as it surfaces.',
       'Workspace state \u2014 frame target: ' + (f.target || 'unset') + '; reservation bar: ' + (f.bar || 'unset') + '; roles on board: ' + onBoard + '; tracked applications: ' + this.state.apps.length + '; resume on file: ' + (this.state.memory.length ? 'yes' : 'no') + '.',
       'Return ONLY JSON: {"reply":"1-2 sentences, genuinely warm and encouraging \u2014 a little human reassurance, then point at the next move so we keep momentum; plain, no hedging","action":"<one activity>","params":{...}}'
     ].join('\n');
@@ -1513,6 +1606,7 @@ class Component extends DCLogic {
     try { const raw = await this.llm({ messages: [{ role: 'user', content: ctx }] }, 500); plan = this.parseJsonObj(raw); } catch (e) { plan = null; }
     this.set({ thinking: false });
     if (!plan || !plan.action) { this.route(text); return; }
+    if (this.state.awaiting) this.set({ awaiting: null });
     const reply = String(plan.reply || '').trim();
     const action = String(plan.action).toLowerCase();
     const p = plan.params || {};
@@ -1529,7 +1623,9 @@ class Component extends DCLogic {
       if (p.company && !/^all$/i.test(String(p.company))) { const j = this.state.allJobs.find(x => x.company.toLowerCase() === String(p.company).toLowerCase()); if (j) { this.trackJob(j.id); this.set({ activeId: 'tracker' }); return; } }
       return this.trackAll({ lead: false });
     }
-    if (action === 'frame') return this.spawnFrame();
+    if (action === 'frame') return this.setFrame(p);
+    if (action === 'document' || action === 'doc') return this.makeDocument(p);
+    if (action === 'plan' || action === 'progress' || action === 'checklist') return this.makePlan(p);
     if (action === 'reflect') return this.spawnReflect();
     if (action === 'remind') return this.remindAll();
     if (action === 'memory') { this.ensureSpace('memory'); return this.set({ activeId: 'memory' }); }
@@ -1595,6 +1691,172 @@ class Component extends DCLogic {
     setTimeout(() => this.set({ matCopied: '' }), 1500);
   }
 
+  // ---- downloadable files ----
+  saveFile(text, name, mime) {
+    const blob = new Blob([text], { type: (mime || 'text/plain') + ';charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+  slugFile(s) { return (String(s || 'document').replace(/[\\/:*?"<>|\n\r]+/g, ' ').replace(/\s+/g, ' ').trim() || 'document').slice(0, 80); }
+  matKitMarkdown() {
+    const m = this.state.materials; if (!m || !m.company) return '';
+    const out = ['# Application kit — ' + m.company];
+    if (m.role) out.push('', '**Role:** ' + m.role);
+    out.push('', '## Cover letter', '', (m.cover || '').trim());
+    if ((m.points || []).length) { out.push('', '## Talking points', ''); for (const p of m.points) out.push('- ' + p); }
+    if (m.outreach) out.push('', '## Outreach note', '', (m.outreach || '').trim());
+    out.push('', '---', '*Drafted in Job Desk — review and make it yours before sending.*');
+    return out.join('\n');
+  }
+  downloadMat(which) {
+    const m = this.state.materials; if (!m || !m.company) { this.showToast('Nothing to download yet'); return; }
+    const base = this.slugFile(m.company + (m.role ? ' ' + m.role : ''));
+    if (which === 'cover') this.saveFile((m.cover || '').trim() + '\n', 'Cover letter - ' + base + '.md', 'text/markdown');
+    else if (which === 'points') this.saveFile((m.points || []).map(p => '• ' + p).join('\n') + '\n', 'Talking points - ' + base + '.txt', 'text/plain');
+    else if (which === 'outreach') this.saveFile((m.outreach || '').trim() + '\n', 'Outreach - ' + base + '.txt', 'text/plain');
+    else this.saveFile(this.matKitMarkdown(), 'Application kit - ' + base + '.md', 'text/markdown');
+    this.showToast('Downloaded');
+  }
+
+  // ---- document studio: spin up downloadable job-search documents on request ----
+  DOC_KINDS = {
+    'cover letter': { label: 'Cover letter', hint: 'a tailored, one-page cover letter', },
+    'resume': { label: 'Resume', hint: 'a clean, one-page resume built from their notes', },
+    'outreach': { label: 'Outreach note', hint: 'a short, warm outreach note to a recruiter or hiring manager', },
+    'follow-up email': { label: 'Follow-up email', hint: 'a brief, polite follow-up email after applying or interviewing', },
+    'thank-you note': { label: 'Thank-you note', hint: 'a sincere post-interview thank-you note', },
+    'reference sheet': { label: 'Reference sheet', hint: 'a formatted list of professional references', },
+    'linkedin note': { label: 'LinkedIn note', hint: 'a 300-character LinkedIn connection note', },
+    'document': { label: 'Document', hint: 'the document they asked for', },
+  };
+  normDocKind(k) {
+    const s = (k || '').toLowerCase();
+    if (/resume|\bcv\b/.test(s)) return 'resume';
+    if (/thank/.test(s)) return 'thank-you note';
+    if (/follow.?up|checking in|status update/.test(s)) return 'follow-up email';
+    if (/reference/.test(s)) return 'reference sheet';
+    if (/linkedin|connection (note|request)/.test(s)) return 'linkedin note';
+    if (/outreach|intro|reach out|cold (note|email|message)/.test(s)) return 'outreach';
+    if (/cover/.test(s)) return 'cover letter';
+    return 'document';
+  }
+  async makeDocument(spec) {
+    spec = spec || {};
+    const kind = this.normDocKind(spec.kind || spec.title || '');
+    const def = this.DOC_KINDS[kind] || this.DOC_KINDS['document'];
+    const company = (spec.company || '').toString().trim();
+    const role = (spec.role || '').toString().trim();
+    const notes = (spec.notes || spec.instructions || '').toString().trim();
+    const title = (spec.title && /[a-z]/i.test(String(spec.title)) && !/^document$/i.test(String(spec.title)))
+      ? String(spec.title).trim().slice(0, 80)
+      : def.label + (company ? ' — ' + company : '');
+    const id = 'doc' + Date.now() + Math.random().toString(36).slice(2, 5);
+    this.ensureSpace('docs');
+    this.setState(s => ({ documents: [{ id, title, kind, company, role, content: '', by: 'pending', busy: true }, ...s.documents], activeDocId: id, activeId: 'docs' }));
+    let content = '';
+    if (this.llmReady()) {
+      const profile = this.recall((kind + ' ' + company + ' ' + role + ' ' + notes), 12).map(m => m.label).join('; ');
+      const f = this.state.frame;
+      const prompt = [
+        'You are drafting ' + def.hint + ' for the person using Job Desk, written for them to send or keep.',
+        'Document type: ' + def.label + '.',
+        company ? ('Target company: ' + company + '.') : '',
+        role ? ('Target role: ' + role + '.') : (f.target ? ('Their target roles: ' + f.target + '.') : ''),
+        notes ? ('Specifics they asked for: ' + notes) : '',
+        'What is known about them, from their resume and notes — use ONLY this, never invent employers, dates, titles, or facts: ' + (profile || 'very little yet'),
+        'Rules: output the finished document only — no preamble, no \"here is\", no commentary. Where a real fact is genuinely unknown, use a clear [bracketed placeholder] they can fill in. Keep it concise, specific, and human. Use Markdown: a short \"# title\" line, then the body; bullet lists where it helps. For letters and emails include a greeting and sign-off.',
+        'Return ONLY the document, in Markdown.'
+      ].filter(Boolean).join('\n');
+      try { const raw = await this.llm({ messages: [{ role: 'user', content: prompt }] }, 1100); if (raw) content = String(raw).trim(); } catch (e) {}
+    }
+    let by = 'Claude';
+    if (!content) { content = this.docTemplate(kind, company, role); by = 'template'; }
+    this.setState(s => ({ documents: s.documents.map(d => d.id === id ? { ...d, content, by, busy: false } : d) }));
+    this.pushMsg({ role: 'ref', refType: 'docs' });
+    this.recordSignal('Drafted a ' + def.label.toLowerCase() + (company ? ' for ' + company : ''));
+  }
+  docTemplate(kind, company, role) {
+    const co = company || 'the team';
+    const rl = role || (this.state.frame.target ? this.state.frame.target.split(/[,;]/)[0].trim() : 'the role');
+    if (kind === 'thank-you note') return '# Thank-you note\n\nDear ' + co + ' team,\n\nThank you for taking the time to talk with me about the ' + rl + ' role. I came away even more excited about the work. Our conversation about [topic you discussed] stuck with me, and it reinforced how well my background fits what you’re building.\n\nPlease let me know if there’s anything else I can share — I’d welcome the chance to keep the conversation going.\n\nWarm regards,\n[Your name]';
+    if (kind === 'follow-up email') return '# Follow-up email\n\n**Subject:** Following up — ' + rl + '\n\nHi ' + co + ' team,\n\nI wanted to follow up on my application for the ' + rl + ' role and reiterate how interested I am. I’d be glad to share anything that would help, and I’m happy to find time for a short call.\n\nThank you for your consideration.\n\nBest,\n[Your name]';
+    if (kind === 'outreach') return '# Outreach note\n\nHi [name] — your ' + rl + ' role at ' + co + ' looks like a strong match for my background. I’d love to learn more about the team and share how I could help. Would you be open to a short call this week?';
+    if (kind === 'linkedin note') return 'Hi [name] — I admire the work at ' + co + ', and your ' + rl + ' opening caught my eye. I’d love to connect and learn more about the team.';
+    if (kind === 'reference sheet') return '# References — [Your name]\n[email] · [phone]\n\n1. **[Reference name]** — [title], [company]\n   [email] · [phone] · Relationship: [former manager]\n2. **[Reference name]** — [title], [company]\n   [email] · [phone] · Relationship: [colleague]\n3. **[Reference name]** — [title], [company]\n   [email] · [phone] · Relationship: [client or mentor]';
+    if (kind === 'resume') return '# [Your name]\n[email] · [phone] · [city] · [links]\n\n## Summary\n[One or two lines on who you are and the value you bring' + (rl !== 'the role' ? ' as a ' + rl : '') + '.]\n\n## Experience\n**[Title]** — [Company] · [dates]\n- [Impact, quantified]\n- [Impact, quantified]\n\n## Skills\n[Comma-separated skills]\n\n## Education\n[Degree] — [School] · [year]';
+    return '# Cover letter\n\nDear ' + co + ' team,\n\nI’m excited to apply for your ' + rl + ' role. My background lines up well with what you’re looking for, and I’d bring focus, range, and a bias toward shipping.\n\nI’m comfortable owning a problem end to end and communicating plainly, and I’d welcome the chance to show where I could help most.\n\nI’d be glad to talk on a short call.\n\nBest regards,\n[Your name]';
+  }
+  activeDoc() { return this.state.documents.find(d => d.id === this.state.activeDocId) || this.state.documents[0] || null; }
+  selectDoc(id) { this.set({ activeDocId: id, activeId: 'docs' }); }
+  onDocChange(e) { const v = e.target.value; this.setState(s => ({ documents: s.documents.map(d => d.id === s.activeDocId ? { ...d, content: v } : d) })); }
+  async copyDoc() { const d = this.activeDoc(); if (!d) return; try { await navigator.clipboard.writeText(d.content || ''); } catch (e) {} this.set({ matCopied: 'doc' }); this.showToast('Copied to clipboard'); setTimeout(() => this.set({ matCopied: '' }), 1500); }
+  downloadDoc(fmt) {
+    const d = this.activeDoc(); if (!d) { this.showToast('Nothing to download yet'); return; }
+    const base = this.slugFile(d.title || 'document');
+    if (fmt === 'html') this.saveFile(this.mdToHtml(d.content || '', d.title || 'Document'), base + '.html', 'text/html');
+    else if (fmt === 'txt') this.saveFile((d.content || '').replace(/^#+\s*/gm, '').replace(/\*\*/g, ''), base + '.txt', 'text/plain');
+    else this.saveFile(d.content || '', base + '.md', 'text/markdown');
+    this.showToast('Downloaded');
+  }
+  mdToHtml(md, title) {
+    const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const inline = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    const lines = String(md || '').replace(/\r/g, '').split('\n');
+    let body = '', inList = false;
+    const closeList = () => { if (inList) { body += '</ul>'; inList = false; } };
+    for (const raw of lines) {
+      const line = raw.replace(/\s+$/, '');
+      let m;
+      if ((m = line.match(/^(#{1,4})\s+(.*)$/))) { closeList(); const lvl = m[1].length; body += '<h' + lvl + '>' + inline(m[2]) + '</h' + lvl + '>'; }
+      else if ((m = line.match(/^[-*•]\s+(.*)$/))) { if (!inList) { body += '<ul>'; inList = true; } body += '<li>' + inline(m[1]) + '</li>'; }
+      else if (/^---+$/.test(line)) { closeList(); body += '<hr>'; }
+      else if (line.trim() === '') { closeList(); }
+      else { closeList(); body += '<p>' + inline(line) + '</p>'; }
+    }
+    closeList();
+    return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>' + esc(title || 'Document') + '</title><style>'
+      + 'body{font-family:Georgia,serif;max-width:720px;margin:48px auto;padding:0 28px;color:#1a1a1a;line-height:1.6;}'
+      + 'h1{font-size:24px;margin:0 0 4px;}h2{font-size:15px;margin:22px 0 6px;text-transform:uppercase;letter-spacing:.05em;color:#555;}h3{font-size:14px;margin:16px 0 4px;}'
+      + 'ul{padding-left:20px;margin:8px 0;}li{margin:3px 0;}hr{border:none;border-top:1px solid #ddd;margin:24px 0;}p{margin:8px 0;}strong{font-weight:700;}'
+      + '@media print{body{margin:0 auto;max-width:none;}}'
+      + '</style></head><body>' + body + '</body></html>';
+  }
+
+  // ---- progress trackers: spin up a checklist for a goal ----
+  loadPlans() { try { const r = localStorage.getItem('investdesk.plans.v1'); if (r) { const p = JSON.parse(r); if (Array.isArray(p) && p.length) { this.set({ plans: p }); this.ensureSpace('plans'); } } } catch (e) {} }
+  savePlans(plans) { try { localStorage.setItem('investdesk.plans.v1', JSON.stringify(plans)); } catch (e) {} }
+  async makePlan(spec) {
+    spec = spec || {};
+    const title = (spec.title || spec.goal || 'Progress tracker').toString().trim().slice(0, 90) || 'Progress tracker';
+    const notes = (spec.notes || spec.instructions || '').toString().trim();
+    const id = 'plan' + Date.now() + Math.random().toString(36).slice(2, 5);
+    let steps = Array.isArray(spec.steps) ? spec.steps.map(s => String(s).trim()).filter(Boolean).slice(0, 10) : [];
+    this.ensureSpace('plans');
+    this.setState(s => ({ plans: [{ id, title, items: steps.map(t => ({ text: t, done: false })), by: steps.length ? 'Claude' : 'pending', busy: !steps.length }, ...(s.plans || [])], activePlanId: id, activeId: 'plans' }));
+    if (!steps.length && this.llmReady()) {
+      const f = this.state.frame;
+      const prompt = 'Break this job-search goal into a short, concrete progress checklist: "' + title + '".' + (notes ? ' Specifics: ' + notes + '.' : '') + (f.target ? ' Their target roles: ' + f.target + '.' : '') + ' Return ONLY JSON {"steps":["short actionable step", ...]} with 5 to 8 steps, each a brief imperative phrase, ordered sensibly.';
+      try { const raw = await this.llm({ messages: [{ role: 'user', content: prompt }] }, 500); const o = this.parseJsonObj(raw); if (o && Array.isArray(o.steps)) steps = o.steps.map(s => String(s).trim()).filter(Boolean).slice(0, 10); } catch (e) {}
+    }
+    if (!steps.length) steps = this.planTemplate(title);
+    this.setState(s => { const plans = (s.plans || []).map(p => p.id === id ? { ...p, items: steps.map(t => ({ text: t, done: false })), by: this.llmReady() ? 'Claude' : 'template', busy: false } : p); this.savePlans(plans); return { plans }; });
+    this.pushMsg({ role: 'ref', refType: 'plans' });
+    this.recordSignal('Spun up a progress tracker: ' + title);
+  }
+  planTemplate(title) {
+    const t = (title || '').toLowerCase();
+    if (/interview|prep/.test(t)) return ['Research the company and the team', 'Re-read the job description and map your stories to it', 'Prepare 3 STAR examples of impact', 'Draft questions to ask them', 'Do a timed mock run of the hardest part', 'Prepare your logistics (links, setup, timing)', 'Send a thank-you note afterward'];
+    if (/week|weekly|sprint|search plan/.test(t)) return ['Set this week’s target: roles to apply to', 'Refresh the role list from the feed', 'Tailor your resume to the top targets', 'Send 3 warm-intro requests', 'Submit your applications', 'Log everything in the tracker', 'Review what landed and adjust'];
+    if (/network|outreach|referral/.test(t)) return ['List 10 people in your target companies', 'Find the best contact path to each', 'Write a short, specific note for the top 3', 'Send them and log the date', 'Follow up after 4–5 days', 'Offer something useful in return', 'Track responses and book calls'];
+    return ['Define what “done” looks like', 'List the concrete steps to get there', 'Do the first step today', 'Track progress as you go', 'Review and adjust at the end'];
+  }
+  activePlan() { return (this.state.plans || []).find(p => p.id === this.state.activePlanId) || (this.state.plans || [])[0] || null; }
+  selectPlan(id) { this.set({ activePlanId: id, activeId: 'plans' }); }
+  togglePlanItem(idx) {
+    this.setState(s => { const plans = (s.plans || []).map(p => p.id === (this.state.activePlanId || (s.plans[0] && s.plans[0].id)) ? { ...p, items: p.items.map((it, i) => i === idx ? { ...it, done: !it.done } : it) } : p); this.savePlans(plans); return { plans }; });
+  }
+
   helpMsg() {
     this.pushMsg({ role: 'assistant', text: "Here's how this works: you tell me what you need in plain words, and I build a tool for it on the right \u2014 it stays there instead of scrolling away. Good ways to start:\n\n\u2022 \"Find remote product design roles\" \u2014 I pull live openings and rank them.\n\u2022 \"Track applications\" \u2014 a board for everything in flight.\n\u2022 \"Draft an intro to Stripe\" \u2014 a short note written for a role.\n\nYou can also tap the + by the message box to upload your r\u00e9sum\u00e9 so I tailor everything. What do you want to do first?" });
   }
@@ -1627,6 +1889,11 @@ class Component extends DCLogic {
       if (text.length <= 480 && !/^(find|search|track|draft|outreach|proton|remind|reflect|memory|upload|frame|show)\b/.test(s)) { if (this.answer(text)) return; }
       this.set({ awaiting: null });
     }
+    if (/\b(cover letter|thank.?you (note|email)|follow.?up (note|email)|reference (sheet|list)|linkedin (note|message|connection))\b/.test(s) || (/\b(write|draft|make|create|generate|build|prepare)\b/.test(s) && /\b(cover letter|resume|cv|letter|email|note|outreach|reference|bio|summary)\b/.test(s))) {
+      const named = (this.state.allJobs.concat(this.BASE_JOBS)).find(j => s.includes(j.company.toLowerCase()));
+      this.makeDocument({ kind: text, company: named ? named.company : '' }); return;
+    }
+    if (/\b(progress|checklist|to-?do list|track my|tracker for|interview prep|prep (plan|checklist)|weekly plan|game ?plan|action plan|steps to|sprint)\b/.test(s)) { this.makePlan({ title: text }); return; }
     if (/(r\u00e9sum\u00e9|resume|\bcv\b)/.test(s) && /(have|got|see|my|where|upload|read|do you)/.test(s)) { this.resumeHelp(); return; }
     if (/^(help|what can you do|what do you do|how does this|what now|what should i do|i don'?t|i dont|confused|wtf|huh|what am i)/.test(s)) { this.helpMsg(); return; }
     if (/\bframe\b|target role|reservation|stopping rule|the bar\b/.test(s)) { this.spawnFrame(); return; }
@@ -2032,9 +2299,26 @@ class Component extends DCLogic {
     if (key === 'reflect') { this.addMem('Market', short); this.set({ activeId: 'reflect' }); this.pushMsg({ role: 'assistant', text: 'Noted for the slow loop. I won\u2019t swing strategy on one data point \u2014 we change course only when the aggregate says so.' }); return true; }
     return false;
   }
+  setFrame(p) {
+    p = p || {};
+    const clean = (v) => (v && String(v).trim()) ? String(v).trim().slice(0, 180) : '';
+    const target = clean(p.target), bar = clean(p.bar);
+    this.ensureSpace('frame'); this.set({ activeId: 'frame', awaiting: null });
+    if (!target && !bar) return; // panel opened; the conversation keeps going in chat
+    const frame = { ...this.state.frame };
+    if (target) { frame.target = target; this.addMem('Preference', 'Target roles: ' + target); }
+    if (bar) { frame.bar = bar; this.addMem('Constraint', 'Reservation bar: ' + bar); }
+    this.set({ frame }); this.saveFrame(frame);
+    this.pushMsg({ role: 'ref', refType: 'frame' });
+  }
   spawnFrame() {
     this.ensureSpace('frame'); this.set({ activeId: 'frame' });
-    if (!this.frameComplete()) { clearTimeout(this._tq); this._tq = setTimeout(() => this.coach(this.state.frame.target ? 'frame.bar' : 'frame.target'), 500); }
+    if (this.frameComplete()) { this.pushMsg({ role: 'ref', refType: 'frame' }); return; }
+    if (this.llmReady()) {
+      this.pushMsg({ role: 'assistant', text: 'Let’s build your Frame by talking it through — no forms. In your own words: what kinds of roles are you actually aiming at right now, and what’s your floor on comp, mission, autonomy, and any dealbreakers? Say it however it comes out and I’ll capture it as we go.', ask: true });
+    } else {
+      clearTimeout(this._tq); this._tq = setTimeout(() => this.coach(this.state.frame.target ? 'frame.bar' : 'frame.target'), 400);
+    }
   }
 
   logo(company) { let h = 0; for (let i = 0; i < company.length; i++) h = (h * 31 + company.charCodeAt(i)) >>> 0; return this.PALETTE[h % this.PALETTE.length]; }
@@ -2203,8 +2487,8 @@ class Component extends DCLogic {
       barStyle: { fontSize: 15, color: fr.bar ? 'var(--ink)' : 'var(--faint)', lineHeight: 1.5, margin: 0, fontStyle: fr.bar ? 'normal' : 'italic' },
       statusLabel: this.frameComplete() ? 'Gate clear' : 'Gate open',
       statusStyle: { fontSize: 12, fontWeight: 700, padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap', background: this.frameComplete() ? 'var(--positive-bg)' : 'var(--accent-bg)', color: this.frameComplete() ? 'var(--positive)' : 'var(--accent)' },
-      onSetTarget: () => { this.ensureSpace('frame'); this.coach('frame.target'); },
-      onSetBar: () => { this.ensureSpace('frame'); this.coach('frame.bar'); },
+      onSetTarget: () => { this.ensureSpace('frame'); this.set({ activeId: 'frame' }); if (this.llmReady()) this.pushMsg({ role: 'assistant', text: 'Tell me about the roles you’re aiming at — a couple of role types, in your own words — and I’ll capture them into the Frame.', ask: true }); else this.coach('frame.target'); },
+      onSetBar: () => { this.ensureSpace('frame'); this.set({ activeId: 'frame' }); if (this.llmReady()) this.pushMsg({ role: 'assistant', text: 'What’s your floor — the minimum you’ll accept on comp, mission, autonomy, plus any dealbreakers? Say it naturally and I’ll set it.', ask: true }); else this.coach('frame.bar'); },
     };
 
     const termT = st.theme === 'terminal';
@@ -2279,6 +2563,46 @@ class Component extends DCLogic {
       onCopyCover: () => this.copyMat('cover'), onCopyPoints: () => this.copyMat('points'), onCopyOutreach: () => this.copyMat('outreach'),
       copyCoverStyle: matCopyStyle('cover'), copyPointsStyle: matCopyStyle('points'), copyOutreachStyle: matCopyStyle('outreach'),
       copyCoverLabel: st.matCopied === 'cover' ? '✓ Copied' : 'Copy', copyPointsLabel: st.matCopied === 'points' ? '✓ Copied' : 'Copy', copyOutreachLabel: st.matCopied === 'outreach' ? '✓ Copied' : 'Copy',
+      onDownloadCover: () => this.downloadMat('cover'), onDownloadPoints: () => this.downloadMat('points'), onDownloadOutreach: () => this.downloadMat('outreach'), onDownloadKit: () => this.downloadMat('kit'),
+    };
+
+    const docChipStyle = (active) => ({ cursor: 'pointer', border: '1px solid ' + (active ? 'var(--accent)' : 'var(--line)'), background: active ? 'var(--accent-bg)' : 'var(--panel)', color: active ? 'var(--accent)' : 'var(--ink2)', fontSize: 12, fontWeight: 600, padding: '6px 12px', borderRadius: 999, fontFamily: 'inherit', maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' });
+    const docs = st.documents || [];
+    const activeDoc = docs.find(d => d.id === st.activeDocId) || docs[0] || null;
+    const docsView = {
+      has: !!activeDoc, empty: docs.length === 0,
+      title: activeDoc ? activeDoc.title : '',
+      kindLabel: activeDoc ? ((this.DOC_KINDS[activeDoc.kind] || this.DOC_KINDS['document']).label) : '',
+      byLabel: activeDoc ? (activeDoc.busy ? 'Drafting…' : (activeDoc.by === 'Claude' ? 'Drafted by Claude · editable' : 'Starter draft · add your Anthropic key for tailored copy')) : '',
+      busy: !!(activeDoc && activeDoc.busy), ready: !!(activeDoc && !activeDoc.busy),
+      content: activeDoc ? activeDoc.content : '',
+      onDocChange: (e) => this.onDocChange(e),
+      onCopy: () => this.copyDoc(), copyLabel: st.matCopied === 'doc' ? '✓ Copied' : 'Copy', copyStyle: matCopyStyle('doc'),
+      onDownloadMd: () => this.downloadDoc('md'), onDownloadHtml: () => this.downloadDoc('html'),
+      hasMany: docs.length > 1,
+      list: docs.map(d => ({ id: d.id, label: d.title, onClick: () => this.selectDoc(d.id), style: docChipStyle(activeDoc && d.id === activeDoc.id) })),
+    };
+
+    const plans = st.plans || [];
+    const activePlan = plans.find(p => p.id === st.activePlanId) || plans[0] || null;
+    const planItems = activePlan ? activePlan.items || [] : [];
+    const planDone = planItems.filter(i => i.done).length;
+    const planPct = planItems.length ? Math.round(planDone / planItems.length * 100) : 0;
+    const plansView = {
+      has: !!activePlan, empty: plans.length === 0,
+      title: activePlan ? activePlan.title : '',
+      busy: !!(activePlan && activePlan.busy), ready: !!(activePlan && !activePlan.busy),
+      countLabel: planDone + ' of ' + planItems.length + ' done',
+      pctLabel: planPct + '%', barStyle: { width: planPct + '%', height: 8, borderRadius: 999, background: planPct === 100 ? 'var(--positive)' : 'var(--accent)', transition: 'width .3s' },
+      complete: planItems.length > 0 && planDone === planItems.length,
+      items: planItems.map((it, i) => ({
+        text: it.text, done: !!it.done, onToggle: () => this.togglePlanItem(i),
+        boxStyle: { width: 20, height: 20, borderRadius: 6, flexShrink: 0, marginTop: 1, border: '2px solid ' + (it.done ? 'var(--positive)' : 'var(--line)'), background: it.done ? 'var(--positive)' : 'transparent', color: '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, cursor: 'pointer' },
+        textStyle: { fontSize: 14.5, lineHeight: 1.5, color: it.done ? 'var(--muted)' : 'var(--ink)', textDecoration: it.done ? 'line-through' : 'none', cursor: 'pointer' },
+        check: it.done ? '✓' : '',
+      })),
+      hasMany: plans.length > 1,
+      list: plans.map(p => ({ id: p.id, label: p.title, onClick: () => this.selectPlan(p.id), style: docChipStyle(activePlan && p.id === activePlan.id) })),
     };
 
     const rootStyle = { height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--bg)', color: 'var(--ink)', fontFamily: 'var(--ui)', ...this.THEME[st.theme] };
@@ -2297,6 +2621,8 @@ class Component extends DCLogic {
       showTheories: st.activeId === 'theories', theoriesView, focusMove, evDraft: st.evDraft, onEvDraft: (e) => this.onEvDraft(e),
       showFrame: st.activeId === 'frame', frameView,
       showMaterials: st.activeId === 'materials', materialsView,
+      showDocs: st.activeId === 'docs', docsView,
+      showPlans: st.activeId === 'plans', plansView,
       toast: st.toast,
       ...connVals,
     };

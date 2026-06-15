@@ -22,8 +22,17 @@ npm run serve    # http://localhost:5173
 - **Tracker** — an application pipeline across `Saved → Applied → Interview →
   Offer`, with per-application notes and checklists.
 - **Draft / materials** — cover letters, outreach notes, and talking points.
+- **Documents** — just ask ("draft a cover letter for Stripe", "write a
+  thank-you note", "build a one-page resume") and the assistant spins up an
+  editable document in the workspace. Download any of them as Markdown (`.md`)
+  or a printable web page (`.html` → print to PDF).
+- **Progress trackers** — ask it to track a goal ("track my interview prep",
+  "a weekly job-search plan") and it spins up a checklist you can tick off, with
+  a progress bar; trackers persist locally.
 - **Frame** — define the move you're making: target roles, a reservation bar,
-  and "done when" criteria to keep decisions honest.
+  and "done when" criteria to keep decisions honest. You set it by *talking* —
+  describe what you're after in your own words and it captures the frame as the
+  conversation surfaces it, rather than running a fixed questionnaire.
 - **Memory** — durable notes/context the app reuses across views.
 - **Two themes** — `paper` (warm light) and `terminal` (green-on-black mono).
 - **Optional integrations**

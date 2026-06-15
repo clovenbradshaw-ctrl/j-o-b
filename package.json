@@ -8,7 +8,7 @@
     "serve": "node scripts/serve.mjs",
     "start": "node scripts/serve.mjs",
     "vendor": "node scripts/vendor.mjs",
-    "test": "node scripts/smoke.mjs"
+    "test": "node scripts/smoke.mjs && node scripts/smoke-artifacts.mjs"
   },
   "devDependencies": {
     "jsdom": "^29.1.1",
